@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync - Wireframes para MIT App Inventor</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .wireframes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .phone-frame {
+            width: 300px;
+            height: 600px;
+            border: 8px solid #333;
+            border-radius: 25px;
+            background: white;
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .screen {
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .status-bar {
+            height: 20px;
+            background: #f0f0f0;
+            margin: -20px -20px 15px -20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            font-size: 12px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        
+        .button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            margin: 10px 0;
+        }
+        
+        .button.secondary {
+            background: transparent;
+            color: #3498db;
+            border: 2px solid #3498db;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .metric-card {
+            background: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #27ae60;
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        
+        .nav-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        
+        .nav-item {
+            text-align: center;
+            font-size: 10px;
+            color: #7f8c8d;
+        }
+        
+        .nav-item.active {
+            color: #3498db;
+        }
+        
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            background: #bdc3c7;
+            margin: 0 auto 5px;
+            border-radius: 3px;
+        }
+        
+        .nav-item.active .nav-icon {
+            background: #3498db;
+        }
+        
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        
+        .avatar {
+            width: 60px;
+            height: 60px;
+            background: #bdc3c7;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #27ae60;
+            border-radius: 4px;
+            width: 70%;
+        }
+        
+        .screen-label {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .floating-button {
+            position: absolute;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: #e74c3c;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .chart-placeholder {
+            width: 100%;
+            height: 120px;
+            background: #f8f9fa;
+            border: 1px dashed #bdc3c7;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            font-size: 12px;
+            margin: 15px 0;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .action-button {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px 10px;
+            text-align: center;
+            font-size: 12px;
+            color: #2c3e50;
+        }
+        
+        .action-icon {
+            width: 30px;
+            height: 30px;
+            background: #3498db;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>VitalSync - Wireframes para MIT App Inventor</h1>
+        
+        <div class="wireframes-grid">
+            <!-- Onboarding Screen -->
+            <div class="phone-frame">
+                <div class="screen">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>●●●○○</span>
+                        <span>100%</span>
+                    </div>
+                    <div class="screen-label">Boas-vindas</div>
+                    
+                    <div style="text-align: center; margin-top: 60px;">
+                        <div style="width: 120px; height: 120px; background: #3498db; border-radius: 50%; margin: 0 auto 30px;"></div>
+                        <h2 style="color: #2c3e50; margin-bottom: 10px;">Bem-vindo ao VitalSync</h2>
+                        <p style="color: #7f8c8d; margin-bottom: 40px;">Seu companheiro pessoal de saúde para monitorar sinais vitais, medicamentos e metas de bem-estar.</p>
+                        
+                        <div style="margin-top: 80px;">
+                            <button class="button">Começar</button>
+                            <button class="button secondary">Entrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Login Screen -->
+            <div class="phone-frame">
+                <div class="screen">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>●●●○○</span>
+                        <span>100%</span>
+                    </div>
+                    <div class="screen-label">Entrar</div>
+                    
+                    <div style="margin-top: 40px;">
+                        <h2 style="color: #2c3e50; margin-bottom: 30px;">Bem-vindo de volta</h2>
+                        
+                        <input type="email" class="input-field" placeholder="Endereço de email">
+                        <input type="password" class="input-field" placeholder="Senha">
+                        
+                        <div style="text-align: right; margin: 10px 0;">
+                            <a href="#" style="color: #3498db; font-size: 14px; text-decoration: none;">Esqueceu a senha?</a>
+                        </div>
+                        
+                        <button class="button" style="margin-top: 20px;">Entrar</button>
+                        
+                        <div style="text-align: center; margin-top: 30px;">
+                            <span style="color: #7f8c8d;">Não tem uma conta? </span>
+                            <a href="#" style="color: #3498db; text-decoration: none;">Cadastrar</a>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 40px;">
+                            <p style="color: #7f8c8d; font-size: 12px;">Ou continue com</p>
+                            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px;">
+                                <div style="width: 40px; height: 40px; background: #4267B2; border-radius: 8px;"></div>
+                                <div style="width: 40px; height: 40px; background: #DB4437; border-radius: 8px;"></div>
+                                <div style="width: 40px; height: 40px; background: #000; border-radius: 8px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dashboard Screen -->
+            <div class="phone-frame">
+                <div class="screen">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>●●●●●</span>
+                        <span>100%</span>
+                    </div>
+                    
+                    <div class="header">
+                        <div>
+                            <div class="title">Bom dia, Sarah</div>
+                            <div style="font-size: 12px; color: #7f8c8d;">Terça-feira, 9 de Set</div>
+                        </div>
+                        <div style="width: 30px; height: 30px; background: #bdc3c7; border-radius: 50%;"></div>
+                    </div>
+                    
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <div style="font-size: 14px; margin-bottom: 10px;">Pontuação de Saúde Hoje</div>
+                        <div style="font-size: 32px; font-weight: bold;">85/100</div>
+                        <div style="font-size: 12px; opacity: 0.8;">Ótimo trabalho! Continue assim</div>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <div class="action-button">
+                            <div class="action-icon" style="background: #e74c3c;"></div>
+                            <div>Registrar Sinais</div>
+                        </div>
+                        <div class="action-button">
+                            <div class="action-icon" style="background: #27ae60;"></div>
+                            <div>Medicamentos</div>
+                        </div>
+                        <div class="action-button">
+                            <div class="action-icon" style="background: #f39c12;"></div>
+                            <div>Sintomas</div>
+                        </div>
+                        <div class="action-button">
+                            <div class="action-icon" style="background: #9b59b6;"></div>
+                            <div>Consultas</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div style="font-weight: bold; margin-bottom: 10px;">Atividade Recente</div>
+                        <div class="list-item">
+                            <span>Pressão Arterial Registrada</span>
+                            <span style="font-size: 12px; color: #7f8c8d;">2h atrás</span>
+                        </div>
+                        <div class="list-item">
+                            <span>Medicamento Tomado</span>
+                            <span style="font-size: 12px; color: #7f8c8d;">4h atrás</span>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-bar">
+                        <div class="nav-item active">
+                            <div class="nav-icon"></div>
+                            <div>Início</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Monitorar</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Relatórios</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Perfil</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vitals Tracking Screen -->
+            <div class="phone-frame">
+                <div class="screen">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>●●●●●</span>
+                        <span>100%</span>
+                    </div>
+                    
+                    <div class="header">
+                        <div style="width: 20px; height: 20px; background: #bdc3c7; border-radius: 3px;"></div>
+                        <div class="title">Monitorar Sinais Vitais</div>
+                        <div style="width: 20px; height: 20px; background: #bdc3c7; border-radius: 3px;"></div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                        <div class="metric-card">
+                            <div class="metric-value">--/--</div>
+                            <div class="metric-label">Pressão Arterial</div>
+                            <div style="font-size: 10px; color: #7f8c8d; margin-top: 5px;">Entrada manual</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">--</div>
+                            <div class="metric-label">Frequência Cardíaca</div>
+                            <div style="font-size: 10px; color: #7f8c8d; margin-top: 5px;">Entrada manual</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">--°C</div>
+                            <div class="metric-label">Temperatura</div>
+                            <div style="font-size: 10px; color: #7f8c8d; margin-top: 5px;">Toque para adicionar</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">68</div>
+                            <div class="metric-label">Peso (kg)</div>
+                            <div style="font-size: 10px; color: #f39c12; margin-top: 5px;">-1 kg</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div style="font-weight: bold; margin-bottom: 15px;">Adicionar Nova Leitura</div>
+                        <select class="input-field">
+                            <option>Selecionar Sinal Vital</option>
+                            <option>Pressão Arterial (Manual)</option>
+                            <option>Temperatura (Manual)</option>
+                            <option>Peso (Manual)</option>
+                            <option>Glicemia (Manual)</option>
+                            <option>Frequência Cardíaca (Manual)</option>
+                        </select>
+                        <input type="number" class="input-field" placeholder="Digite o valor">
+                        <input type="text" class="input-field" placeholder="Observações (opcional)">
+                        <button class="button">Salvar Leitura</button>
+                        
+                        <div style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 8px; font-size: 12px; color: #7f8c8d;">
+                            💡 <strong>Dica:</strong> Registre seus sinais vitais regularmente para acompanhar tendências de saúde. Dados são armazenados localmente no seu dispositivo.
+                        </div>
+                    </div>
+                    
+                    <div class="floating-button">+</div>
+                    
+                    <div class="nav-bar">
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-item active">
+                            <div class="nav-icon"></div>
+                            <div>Track</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Reports</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Medications Screen -->
+            <div class="phone-frame">
+                <div class="screen">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>●●●●●</span>
+                        <span>100%</span>
+                    </div>
+                    
+                    <div class="header">
+                        <div style="width: 20px; height: 20px; background: #bdc3c7; border-radius: 3px;"></div>
+                        <div class="title">Medicamentos</div>
+                        <div style="width: 20px; height: 20px; background: #bdc3c7; border-radius: 3px;"></div>
+                    </div>
+                    
+                    <div class="card" style="background: #e8f5e8;">
+                        <div style="font-weight: bold; color: #27ae60; margin-bottom: 5px;">Próxima Dose</div>
+                        <div style="font-size: 18px; font-weight: bold; margin-bottom: 5px;">Lisinopril 10mg</div>
+                        <div style="font-size: 14px; color: #7f8c8d;">Vence em 2 horas (14:00)</div>
+                        <button class="button" style="margin-top: 10px; background: #27ae60;">Marcar como Tomado</button>
+                    </div>
+                    
+                    <div style="font-weight: bold; margin: 20px 0 10px 0;">Programação de Hoje</div>
+                    
+                    <div class="card">
+                        <div class="list-item">
+                            <div>
+                                <div style="font-weight: bold;">Metformina 500mg</div>
+                                <div style="font-size: 12px; color: #7f8c8d;">Com o café da manhã</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 12px; color: #27ae60;">✓ Tomado</div>
+                                <div style="font-size: 10px; color: #7f8c8d;">08:00</div>
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div style="font-weight: bold;">Lisinopril 10mg</div>
+                                <div style="font-size: 12px; color: #7f8c8d;">Uma vez ao dia</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 12px; color: #f39c12;">Pendente</div>
+                                <div style="font-size: 10px; color: #7f8c8d;">14:00</div>
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div style="font-weight: bold;">Vitamina D 1000UI</div>
+                                <div style="font-size: 12px; color: #7f8c8d;">Com o jantar</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 12px; color: #7f8c8d;">Agendado</div>
+                                <div style="font-size: 10px; color: #7f8c8d;">19:00</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="floating-button">+</div>
+                    
+                    <div class="nav-bar">
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-item active">
+                            <div class="nav-icon"></div>
+                            <div>Track</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Reports</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Reports Screen -->
+            <div class="phone-frame">
+                <div class="screen">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>●●●●●</span>
+                        <span>100%</span>
+                    </div>
+                    
+                    <div class="header">
+                        <div style="width: 20px; height: 20px; background: #bdc3c7; border-radius: 3px;"></div>
+                        <div class="title">Relatórios de Saúde</div>
+                        <div style="width: 20px; height: 20px; background: #bdc3c7; border-radius: 3px;"></div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <button class="button" style="flex: 1; background: #3498db;">Semana</button>
+                        <button class="button secondary" style="flex: 1;">Mês</button>
+                        <button class="button secondary" style="flex: 1;">Ano</button>
+                    </div>
+                    
+                    <div class="card">
+                        <div style="font-weight: bold; margin-bottom: 15px;">Tendência da Pressão Arterial</div>
+                        <div class="chart-placeholder">Gráfico Pressão Arterial (7 dias)</div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; color: #7f8c8d;">
+                            <span>Média: 118/76</span>
+                            <span>Faixa: Normal</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div style="font-weight: bold; margin-bottom: 15px;">Progresso do Peso</div>
+                        <div class="chart-placeholder">Gráfico do Peso (7 dias)</div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; color: #7f8c8d;">
+                            <span>Mudança: -1 kg</span>
+                            <span>Meta: 65 kg</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div style="font-weight: bold; margin-bottom: 10px;">Aderência aos Medicamentos</div>
+                        <div style="font-size: 24px; color: #27ae60; margin-bottom: 5px;">94%</div>
+                        <div style="font-size: 12px; color: #7f8c8d;">Esta semana</div>
+                    </div>
+                    
+                    <div class="nav-bar">
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Track</div>
+                        </div>
+                        <div class="nav-item active">
+                            <div class="nav-icon"></div>
+                            <div>Reports</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profile Screen -->
+            <div class="phone-frame">
+                <div class="screen">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>●●●●●</span>
+                        <span>100%</span>
+                    </div>
+                    
+                    <div class="header">
+                        <div style="width: 20px; height: 20px; background: #bdc3c7; border-radius: 3px;"></div>
+                        <div class="title">Perfil</div>
+                        <div style="width: 20px; height: 20px; background: #bdc3c7; border-radius: 3px;"></div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <div class="avatar"></div>
+                        <div style="font-size: 18px; font-weight: bold; margin-bottom: 5px;">Sarah Silva</div>
+                        <div style="font-size: 14px; color: #7f8c8d;">sarah.silva@email.com</div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="list-item">
+                            <span>Informações Pessoais</span>
+                            <span style="color: #bdc3c7;">›</span>
+                        </div>
+                        <div class="list-item">
+                            <span>Metas de Saúde</span>
+                            <span style="color: #bdc3c7;">›</span>
+                        </div>
+                        <div class="list-item">
+                            <span>Contatos de Emergência</span>
+                            <span style="color: #bdc3c7;">›</span>
+                        </div>
+                        <div class="list-item">
+                            <span>Histórico Médico</span>
+                            <span style="color: #bdc3c7;">›</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="list-item">
+                            <span>Notificações</span>
+                            <div style="width: 40px; height: 20px; background: #27ae60; border-radius: 10px; position: relative;">
+                                <div style="width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px;"></div>
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <span>Configurações de Privacidade</span>
+                            <span style="color: #bdc3c7;">›</span>
+                        </div>
+                        <div class="list-item">
+                            <span>Exportar Dados</span>
+                            <span style="color: #bdc3c7;">›</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="list-item">
+                            <span>Ajuda e Suporte</span>
+                            <span style="color: #bdc3c7;">›</span>
+                        </div>
+                        <div class="list-item">
+                            <span>Sobre</span>
+                            <span style="color: #bdc3c7;">›</span>
+                        </div>
+                        <div class="list-item" style="color: #e74c3c;">
+                            <span>Sair</span>
+                            <span style="color: #bdc3c7;">›</span>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-bar">
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Track</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Reports</div>
+                        </div>
+                        <div class="nav-item active">
+                            <div class="nav-icon"></div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Symptoms Tracking Screen -->
+            <div class="phone-frame">
+                <div class="screen">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>●●●●●</span>
+                        <span>100%</span>
+                    </div>
+                    
+                    <div class="header">
+                        <div style="width: 20px; height: 20px; background: #bdc3c7; border-radius: 3px;"></div>
+                        <div class="title">Sintomas</div>
+                        <div style="width: 20px; height: 20px; background: #bdc3c7; border-radius: 3px;"></div>
+                    </div>
+                    
+                    <div class="subtitle">Como você está se sentindo hoje?</div>
+                    
+                    <div class="card">
+                        <div style="font-weight: bold; margin-bottom: 15px;">Sintomas Comuns</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 15px; text-align: center; font-size: 12px;">
+                                <div style="width: 30px; height: 30px; background: #e74c3c; border-radius: 50%; margin: 0 auto 8px;"></div>
+                                Dor de Cabeça
+                            </div>
+                            <div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 15px; text-align: center; font-size: 12px;">
+                                <div style="width: 30px; height: 30px; background: #f39c12; border-radius: 50%; margin: 0 auto 8px;"></div>
+                                Fadiga
+                            </div>
+                            <div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 15px; text-align: center; font-size: 12px;">
+                                <div style="width: 30px; height: 30px; background: #3498db; border-radius: 50%; margin: 0 auto 8px;"></div>
+                                Náusea
+                            </div>
+                            <div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 15px; text-align: center; font-size: 12px;">
+                                <div style="width: 30px; height: 30px; background: #9b59b6; border-radius: 50%; margin: 0 auto 8px;"></div>
+                                Tontura
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div style="font-weight: bold; margin-bottom: 15px;">Escala de Dor (1-10)</div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="font-size: 12px;">Sem Dor</span>
+                            <span style="font-size: 12px;">Intensa</span>
+                        </div>
+                        <div style="display: flex; gap: 5px; margin-bottom: 15px;">
+                            <div style="width: 25px; height: 25px; background: #27ae60; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px;">1</div>
+                            <div style="width: 25px; height: 25px; background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;">2</div>
+                            <div style="width: 25px; height: 25px; background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;">3</div>
+                            <div style="width: 25px; height: 25px; background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;">4</div>
+                            <div style="width: 25px; height: 25px; background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;">5</div>
+                            <div style="width: 25px; height: 25px; background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;">6</div>
+                            <div style="width: 25px; height: 25px; background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;">7</div>
+                            <div style="width: 25px; height: 25px; background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;">8</div>
+                            <div style="width: 25px; height: 25px; background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;">9</div>
+                            <div style="width: 25px; height: 25px; background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;">10</div>
+                        </div>
+                        <textarea class="input-field" placeholder="Descreva seus sintomas..." rows="3"></textarea>
+                        <button class="button">Registrar Sintomas</button>
+                    </div>
+                    
+                    <div class="nav-bar">
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-item active">
+                            <div class="nav-icon"></div>
+                            <div>Track</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Reports</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Appointments Screen -->
+            <div class="phone-frame">
+                <div class="screen">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>●●●●●</span>
+                        <span>100%</span>
+                    </div>
+                    
+                    <div class="header">
+                        <div style="width: 20px; height: 20px; background: #bdc3c7; border-radius: 3px;"></div>
+                        <div class="title">Consultas</div>
+                        <div style="width: 20px; height: 20px; background: #bdc3c7; border-radius: 3px;"></div>
+                    </div>
+                    
+                    <div class="card" style="background: #fff3cd; border-color: #ffeaa7;">
+                        <div style="font-weight: bold; color: #856404; margin-bottom: 5px;">Próxima Consulta</div>
+                        <div style="font-size: 16px; font-weight: bold; margin-bottom: 5px;">Dr. Silva - Cardiologia</div>
+                        <div style="font-size: 14px; color: #7f8c8d; margin-bottom: 10px;">Amanhã, 10 de Set às 14:30</div>
+                        <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 15px;">📍 Centro Médico, Sala 205</div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="button secondary" style="flex: 1; font-size: 12px;">Reagendar</button>
+                            <button class="button" style="flex: 1; font-size: 12px;">Direções</button>
+                        </div>
+                    </div>
+                    
+                    <div style="font-weight: bold; margin: 20px 0 10px 0;">Todas as Consultas</div>
+                    
+                    <div class="card">
+                        <div class="list-item">
+                            <div>
+                                <div style="font-weight: bold;">Dr. Santos - Clínico Geral</div>
+                                <div style="font-size: 12px; color: #7f8c8d;">Check-up Anual</div>
+                                <div style="font-size: 12px; color: #7f8c8d;">15 de Set, 10:00</div>
+                            </div>
+                            <div style="color: #bdc3c7;">›</div>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div style="font-weight: bold;">Dra. Lima - Dermatologia</div>
+                                <div style="font-size: 12px; color: #7f8c8d;">Exame de Pele</div>
+                                <div style="font-size: 12px; color: #7f8c8d;">22 de Set, 15:00</div>
+                            </div>
+                            <div style="color: #bdc3c7;">›</div>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div style="font-weight: bold;">Exames Laboratoriais</div>
+                                <div style="font-size: 12px; color: #7f8c8d;">Exame de Sangue</div>
+                                <div style="font-size: 12px; color: #7f8c8d;">1 de Out, 08:00</div>
+                            </div>
+                            <div style="color: #bdc3c7;">›</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div style="font-weight: bold; margin-bottom: 10px;">Ações Rápidas</div>
+                        <button class="button secondary">Agendar Nova Consulta</button>
+                        <button class="button secondary">Encontrar Médicos</button>
+                    </div>
+                    
+                    <div class="floating-button">+</div>
+                    
+                    <div class="nav-bar">
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Home</div>
+                        </div>
+                        <div class="nav-item active">
+                            <div class="nav-icon"></div>
+                            <div>Track</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Reports</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon"></div>
+                            <div>Profile</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="background: white; padding: 30px; border-radius: 12px; margin-top: 40px;">
+            <h2 style="color: #2c3e50; margin-bottom: 20px;">Notas de Design UX - Adaptado para MIT App Inventor</h2>
+            
+            <h3 style="color: #34495e; margin-bottom: 15px;">Principais Funcionalidades (Simplificadas):</h3>
+            <ul style="color: #7f8c8d; line-height: 1.8;">
+                <li><strong>Onboarding e Autenticação:</strong> Sistema de login local simples com TinyDB</li>
+                <li><strong>Dashboard:</strong> Cards informativos básicos com ações rápidas</li>
+                <li><strong>Monitoramento de Sinais Vitais:</strong> Entrada manual completa com armazenamento local</li>
+                <li><strong>Gerenciamento de Medicamentos:</strong> Lembretes básicos e controle de aderência</li>
+                <li><strong>Registro de Sintomas:</strong> Escala de dor simples e registro de texto</li>
+                <li><strong>Relatórios de Saúde:</strong> Resumos textuais e cálculos básicos</li>
+                <li><strong>Consultas:</strong> Lembretes simples de consultas agendadas</li>
+                <li><strong>Perfil e Configurações:</strong> Dados básicos e configurações locais</li>
+            </ul>
+            
+            <h3 style="color: #e74c3c; margin: 25px 0 15px 0;">Limitações e Adaptações do MIT App Inventor:</h3>
+            <ul style="color: #7f8c8d; line-height: 1.8;">
+                <li><strong>✅ Funcionalidades Viáveis:</strong> Entrada manual de dados, armazenamento local, interface básica</li>
+                <li><strong>❌ Limitações Aceitas:</strong> Sem integrações complexas, sem sincronização em nuvem, apenas Android</li>
+                <li><strong>🔄 Abordagem Simplificada:</strong> Foco total em entrada manual e armazenamento local (TinyDB)</li>
+                <li><strong>💡 Solução Educacional:</strong> Prioriza aprendizado e funcionalidade básica sobre recursos avançados</li>
+                <li><strong>📱 Componentes Básicos:</strong> TextBox, Button, ListView, TinyDB, Notifier para funcionalidade completa</li>
+            </ul>
+            
+            <h3 style="color: #34495e; margin: 25px 0 15px 0;">Princípios de UX Adaptados para App Inventor:</h3>
+            <ul style="color: #7f8c8d; line-height: 1.8;">
+                <li><strong>Simplicidade:</strong> Interface limpa usando componentes básicos do App Inventor</li>
+                <li><strong>Funcionalidade:</strong> Foco em recursos essenciais que realmente funcionam</li>
+                <li><strong>Navegação Simples:</strong> Telas organizadas com botões claros de navegação</li>
+                <li><strong>Feedback Básico:</strong> Notificações e alertas usando componente Notifier</li>
+                <li><strong>Armazenamento Local:</strong> Dados seguros no dispositivo com TinyDB</li>
+                <li><strong>Usabilidade:</strong> Interface intuitiva para usuários de todos os níveis técnicos</li>
+                <li><strong>Educacional:</strong> Demonstra conceitos de desenvolvimento mobile de forma prática</li>
+            </ul>
+            
+            <h3 style="color: #34495e; margin: 25px 0 15px 0;">Componentes do App Inventor Utilizados:</h3>
+            <ul style="color: #7f8c8d; line-height: 1.8;">
+                <li><strong>Layout:</strong> VerticalArrangement, HorizontalArrangement para organização</li>
+                <li><strong>Entrada:</strong> TextBox, Button, CheckBox, Spinner para interação</li>
+                <li><strong>Exibição:</strong> Label, ListView, Image para mostrar informações</li>
+                <li><strong>Armazenamento:</strong> TinyDB para dados locais persistentes</li>
+                <li><strong>Funcionalidades:</strong> Clock, Notifier, DatePicker para recursos básicos</li>
+                <li><strong>Navegação:</strong> Screen para diferentes telas do aplicativo</li>
+            </ul>
+            
+            <h3 style="color: #27ae60; margin: 25px 0 15px 0;">Objetivos Educacionais Alcançados:</h3>
+            <ul style="color: #7f8c8d; line-height: 1.8;">
+                <li><strong>Desenvolvimento Mobile:</strong> Experiência completa com plataforma visual</li>
+                <li><strong>Gestão de Dados:</strong> Compreensão de armazenamento local e persistência</li>
+                <li><strong>Interface de Usuário:</strong> Aplicação prática de princípios de UX/UI</li>
+                <li><strong>Limitações Técnicas:</strong> Adaptação criativa dentro de restrições de plataforma</li>
+                <li><strong>Projeto Completo:</strong> Do wireframe à implementação funcional</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

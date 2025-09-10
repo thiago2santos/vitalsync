@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync - Features Detalhadas</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .feature-section {
+            margin-bottom: 60px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .feature-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #ecf0f1;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-right: 20px;
+        }
+
+        .feature-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            font-size: 1.1rem;
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .mermaid-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .feature-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .detail-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .detail-title::before {
+            content: "🎯";
+            margin-right: 10px;
+        }
+
+        .detail-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .detail-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f8f9fa;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .detail-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .journey-steps {
+            background: linear-gradient(135deg, #e8f4fd, #d1ecf1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .journey-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .steps-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .step {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            flex: 1;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .step-arrow {
+            color: #3498db;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .tech-specs {
+            background: #f8f9fa;
+            border-left: 5px solid #3498db;
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+            margin: 20px 0;
+        }
+
+        .tech-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+
+        .tech-list {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #2c3e50;
+        }
+
+        @media (max-width: 768px) {
+            .feature-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .steps-flow {
+                flex-direction: column;
+            }
+            
+            .step-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-button">← Voltar ao Índice</a>
+            <h1>🎯 Features Detalhadas</h1>
+            <p>Análise completa de cada funcionalidade do VitalSync</p>
+        </div>
+
+        <div class="content">
+            <!-- Feature 1: Monitoramento de Sinais Vitais -->
+            <div class="feature-section">
+                <div class="feature-header">
+                    <div class="feature-icon">📊</div>
+                    <div>
+                        <div class="feature-title">Monitoramento de Sinais Vitais</div>
+                    </div>
+                </div>
+                
+                <div class="feature-description">
+                    Sistema completo para registro, acompanhamento e análise de sinais vitais essenciais, 
+                    incluindo integração com dispositivos Bluetooth e validação automática de valores críticos.
+                </div>
+
+                <div class="journey-steps">
+                    <div class="journey-title">🚀 Jornada do Usuário</div>
+                    <div class="steps-flow">
+                        <div class="step">Dashboard</div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">Sinais Vitais</div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">Selecionar Tipo</div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">Inserir Dados</div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">Validação</div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">Salvar</div>
+                    </div>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        flowchart TD
+                            A[📊 Tela Sinais Vitais] --> B{Tipo de Entrada}
+                            B -->|Manual| C[📝 Formulário Manual]
+                            B -->|Bluetooth| D[📡 Dispositivo Conectado]
+                            B -->|Automático| E[👟 Pedometer - Passos]
+                            
+                            C --> F[🎚️ Sliders/TextBox]
+                            D --> G[📲 Receber Dados]
+                            E --> H[📊 Contagem Automática]
+                            
+                            F --> I{Validação}
+                            G --> I
+                            H --> I
+                            
+                            I -->|Valores Normais| J[✅ Salvar no TinyDB]
+                            I -->|Valores Críticos| K[⚠️ Alerta + Salvar]
+                            
+                            J --> L[📈 Atualizar Gráficos]
+                            K --> L
+                            L --> M[🏠 Retornar ao Dashboard]
+
+                            style A fill:#e74c3c,stroke:#c0392b,color:#fff
+                            style I fill:#f39c12,stroke:#e67e22,color:#fff
+                            style J fill:#27ae60,stroke:#229954,color:#fff
+                            style K fill:#e74c3c,stroke:#c0392b,color:#fff
+                    </div>
+                </div>
+
+                <div class="feature-details">
+                    <div class="detail-card">
+                        <div class="detail-title">Tipos de Sinais Vitais</div>
+                        <ul class="detail-list">
+                            <li>Pressão Arterial (Sistólica/Diastólica)</li>
+                            <li>Frequência Cardíaca (BPM)</li>
+                            <li>Temperatura Corporal (°C)</li>
+                            <li>Peso Corporal (kg)</li>
+                            <li>Glicemia (mg/dL)</li>
+                            <li>Contagem de Passos (automática)</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-title">Funcionalidades Avançadas</div>
+                        <ul class="detail-list">
+                            <li>Validação de faixas normais por idade</li>
+                            <li>Alertas visuais para valores críticos</li>
+                            <li>Integração Bluetooth com dispositivos</li>
+                            <li>Histórico com gráficos de tendência</li>
+                            <li>Exportação de dados para médicos</li>
+                            <li>Lembretes para medições regulares</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tech-specs">
+                    <div class="tech-title">🔧 Componentes MIT App Inventor</div>
+                    <div class="tech-list">
+                        • Pedometer (contagem automática de passos)<br>
+                        • BluetoothClient (dispositivos médicos)<br>
+                        • Canvas (gráficos de tendência)<br>
+                        • Slider (entrada de valores)<br>
+                        • TinyDB (armazenamento local)<br>
+                        • Clock (lembretes automáticos)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2: Gerenciamento de Medicamentos -->
+            <div class="feature-section">
+                <div class="feature-header">
+                    <div class="feature-icon">💊</div>
+                    <div>
+                        <div class="feature-title">Gerenciamento de Medicamentos</div>
+                    </div>
+                </div>
+                
+                <div class="feature-description">
+                    Sistema inteligente para cadastro, controle de horários, lembretes automáticos e 
+                    acompanhamento da aderência ao tratamento medicamentoso.
+                </div>
+
+                <div class="journey-steps">
+                    <div class="journey-title">🚀 Jornada do Usuário</div>
+                    <div class="steps-flow">
+                        <div class="step">Medicamentos</div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">Adicionar Novo</div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">Scanner/Manual</div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">Configurar Horários</div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">Receber Lembretes</div>
+                    </div>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        flowchart TD
+                            A[💊 Tela Medicamentos] --> B{Adicionar Novo?}
+                            B -->|Sim| C[➕ Tela Adicionar Med]
+                            B -->|Não| D[📋 Ver Lista Atual]
+                            
+                            C --> E{Método de Entrada}
+                            E -->|Scanner| F[📱 BarcodeScannerSensor]
+                            E -->|Foto| G[📷 Camera - Receita]
+                            E -->|Manual| H[📝 Formulário Manual]
+                            
+                            F --> I[🔍 Buscar Base de Dados]
+                            G --> J[📋 Preencher Manual]
+                            H --> J
+                            I --> K[✅ Auto-preencher Dados]
+                            
+                            K --> L[⏰ Configurar Horários]
+                            J --> L
+                            L --> M[💾 Salvar no TinyDB]
+                            
+                            M --> N[🔔 Ativar Lembretes]
+                            N --> O[📊 Calcular Aderência]
+                            
+                            D --> P[📈 Ver Estatísticas]
+                            P --> Q[✅ Marcar como Tomado]
+                            Q --> O
+
+                            style A fill:#27ae60,stroke:#229954,color:#fff
+                            style F fill:#3498db,stroke:#2980b9,color:#fff
+                            style N fill:#f39c12,stroke:#e67e22,color:#fff
+                            style O fill:#9b59b6,stroke:#8e44ad,color:#fff
+                    </div>
+                </div>
+
+                <div class="feature-details">
+                    <div class="detail-card">
+                        <div class="detail-title">Métodos de Cadastro</div>
+                        <ul class="detail-list">
+                            <li>Scanner de código de barras automático</li>
+                            <li>Captura de foto da receita médica</li>
+                            <li>Entrada manual com validação</li>
+                            <li>Busca em base de medicamentos</li>
+                            <li>Auto-preenchimento de dados</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-title">Sistema de Lembretes</div>
+                        <ul class="detail-list">
+                            <li>Notificações personalizadas por horário</li>
+                            <li>Sons e vibrações configuráveis</li>
+                            <li>Snooze inteligente (5, 10, 15 min)</li>
+                            <li>Controle de aderência automático</li>
+                            <li>Relatórios para médicos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tech-specs">
+                    <div class="tech-title">🔧 Componentes MIT App Inventor</div>
+                    <div class="tech-list">
+                        • BarcodeScannerSensor (scanner automático)<br>
+                        • Camera (captura de receitas)<br>
+                        • Clock (sistema de lembretes)<br>
+                        • Sound (alertas sonoros)<br>
+                        • Notifier (notificações push)<br>
+                        • Web (busca base de medicamentos)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3: Registro de Sintomas -->
+            <div class="feature-section">
+                <div class="feature-header">
+                    <div class="feature-icon">🤒</div>
+                    <div>
+                        <div class="feature-title">Registro de Sintomas</div>
+                    </div>
+                </div>
+                
+                <div class="feature-description">
+                    Ferramenta intuitiva para documentar sintomas com escala visual de dor, 
+                    captura de imagens e correlação automática com outros dados de saúde.
+                </div>
+
+                <div class="journey-steps">
+                    <div class="journey-title">🚀 Jornada do Usuário</div>
+                    <div class="steps-flow">
+                        <div class="step">Sintomas</div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">Seleção Rápida</div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">Escala de Dor</div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">Descrição</div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">Foto (Opcional)</div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">Análise</div>
+                    </div>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        flowchart TD
+                            A[🤒 Tela Sintomas] --> B[🚀 Seleção Rápida]
+                            B --> C{Sintoma Comum?}
+                            C -->|Sim| D[✅ Auto-selecionar]
+                            C -->|Não| E[📝 Descrição Manual]
+                            
+                            D --> F[📏 Escala de Dor 1-10]
+                            E --> F
+                            F --> G[🎨 Visualização Colorida]
+                            G --> H[📝 Descrição Detalhada]
+                            
+                            H --> I{Sintoma Visual?}
+                            I -->|Sim| J[📷 Capturar Foto]
+                            I -->|Não| K[💾 Salvar Dados]
+                            J --> K
+                            
+                            K --> L[🔍 Correlação Automática]
+                            L --> M[📊 Análise de Padrões]
+                            M --> N[💡 Sugestões/Alertas]
+                            
+                            N --> O{Valor Crítico?}
+                            O -->|Sim| P[🚨 Alerta Médico]
+                            O -->|Não| Q[📈 Histórico]
+
+                            style A fill:#f39c12,stroke:#e67e22,color:#fff
+                            style F fill:#e74c3c,stroke:#c0392b,color:#fff
+                            style L fill:#9b59b6,stroke:#8e44ad,color:#fff
+                            style P fill:#e74c3c,stroke:#c0392b,color:#fff
+                    </div>
+                </div>
+
+                <div class="feature-details">
+                    <div class="detail-card">
+                        <div class="detail-title">Sintomas Pré-definidos</div>
+                        <ul class="detail-list">
+                            <li>Dor de cabeça (intensidade e localização)</li>
+                            <li>Fadiga e cansaço excessivo</li>
+                            <li>Náusea e problemas digestivos</li>
+                            <li>Tontura e vertigens</li>
+                            <li>Dores musculares e articulares</li>
+                            <li>Sintomas respiratórios</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-title">Análise Inteligente</div>
+                        <ul class="detail-list">
+                            <li>Correlação com medicamentos tomados</li>
+                            <li>Padrões temporais de sintomas</li>
+                            <li>Relação com sinais vitais</li>
+                            <li>Sugestões de acompanhamento</li>
+                            <li>Alertas para procurar ajuda médica</li>
+                            <li>Histórico visual com gráficos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tech-specs">
+                    <div class="tech-title">🔧 Componentes MIT App Inventor</div>
+                    <div class="tech-list">
+                        • Canvas (escala visual de dor)<br>
+                        • Camera (captura de sintomas visuais)<br>
+                        • Slider (escala de intensidade)<br>
+                        • TextBox (descrição detalhada)<br>
+                        • Clock (timestamp automático)<br>
+                        • TinyDB (correlação de dados)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 4: Relatórios e Análises -->
+            <div class="feature-section">
+                <div class="feature-header">
+                    <div class="feature-icon">📈</div>
+                    <div>
+                        <div class="feature-title">Relatórios e Análises</div>
+                    </div>
+                </div>
+                
+                <div class="feature-description">
+                    Dashboard avançado com gráficos interativos, análise de tendências e 
+                    relatórios personalizados para compartilhar com profissionais de saúde.
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        flowchart TD
+                            A[📈 Tela Relatórios] --> B[📅 Seletor de Período]
+                            B --> C{Período Escolhido}
+                            C -->|Semana| D[📊 Dados 7 dias]
+                            C -->|Mês| E[📊 Dados 30 dias]
+                            C -->|Ano| F[📊 Dados 365 dias]
+                            
+                            D --> G[🎨 Canvas - Gráficos]
+                            E --> G
+                            F --> G
+                            
+                            G --> H[📊 Pressão Arterial]
+                            G --> I[⚖️ Progresso do Peso]
+                            G --> J[💊 Aderência Medicamentos]
+                            G --> K[👟 Atividade Física]
+                            
+                            H --> L[📋 Resumo Estatístico]
+                            I --> L
+                            J --> L
+                            K --> L
+                            
+                            L --> M{Ação do Usuário}
+                            M -->|Exportar| N[📤 PDF/CSV]
+                            M -->|Compartilhar| O[📧 Email/WhatsApp]
+                            M -->|Imprimir| P[🖨️ Relatório Médico]
+
+                            style A fill:#3498db,stroke:#2980b9,color:#fff
+                            style G fill:#e74c3c,stroke:#c0392b,color:#fff
+                            style L fill:#27ae60,stroke:#229954,color:#fff
+                    </div>
+                </div>
+
+                <div class="tech-specs">
+                    <div class="tech-title">🔧 Componentes MIT App Inventor</div>
+                    <div class="tech-list">
+                        • Canvas (gráficos personalizados)<br>
+                        • Web (exportação para nuvem)<br>
+                        • Sharing (compartilhamento nativo)<br>
+                        • File (geração de relatórios)<br>
+                        • EmailPicker (envio para médicos)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>

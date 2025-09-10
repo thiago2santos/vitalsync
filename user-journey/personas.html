@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync - Personas & Jornadas</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .persona-section {
+            margin-bottom: 60px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .persona-header {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #ecf0f1;
+        }
+
+        .persona-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .persona-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .persona-name {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .persona-subtitle {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+
+        .persona-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .persona-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .detail-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .detail-title::before {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .detail-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .detail-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f8f9fa;
+            color: #555;
+        }
+
+        .detail-list li:last-child {
+            border-bottom: none;
+        }
+
+        .journey-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .journey-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .mermaid-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .pain-points {
+            background: linear-gradient(135deg, #ffe6e6, #ffcccc);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .pain-title {
+            font-size: 1.2rem;
+            color: #e74c3c;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .pain-title::before {
+            content: "⚠️";
+            margin-right: 10px;
+        }
+
+        .solutions {
+            background: linear-gradient(135deg, #e8f5e8, #d4edda);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .solutions-title {
+            font-size: 1.2rem;
+            color: #27ae60;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .solutions-title::before {
+            content: "✅";
+            margin-right: 10px;
+        }
+
+        .daily-routine {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .routine-title {
+            font-size: 1.2rem;
+            color: #f39c12;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .routine-timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .routine-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .routine-time {
+            font-weight: bold;
+            color: #f39c12;
+            margin-bottom: 5px;
+        }
+
+        .routine-action {
+            font-size: 0.9rem;
+            color: #2c3e50;
+        }
+
+        @media (max-width: 768px) {
+            .persona-header {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .persona-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .routine-timeline {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-button">← Voltar ao Índice</a>
+            <h1>👥 Personas & Jornadas</h1>
+            <p>Perfis de usuários e suas jornadas específicas no VitalSync</p>
+        </div>
+
+        <div class="content">
+            <!-- Persona 1: João - Hipertenso -->
+            <div class="persona-section">
+                <div class="persona-header">
+                    <div class="persona-avatar">👴</div>
+                    <div class="persona-info">
+                        <div class="persona-name">João Silva</div>
+                        <div class="persona-subtitle">65 anos, Aposentado, Hipertenso</div>
+                        <div class="persona-tags">
+                            <div class="tag">Hipertensão</div>
+                            <div class="tag">Medicação Diária</div>
+                            <div class="tag">Monitoramento</div>
+                            <div class="tag">Terceira Idade</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="persona-details">
+                    <div class="detail-card">
+                        <div class="detail-title" style="color: #3498db;">👤 Perfil Demográfico</div>
+                        <ul class="detail-list">
+                            <li><strong>Idade:</strong> 65 anos</li>
+                            <li><strong>Profissão:</strong> Aposentado (ex-contador)</li>
+                            <li><strong>Localização:</strong> São Paulo, SP</li>
+                            <li><strong>Estado Civil:</strong> Casado</li>
+                            <li><strong>Tecnologia:</strong> Usuário básico de smartphone</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-title" style="color: #e74c3c;">🏥 Condições de Saúde</div>
+                        <ul class="detail-list">
+                            <li>Hipertensão arterial diagnosticada há 8 anos</li>
+                            <li>Toma Losartana 50mg 2x ao dia</li>
+                            <li>Consultas cardiológicas trimestrais</li>
+                            <li>Caminhadas regulares no parque</li>
+                            <li>Dieta com baixo teor de sódio</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="daily-routine">
+                    <div class="routine-title">📅 Rotina Diária Típica</div>
+                    <div class="routine-timeline">
+                        <div class="routine-item">
+                            <div class="routine-time">07:00</div>
+                            <div class="routine-action">Acordar + Medicamento</div>
+                        </div>
+                        <div class="routine-item">
+                            <div class="routine-time">08:00</div>
+                            <div class="routine-action">Medir Pressão</div>
+                        </div>
+                        <div class="routine-item">
+                            <div class="routine-time">09:00</div>
+                            <div class="routine-action">Caminhada (30min)</div>
+                        </div>
+                        <div class="routine-item">
+                            <div class="routine-time">19:00</div>
+                            <div class="routine-action">Medicamento Noturno</div>
+                        </div>
+                        <div class="routine-item">
+                            <div class="routine-time">21:00</div>
+                            <div class="routine-action">Revisar Dados</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="journey-container">
+                    <div class="journey-title">🚀 Jornada Diária no VitalSync</div>
+                    <div class="mermaid-container">
+                        <div class="mermaid">
+                            journey
+                                title Jornada Diária - João (Hipertenso)
+                                section Manhã
+                                    Acordar: 3: João
+                                    Abrir VitalSync: 4: João
+                                    Ver lembrete medicamento: 5: João
+                                    Marcar como tomado: 5: João
+                                    Medir pressão arterial: 4: João
+                                    Registrar no app: 5: João
+                                section Atividade
+                                    Caminhada no parque: 5: João
+                                    Contar passos automático: 5: João
+                                    Ver progresso: 4: João
+                                section Noite
+                                    Lembrete medicamento: 5: João
+                                    Marcar como tomado: 5: João
+                                    Revisar dados do dia: 4: João
+                                    Preparar relatório médico: 3: João
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pain-points">
+                    <div class="pain-title">Pontos de Dor</div>
+                    <ul class="detail-list">
+                        <li>Esquece de tomar medicamentos nos horários corretos</li>
+                        <li>Dificuldade para lembrar de medir a pressão regularmente</li>
+                        <li>Não sabe interpretar os valores de pressão arterial</li>
+                        <li>Perde papéis com anotações para levar ao médico</li>
+                        <li>Preocupação com valores alterados sem orientação</li>
+                    </ul>
+                </div>
+
+                <div class="solutions">
+                    <div class="solutions-title">Como o VitalSync Resolve</div>
+                    <ul class="detail-list">
+                        <li>Lembretes automáticos com som e vibração para medicamentos</li>
+                        <li>Alertas visuais quando valores de pressão estão críticos</li>
+                        <li>Gráficos simples e coloridos para acompanhar tendências</li>
+                        <li>Relatórios automáticos em PDF para levar ao médico</li>
+                        <li>Mensagens tranquilizadoras e orientações básicas</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Persona 2: Maria - Diabética -->
+            <div class="persona-section">
+                <div class="persona-header">
+                    <div class="persona-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">👩</div>
+                    <div class="persona-info">
+                        <div class="persona-name">Maria Santos</div>
+                        <div class="persona-subtitle">45 anos, Professora, Diabética Tipo 2</div>
+                        <div class="persona-tags">
+                            <div class="tag" style="background: #e74c3c;">Diabetes Tipo 2</div>
+                            <div class="tag" style="background: #e74c3c;">Glicemia</div>
+                            <div class="tag" style="background: #e74c3c;">Dieta Controlada</div>
+                            <div class="tag" style="background: #e74c3c;">Ativa</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="persona-details">
+                    <div class="detail-card">
+                        <div class="detail-title" style="color: #e74c3c;">👤 Perfil Demográfico</div>
+                        <ul class="detail-list">
+                            <li><strong>Idade:</strong> 45 anos</li>
+                            <li><strong>Profissão:</strong> Professora do ensino médio</li>
+                            <li><strong>Localização:</strong> Rio de Janeiro, RJ</li>
+                            <li><strong>Estado Civil:</strong> Divorciada, 2 filhos</li>
+                            <li><strong>Tecnologia:</strong> Usuária intermediária</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-title" style="color: #f39c12;">🏥 Condições de Saúde</div>
+                        <ul class="detail-list">
+                            <li>Diabetes Tipo 2 diagnosticada há 3 anos</li>
+                            <li>Metformina 850mg 2x ao dia</li>
+                            <li>Controle glicêmico 3x ao dia</li>
+                            <li>Endocrinologista a cada 3 meses</li>
+                            <li>Atividade física regular (academia)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="daily-routine">
+                    <div class="routine-title">📅 Rotina Diária Típica</div>
+                    <div class="routine-timeline">
+                        <div class="routine-item">
+                            <div class="routine-time">06:30</div>
+                            <div class="routine-action">Glicemia em Jejum</div>
+                        </div>
+                        <div class="routine-item">
+                            <div class="routine-time">07:00</div>
+                            <div class="routine-action">Medicamento + Café</div>
+                        </div>
+                        <div class="routine-item">
+                            <div class="routine-time">12:00</div>
+                            <div class="routine-action">Glicemia Pré-Almoço</div>
+                        </div>
+                        <div class="routine-item">
+                            <div class="routine-time">18:00</div>
+                            <div class="routine-action">Academia (1h)</div>
+                        </div>
+                        <div class="routine-item">
+                            <div class="routine-time">19:30</div>
+                            <div class="routine-action">Medicamento + Jantar</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="journey-container">
+                    <div class="journey-title">🚀 Jornada Diária no VitalSync</div>
+                    <div class="mermaid-container">
+                        <div class="mermaid">
+                            journey
+                                title Jornada Diária - Maria (Diabética)
+                                section Manhã
+                                    Acordar cedo: 4: Maria
+                                    Medir glicemia jejum: 3: Maria
+                                    Registrar no app: 5: Maria
+                                    Ver tendência glicêmica: 4: Maria
+                                    Tomar medicamento: 5: Maria
+                                section Trabalho
+                                    Lembrete glicemia: 5: Maria
+                                    Medir antes almoço: 4: Maria
+                                    Escolher refeição: 3: Maria
+                                    Registrar dados: 5: Maria
+                                section Noite
+                                    Academia: 5: Maria
+                                    Medicamento jantar: 5: Maria
+                                    Análise do dia: 4: Maria
+                                    Planejar amanhã: 4: Maria
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pain-points">
+                    <div class="pain-title">Pontos de Dor</div>
+                    <ul class="detail-list">
+                        <li>Rotina corrida dificulta controle regular da glicemia</li>
+                        <li>Stress do trabalho afeta os níveis glicêmicos</li>
+                        <li>Dificuldade para correlacionar alimentação x glicemia</li>
+                        <li>Esquece medicamentos quando sai da rotina</li>
+                        <li>Ansiedade com oscilações nos valores</li>
+                    </ul>
+                </div>
+
+                <div class="solutions">
+                    <div class="solutions-title">Como o VitalSync Resolve</div>
+                    <ul class="detail-list">
+                        <li>Lembretes flexíveis que se adaptam à rotina escolar</li>
+                        <li>Gráficos que mostram correlação entre stress e glicemia</li>
+                        <li>Registro de refeições junto com medições</li>
+                        <li>Notificações discretas durante o trabalho</li>
+                        <li>Mensagens motivacionais baseadas no progresso</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Persona 3: Carlos - Fitness -->
+            <div class="persona-section">
+                <div class="persona-header">
+                    <div class="persona-avatar" style="background: linear-gradient(135deg, #27ae60, #229954);">🏃</div>
+                    <div class="persona-info">
+                        <div class="persona-name">Carlos Oliveira</div>
+                        <div class="persona-subtitle">30 anos, Engenheiro, Entusiasta Fitness</div>
+                        <div class="persona-tags">
+                            <div class="tag" style="background: #27ae60;">Fitness</div>
+                            <div class="tag" style="background: #27ae60;">Suplementação</div>
+                            <div class="tag" style="background: #27ae60;">Performance</div>
+                            <div class="tag" style="background: #27ae60;">Tech Savvy</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="persona-details">
+                    <div class="detail-card">
+                        <div class="detail-title" style="color: #27ae60;">👤 Perfil Demográfico</div>
+                        <ul class="detail-list">
+                            <li><strong>Idade:</strong> 30 anos</li>
+                            <li><strong>Profissão:</strong> Engenheiro de Software</li>
+                            <li><strong>Localização:</strong> Belo Horizonte, MG</li>
+                            <li><strong>Estado Civil:</strong> Solteiro</li>
+                            <li><strong>Tecnologia:</strong> Early adopter, power user</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-title" style="color: #3498db;">🏥 Objetivos de Saúde</div>
+                        <ul class="detail-list">
+                            <li>Ganho de massa muscular e definição</li>
+                            <li>Suplementação: Whey, Creatina, Vitaminas</li>
+                            <li>Monitoramento de composição corporal</li>
+                            <li>Otimização de performance nos treinos</li>
+                            <li>Prevenção de lesões e overtraining</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="daily-routine">
+                    <div class="routine-title">📅 Rotina Diária Típica</div>
+                    <div class="routine-timeline">
+                        <div class="routine-item">
+                            <div class="routine-time">06:00</div>
+                            <div class="routine-action">Peso + Suplementos</div>
+                        </div>
+                        <div class="routine-item">
+                            <div class="routine-time">07:00</div>
+                            <div class="routine-action">Academia (1h30)</div>
+                        </div>
+                        <div class="routine-item">
+                            <div class="routine-time">14:00</div>
+                            <div class="routine-action">Whey Protein</div>
+                        </div>
+                        <div class="routine-item">
+                            <div class="routine-time">18:00</div>
+                            <div class="routine-action">Hidratação Check</div>
+                        </div>
+                        <div class="routine-item">
+                            <div class="routine-time">22:00</div>
+                            <div class="routine-action">Análise Progresso</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="journey-container">
+                    <div class="journey-title">🚀 Jornada Diária no VitalSync</div>
+                    <div class="mermaid-container">
+                        <div class="mermaid">
+                            journey
+                                title Jornada Diária - Carlos (Fitness)
+                                section Manhã
+                                    Acordar: 5: Carlos
+                                    Pesar-se: 5: Carlos
+                                    Registrar peso: 5: Carlos
+                                    Tomar suplementos: 5: Carlos
+                                    Registrar suplementação: 5: Carlos
+                                section Treino
+                                    Academia intensa: 5: Carlos
+                                    Monitorar FC: 4: Carlos
+                                    Contar passos: 5: Carlos
+                                    Whey pós-treino: 5: Carlos
+                                section Análise
+                                    Ver progresso peso: 5: Carlos
+                                    Gráficos performance: 5: Carlos
+                                    Planejar próximo ciclo: 4: Carlos
+                                    Definir metas: 5: Carlos
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pain-points">
+                    <div class="pain-title">Pontos de Dor</div>
+                    <ul class="detail-list">
+                        <li>Múltiplos apps para diferentes métricas de saúde</li>
+                        <li>Dificuldade para correlacionar suplementação x resultados</li>
+                        <li>Falta de visão integrada do progresso</li>
+                        <li>Esquece de tomar suplementos nos horários ideais</li>
+                        <li>Quer dados mais detalhados e personalizáveis</li>
+                    </ul>
+                </div>
+
+                <div class="solutions">
+                    <div class="solutions-title">Como o VitalSync Resolve</div>
+                    <ul class="detail-list">
+                        <li>Plataforma única para todos os dados de saúde</li>
+                        <li>Gráficos avançados correlacionando múltiplas variáveis</li>
+                        <li>Lembretes inteligentes para suplementação</li>
+                        <li>Integração com dispositivos fitness via Bluetooth</li>
+                        <li>Exportação de dados para análise avançada</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Comparativo de Jornadas -->
+            <div class="persona-section" style="background: linear-gradient(135deg, #e8f4fd, #d1ecf1);">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h2 style="color: #2c3e50; font-size: 2rem; margin-bottom: 15px;">🔄 Comparativo de Jornadas</h2>
+                    <p style="color: #6c757d; font-size: 1.1rem;">Como diferentes personas utilizam as mesmas features de forma única</p>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        graph TD
+                            A[🏠 Dashboard] --> B{Persona}
+                            
+                            B -->|João 👴| C[💊 Foco Medicamentos]
+                            B -->|Maria 👩| D[📊 Foco Glicemia]
+                            B -->|Carlos 🏃| E[⚖️ Foco Performance]
+                            
+                            C --> C1[⏰ Lembretes Simples]
+                            C --> C2[📈 Gráficos Básicos]
+                            C --> C3[🏥 Relatórios Médicos]
+                            
+                            D --> D1[📱 Lembretes Flexíveis]
+                            D --> D2[🍽️ Correlação Alimentação]
+                            D --> D3[😌 Gestão de Stress]
+                            
+                            E --> E1[📊 Métricas Avançadas]
+                            E --> E2[🔗 Integração Dispositivos]
+                            E --> E3[📈 Análise Performance]
+                            
+                            C1 --> F[✅ Sucesso Personalizado]
+                            C2 --> F
+                            C3 --> F
+                            D1 --> F
+                            D2 --> F
+                            D3 --> F
+                            E1 --> F
+                            E2 --> F
+                            E3 --> F
+
+                            style A fill:#3498db,stroke:#2980b9,color:#fff
+                            style C fill:#95a5a6,stroke:#7f8c8d,color:#fff
+                            style D fill:#e74c3c,stroke:#c0392b,color:#fff
+                            style E fill:#27ae60,stroke:#229954,color:#fff
+                            style F fill:#f39c12,stroke:#e67e22,color:#fff
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            journey: {
+                useMaxWidth: true
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>

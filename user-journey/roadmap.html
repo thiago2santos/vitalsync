@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync - Roadmap do Produto</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #f39c12, #e67e22); color: white; padding: 40px; text-align: center; position: relative; }
+        .header h1 { font-size: 2.5rem; margin-bottom: 15px; font-weight: 300; }
+        .back-button { position: absolute; top: 30px; left: 30px; background: rgba(255,255,255,0.2); color: white; text-decoration: none; padding: 12px 24px; border-radius: 25px; transition: all 0.3s ease; }
+        .back-button:hover { background: rgba(255,255,255,0.3); }
+        .content { padding: 40px; }
+        .roadmap-section { margin-bottom: 60px; background: #f8f9fa; border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .roadmap-title { font-size: 2rem; color: #2c3e50; margin-bottom: 20px; text-align: center; font-weight: 600; }
+        .mermaid-container { background: white; border-radius: 15px; padding: 30px; margin: 30px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow-x: auto; }
+        .phase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin: 40px 0; }
+        .phase-card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-left: 5px solid #3498db; }
+        .phase-title { font-size: 1.3rem; font-weight: 600; color: #2c3e50; margin-bottom: 15px; }
+        .phase-duration { color: #f39c12; font-weight: 500; margin-bottom: 15px; }
+        .feature-list { list-style: none; padding: 0; }
+        .feature-list li { padding: 8px 0; border-bottom: 1px solid #f8f9fa; position: relative; padding-left: 25px; }
+        .feature-list li:before { content: "🎯"; position: absolute; left: 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-button">← Voltar ao Índice</a>
+            <h1>🗺️ Roadmap do Produto</h1>
+            <p>Planejamento de desenvolvimento e evolução do VitalSync</p>
+        </div>
+
+        <div class="content">
+            <div class="roadmap-section">
+                <div class="roadmap-title">📅 Timeline de Desenvolvimento</div>
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        gantt
+                            title Roadmap VitalSync - MIT App Inventor
+                            dateFormat  YYYY-MM-DD
+                            section Fase 1 - MVP
+                            Telas Base (Welcome/Login/Dashboard)    :done, mvp1, 2024-09-01, 2024-09-15
+                            Sinais Vitais + Adicionar             :done, mvp2, 2024-09-10, 2024-09-25
+                            Medicamentos Básico                   :active, mvp3, 2024-09-20, 2024-10-05
+                            Perfil e Configurações               :mvp4, 2024-09-25, 2024-10-10
+                            section Fase 2 - Core
+                            Scanner de Códigos                   :core1, 2024-10-05, 2024-10-20
+                            Sistema de Lembretes                 :core2, 2024-10-15, 2024-10-30
+                            Registro de Sintomas                 :core3, 2024-10-20, 2024-11-05
+                            Relatórios Básicos                   :core4, 2024-10-25, 2024-11-10
+                            section Fase 3 - Advanced
+                            Consultas Médicas                    :adv1, 2024-11-01, 2024-11-20
+                            Gráficos Avançados                   :adv2, 2024-11-10, 2024-11-30
+                            Integração Bluetooth                 :adv3, 2024-11-15, 2024-12-05
+                            Gamificação                          :adv4, 2024-11-20, 2024-12-10
+                            section Fase 4 - Premium
+                            IA e Análise Preditiva              :prem1, 2024-12-01, 2024-12-20
+                            Telemedicina                         :prem2, 2024-12-10, 2025-01-05
+                            Wearables Avançados                  :prem3, 2024-12-15, 2025-01-10
+                    </div>
+                </div>
+            </div>
+
+            <div class="phase-grid">
+                <div class="phase-card" style="border-left-color: #27ae60;">
+                    <div class="phase-title">🚀 Fase 1 - MVP (Setembro)</div>
+                    <div class="phase-duration">Duração: 4-6 semanas</div>
+                    <ul class="feature-list">
+                        <li>Telas de Welcome e Login</li>
+                        <li>Dashboard principal funcional</li>
+                        <li>Sinais vitais básicos (manual)</li>
+                        <li>Medicamentos simples</li>
+                        <li>Perfil do usuário</li>
+                        <li>Configurações básicas</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card" style="border-left-color: #3498db;">
+                    <div class="phase-title">⚡ Fase 2 - Core (Outubro)</div>
+                    <div class="phase-duration">Duração: 4-5 semanas</div>
+                    <ul class="feature-list">
+                        <li>Scanner de códigos de barras</li>
+                        <li>Sistema completo de lembretes</li>
+                        <li>Registro detalhado de sintomas</li>
+                        <li>Relatórios com gráficos básicos</li>
+                        <li>Validações e alertas</li>
+                        <li>Histórico de dados</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card" style="border-left-color: #f39c12;">
+                    <div class="phase-title">🎯 Fase 3 - Advanced (Novembro)</div>
+                    <div class="phase-duration">Duração: 5-6 semanas</div>
+                    <ul class="feature-list">
+                        <li>Agendamento de consultas</li>
+                        <li>Gráficos avançados (Canvas)</li>
+                        <li>Integração Bluetooth</li>
+                        <li>Sistema de gamificação</li>
+                        <li>Exportação de relatórios</li>
+                        <li>Localização de farmácias</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card" style="border-left-color: #9b59b6;">
+                    <div class="phase-title">🌟 Fase 4 - Premium (Dezembro)</div>
+                    <div class="phase-duration">Duração: 6-8 semanas</div>
+                    <ul class="feature-list">
+                        <li>IA para análise preditiva</li>
+                        <li>Integração com telemedicina</li>
+                        <li>Suporte a wearables avançados</li>
+                        <li>Análise de padrões complexos</li>
+                        <li>Recomendações personalizadas</li>
+                        <li>API para terceiros</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="roadmap-section">
+                <div class="roadmap-title">🎯 Priorização de Features</div>
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        quadrantChart
+                            title Matriz de Priorização - Impacto vs Esforço
+                            x-axis Baixo Esforço --> Alto Esforço
+                            y-axis Baixo Impacto --> Alto Impacto
+                            quadrant-1 Fazer Depois
+                            quadrant-2 Fazer Primeiro
+                            quadrant-3 Não Fazer
+                            quadrant-4 Fazer Rápido
+                            
+                            Dashboard: [0.2, 0.9]
+                            Login: [0.1, 0.8]
+                            Sinais Vitais: [0.3, 0.9]
+                            Medicamentos: [0.4, 0.9]
+                            Scanner: [0.6, 0.7]
+                            Lembretes: [0.3, 0.8]
+                            Sintomas: [0.4, 0.6]
+                            Relatórios: [0.7, 0.8]
+                            Bluetooth: [0.8, 0.6]
+                            IA: [0.9, 0.7]
+                            Gamificação: [0.5, 0.4]
+                            Telemedicina: [0.9, 0.5]
+                    </div>
+                </div>
+            </div>
+
+            <div class="roadmap-section">
+                <div class="roadmap-title">🔄 Ciclo de Desenvolvimento</div>
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        flowchart LR
+                            A[📋 Planejamento] --> B[🎨 Design/Wireframe]
+                            B --> C[🧩 Especificação MIT]
+                            C --> D[⚙️ Desenvolvimento]
+                            D --> E[🧪 Testes]
+                            E --> F[📱 Deploy]
+                            F --> G[📊 Feedback]
+                            G --> H{Próxima Feature?}
+                            H -->|Sim| A
+                            H -->|Não| I[🎉 Release]
+                            
+                            style A fill:#3498db,stroke:#2980b9,color:#fff
+                            style D fill:#27ae60,stroke:#229954,color:#fff
+                            style F fill:#f39c12,stroke:#e67e22,color:#fff
+                            style I fill:#e74c3c,stroke:#c0392b,color:#fff
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            gantt: { useMaxWidth: true, fontSize: 12 },
+            quadrantChart: { useMaxWidth: true },
+            flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }
+        });
+    </script>
+</body>
+</html>

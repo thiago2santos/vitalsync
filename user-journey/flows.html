@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync - Fluxos de Navegação</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #1abc9c, #16a085); color: white; padding: 40px; text-align: center; position: relative; }
+        .header h1 { font-size: 2.5rem; margin-bottom: 15px; font-weight: 300; }
+        .back-button { position: absolute; top: 30px; left: 30px; background: rgba(255,255,255,0.2); color: white; text-decoration: none; padding: 12px 24px; border-radius: 25px; transition: all 0.3s ease; }
+        .back-button:hover { background: rgba(255,255,255,0.3); }
+        .content { padding: 40px; }
+        .flow-section { margin-bottom: 60px; background: #f8f9fa; border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .flow-title { font-size: 2rem; color: #2c3e50; margin-bottom: 20px; text-align: center; font-weight: 600; }
+        .flow-description { font-size: 1.1rem; color: #6c757d; line-height: 1.6; margin-bottom: 30px; text-align: center; }
+        .mermaid-container { background: white; border-radius: 15px; padding: 30px; margin: 30px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-button">← Voltar ao Índice</a>
+            <h1>🔄 Fluxos de Navegação</h1>
+            <p>Mapeamento completo da navegação entre telas do VitalSync</p>
+        </div>
+
+        <div class="content">
+            <div class="flow-section">
+                <div class="flow-title">🗺️ Fluxo Principal de Navegação</div>
+                <div class="flow-description">
+                    Mapa completo de todas as telas e suas conexões no VitalSync
+                </div>
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        flowchart TD
+                            A[🚀 scr_welcome] --> B[🔐 scr_login]
+                            B --> C[🏠 scr_dashboard]
+                            
+                            C --> D[📊 scr_vital_signs]
+                            C --> E[💊 scr_medications]
+                            C --> F[🤒 scr_symptoms]
+                            C --> G[🏥 scr_appointments]
+                            C --> H[👤 scr_profile]
+                            C --> I[📈 scr_reports]
+                            
+                            D --> D1[➕ scr_add_vital]
+                            E --> E1[➕ scr_add_med]
+                            E1 --> E2[📱 scr_scanner]
+                            
+                            H --> H1[⚙️ scr_settings]
+                            
+                            D1 --> C
+                            E1 --> C
+                            E2 --> E1
+                            F --> C
+                            G --> C
+                            H1 --> H
+                            I --> C
+
+                            style A fill:#3498db,stroke:#2980b9,color:#fff
+                            style B fill:#e74c3c,stroke:#c0392b,color:#fff
+                            style C fill:#27ae60,stroke:#229954,color:#fff
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-section">
+                <div class="flow-title">💊 Fluxo de Medicamentos</div>
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        stateDiagram-v2
+                            [*] --> Dashboard
+                            Dashboard --> Medicamentos
+                            Medicamentos --> VerLista
+                            Medicamentos --> AdicionarNovo
+                            
+                            VerLista --> MarcarTomado
+                            VerLista --> EditarMed
+                            MarcarTomado --> CalcularAderencia
+                            
+                            AdicionarNovo --> Scanner
+                            AdicionarNovo --> Manual
+                            Scanner --> AutoPreencher
+                            Manual --> PreencherDados
+                            AutoPreencher --> ConfigurarHorarios
+                            PreencherDados --> ConfigurarHorarios
+                            ConfigurarHorarios --> SalvarMedicamento
+                            SalvarMedicamento --> AtivarLembretes
+                            
+                            AtivarLembretes --> Dashboard
+                            CalcularAderencia --> Dashboard
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-section">
+                <div class="flow-title">📊 Fluxo de Sinais Vitais</div>
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        graph LR
+                            A[Dashboard] --> B[Sinais Vitais]
+                            B --> C{Tipo de Entrada}
+                            C -->|Card Rápido| D[Entrada Direta]
+                            C -->|Adicionar Novo| E[Tela Adicionar]
+                            C -->|Bluetooth| F[Dispositivo Conectado]
+                            
+                            D --> G[Validar Dados]
+                            E --> H[Formulário Completo]
+                            F --> I[Receber Automaticamente]
+                            
+                            H --> G
+                            I --> G
+                            G --> J{Valores OK?}
+                            J -->|Sim| K[Salvar TinyDB]
+                            J -->|Crítico| L[Alerta + Salvar]
+                            
+                            K --> M[Atualizar Gráficos]
+                            L --> M
+                            M --> N[Voltar Dashboard]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+            stateDiagram: { useMaxWidth: true }
+        });
+    </script>
+</body>
+</html>

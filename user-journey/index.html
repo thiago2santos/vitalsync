@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync - Jornadas do Usuário e Features</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .navigation {
+            background: #f8f9fa;
+            padding: 30px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            border: 2px solid transparent;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: #3498db;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .nav-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .nav-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .nav-description {
+            color: #6c757d;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .overview-section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #6c757d;
+            text-align: center;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .mermaid-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-left: 5px solid #3498db;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #3498db;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .feature-description {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .feature-journey {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #2c3e50;
+        }
+
+        .stats-section {
+            background: linear-gradient(135deg, #e8f5e8, #d4edda);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #27ae60;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="../screens/index.html" class="back-button">← Voltar às Telas</a>
+            <h1>🚀 Jornadas do Usuário & Features</h1>
+            <p>Mapeamento completo da experiência do usuário no VitalSync</p>
+        </div>
+
+        <div class="navigation">
+            <div class="nav-grid">
+                <a href="features.html" class="nav-card">
+                    <div class="nav-icon">🎯</div>
+                    <div class="nav-title">Features Detalhadas</div>
+                    <div class="nav-description">
+                        Análise completa de cada funcionalidade do VitalSync com fluxogramas e especificações técnicas.
+                    </div>
+                </a>
+
+                <a href="personas.html" class="nav-card">
+                    <div class="nav-icon">👥</div>
+                    <div class="nav-title">Personas & Jornadas</div>
+                    <div class="nav-description">
+                        Perfis de usuários e suas jornadas específicas de uso do aplicativo de saúde.
+                    </div>
+                </a>
+
+                <a href="flows.html" class="nav-card">
+                    <div class="nav-icon">🔄</div>
+                    <div class="nav-title">Fluxos de Navegação</div>
+                    <div class="nav-description">
+                        Mapeamento completo da navegação entre telas e estados do aplicativo.
+                    </div>
+                </a>
+
+                <a href="roadmap.html" class="nav-card">
+                    <div class="nav-icon">🗺️</div>
+                    <div class="nav-title">Roadmap do Produto</div>
+                    <div class="nav-description">
+                        Planejamento de desenvolvimento e evolução das funcionalidades do VitalSync.
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="overview-section">
+                <h2 class="section-title">📋 Visão Geral das Features</h2>
+                <p class="section-subtitle">
+                    O VitalSync é um ecossistema completo de saúde digital, projetado para acompanhar o usuário 
+                    em sua jornada de bem-estar através de funcionalidades integradas e intuitivas.
+                </p>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        graph TD
+                            A[🏠 Dashboard] --> B[📊 Sinais Vitais]
+                            A --> C[💊 Medicamentos]
+                            A --> D[🤒 Sintomas]
+                            A --> E[🏥 Consultas]
+                            A --> F[👤 Perfil]
+                            
+                            B --> B1[➕ Adicionar Vital]
+                            B --> B2[📈 Histórico]
+                            B --> B3[🔗 Bluetooth]
+                            
+                            C --> C1[➕ Novo Medicamento]
+                            C --> C2[📱 Scanner]
+                            C --> C3[⏰ Lembretes]
+                            
+                            D --> D1[🚀 Seleção Rápida]
+                            D2[📏 Escala de Dor]
+                            D --> D3[📷 Fotos]
+                            
+                            E --> E1[📅 Agendar]
+                            E --> E2[🗺️ Direções]
+                            E --> E3[💊 Farmácias]
+                            
+                            F --> F1[⚙️ Configurações]
+                            F --> F2[📊 Relatórios]
+                            F --> F3[🚨 Emergência]
+
+                            style A fill:#3498db,stroke:#2980b9,color:#fff
+                            style B fill:#e74c3c,stroke:#c0392b,color:#fff
+                            style C fill:#27ae60,stroke:#229954,color:#fff
+                            style D fill:#f39c12,stroke:#e67e22,color:#fff
+                            style E fill:#9b59b6,stroke:#8e44ad,color:#fff
+                            style F fill:#2c3e50,stroke:#34495e,color:#fff
+                    </div>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-title">Monitoramento de Sinais Vitais</div>
+                        <div class="feature-description">
+                            Registro e acompanhamento de pressão arterial, frequência cardíaca, temperatura, peso, glicemia e contagem de passos.
+                        </div>
+                        <div class="feature-journey">
+                            Dashboard → Sinais Vitais → Tipo → Dados → Salvar
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">💊</div>
+                        <div class="feature-title">Gerenciamento de Medicamentos</div>
+                        <div class="feature-description">
+                            Cadastro, lembretes automáticos, controle de estoque e aderência ao tratamento medicamentoso.
+                        </div>
+                        <div class="feature-journey">
+                            Medicamentos → Scanner → Horários → Lembretes → Aderência
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🤒</div>
+                        <div class="feature-title">Registro de Sintomas</div>
+                        <div class="feature-description">
+                            Documentação de sintomas com escala visual de dor, fotos e correlação com outros dados de saúde.
+                        </div>
+                        <div class="feature-journey">
+                            Sintomas → Seleção → Escala → Descrição → Foto → Análise
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">📈</div>
+                        <div class="feature-title">Relatórios e Análises</div>
+                        <div class="feature-description">
+                            Visualização de tendências, gráficos interativos e relatórios para compartilhar com profissionais de saúde.
+                        </div>
+                        <div class="feature-journey">
+                            Relatórios → Período → Gráficos → Insights → Compartilhar
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🏥</div>
+                        <div class="feature-title">Consultas Médicas</div>
+                        <div class="feature-description">
+                            Agendamento, lembretes, direções para clínicas e localização de farmácias próximas.
+                        </div>
+                        <div class="feature-journey">
+                            Consultas → Agendar → Lembretes → Direções → Farmácias
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-title">Gamificação e Engajamento</div>
+                        <div class="feature-description">
+                            Pontuação de saúde, metas, streaks de aderência e mensagens motivacionais personalizadas.
+                        </div>
+                        <div class="feature-journey">
+                            Dados → Pontuação → Metas → Conquistas → Motivação
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <h3 style="color: #27ae60; font-size: 1.5rem; margin-bottom: 10px;">📊 Estatísticas do Projeto</h3>
+                <p style="color: #6c757d; margin-bottom: 20px;">Números que demonstram a completude e complexidade do VitalSync</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">13</div>
+                        <div class="stat-label">Telas Especificadas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Features Principais</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Personas Mapeadas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">150+</div>
+                        <div class="stat-label">Componentes MIT App Inventor</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mermaid-container">
+                <h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">🔄 Ciclo de Engajamento do Usuário</h3>
+                <div class="mermaid">
+                    graph LR
+                        A[📱 Abertura do App] --> B[🏠 Dashboard Personalizado]
+                        B --> C[📊 Visualização de Dados]
+                        C --> D[✅ Ação do Usuário]
+                        D --> E[💾 Registro de Dados]
+                        E --> F[📈 Atualização de Insights]
+                        F --> G[🎯 Feedback Motivacional]
+                        G --> H[🔔 Próximo Lembrete]
+                        H --> A
+
+                        style A fill:#3498db,stroke:#2980b9,color:#fff
+                        style B fill:#27ae60,stroke:#229954,color:#fff
+                        style C fill:#f39c12,stroke:#e67e22,color:#fff
+                        style D fill:#e74c3c,stroke:#c0392b,color:#fff
+                        style E fill:#9b59b6,stroke:#8e44ad,color:#fff
+                        style F fill:#1abc9c,stroke:#16a085,color:#fff
+                        style G fill:#e67e22,stroke:#d35400,color:#fff
+                        style H fill:#34495e,stroke:#2c3e50,color:#fff
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 VitalSync - Documentação de Jornadas do Usuário e Features</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Desenvolvido com HTML + Mermaid para MIT App Inventor</p>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>

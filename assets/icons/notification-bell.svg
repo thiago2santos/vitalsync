@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bell Body -->
+  <path d="M24 6 C18 6 14 10 14 16 L14 24 C14 28 12 30 10 32 L38 32 C36 30 34 28 34 24 L34 16 C34 10 30 6 24 6 Z" 
+        fill="#F39C12" stroke="#E67E22" stroke-width="2"/>
+  
+  <!-- Bell Bottom -->
+  <rect x="10" y="32" width="28" height="4" rx="2" fill="#E67E22"/>
+  
+  <!-- Bell Clapper -->
+  <circle cx="24" cy="30" r="2" fill="#34495E"/>
+  <line x1="24" y1="28" x2="24" y2="32" stroke="#2C3E50" stroke-width="2"/>
+  
+  <!-- Bell Handle -->
+  <path d="M20 6 Q24 2 28 6" stroke="#E67E22" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- Notification Badge -->
+  <circle cx="34" cy="14" r="6" fill="#E74C3C" stroke="white" stroke-width="2"/>
+  <text x="34" y="18" font-family="Arial" font-size="8" font-weight="bold" fill="white" text-anchor="middle">3</text>
+  
+  <!-- Sound Waves -->
+  <path d="M38 18 Q42 22 38 26" stroke="#F39C12" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M40 20 Q42 22 40 24" stroke="#F39C12" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+</svg>

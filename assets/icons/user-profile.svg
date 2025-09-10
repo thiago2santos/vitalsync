@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="24" cy="24" r="22" fill="#3498DB" stroke="#2980B9" stroke-width="2"/>
+  
+  <!-- Head -->
+  <circle cx="24" cy="18" r="8" fill="white"/>
+  
+  <!-- Body -->
+  <path d="M24 26 C16 26 10 32 10 40 L10 44 C10 45 11 46 12 46 L36 46 C37 46 38 45 38 44 L38 40 C38 32 32 26 24 26 Z" 
+        fill="white"/>
+</svg>

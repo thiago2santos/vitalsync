@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Heart Shape -->
+  <path d="M24 42C24 42 6 30 6 18C6 12 10 8 16 8C19 8 22 10 24 12C26 10 29 8 32 8C38 8 42 12 42 18C42 30 24 42 24 42Z" 
+        fill="#E74C3C"/>
+  
+  <!-- Heart Beat Line -->
+  <path d="M8 24 L14 24 L17 18 L20 30 L23 15 L26 27 L29 21 L32 24 L40 24" 
+        stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

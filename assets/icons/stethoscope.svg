@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left Earpiece -->
+  <circle cx="12" cy="8" r="4" fill="#34495E" stroke="#2C3E50" stroke-width="2"/>
+  
+  <!-- Right Earpiece -->
+  <circle cx="36" cy="8" r="4" fill="#34495E" stroke="#2C3E50" stroke-width="2"/>
+  
+  <!-- Left Tube -->
+  <path d="M12 12 Q12 20 18 24 Q20 26 20 28" stroke="#2C3E50" stroke-width="3" fill="none"/>
+  
+  <!-- Right Tube -->
+  <path d="M36 12 Q36 20 30 24 Q28 26 28 28" stroke="#2C3E50" stroke-width="3" fill="none"/>
+  
+  <!-- Center Connection -->
+  <line x1="20" y1="28" x2="28" y2="28" stroke="#2C3E50" stroke-width="3"/>
+  
+  <!-- Main Tube -->
+  <path d="M24 28 L24 36" stroke="#2C3E50" stroke-width="3"/>
+  
+  <!-- Chest Piece -->
+  <circle cx="24" cy="40" r="6" fill="#3498DB" stroke="#2980B9" stroke-width="2"/>
+  <circle cx="24" cy="40" r="3" fill="#2980B9"/>
+</svg>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Pill Shape -->
+  <ellipse cx="24" cy="24" rx="18" ry="12" transform="rotate(45 24 24)" fill="#27AE60"/>
+  <ellipse cx="24" cy="24" rx="18" ry="12" transform="rotate(45 24 24)" fill="none" stroke="#229954" stroke-width="2"/>
+  
+  <!-- Pill Division Line -->
+  <line x1="12" y1="12" x2="36" y2="36" stroke="#229954" stroke-width="2"/>
+  
+  <!-- Pills Pattern -->
+  <circle cx="18" cy="18" r="2" fill="#2ECC71"/>
+  <circle cx="30" cy="30" r="2" fill="#2ECC71"/>
+  <circle cx="21" cy="15" r="1.5" fill="#2ECC71"/>
+  <circle cx="33" cy="27" r="1.5" fill="#2ECC71"/>
+</svg>

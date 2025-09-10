@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync - Tela de Login (scr_login)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px;
+        }
+
+        .wireframe-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .wireframe-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .phone-mockup {
+            background: #2c3e50;
+            border-radius: 25px;
+            padding: 20px;
+            margin: 0 auto;
+            width: 300px;
+            height: 600px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .screen {
+            background: white;
+            border-radius: 15px;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .mock-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .mock-logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .mock-welcome {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .mock-form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .mock-input {
+            background: #f8f9fa;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .mock-switch {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .switch-toggle {
+            width: 40px;
+            height: 20px;
+            background: #3498db;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .switch-toggle::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            right: 2px;
+        }
+
+        .mock-button {
+            padding: 12px;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin: 10px 0;
+        }
+
+        .mock-button.primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .mock-button.link {
+            background: transparent;
+            color: #3498db;
+            font-size: 0.8rem;
+        }
+
+        .mock-footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .specs-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .specs-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .layout-structure {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .component-group {
+            margin-bottom: 30px;
+        }
+
+        .component-group h3 {
+            color: #3498db;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .component {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .component-name {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .component-details {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .component-details div {
+            margin-bottom: 5px;
+        }
+
+        .property {
+            display: inline-block;
+            background: #ecf0f1;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 5px;
+        }
+
+        .functionality-list {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .functionality-list h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+
+        .functionality-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .functionality-list li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .functionality-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .phone-mockup {
+                width: 250px;
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .phone-mockup {
+                width: 200px;
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-button">← Voltar ao Índice</a>
+            <h1>🔐 Tela de Login (scr_login)</h1>
+            <p>Sistema de Autenticação e Cadastro</p>
+        </div>
+
+        <div class="content">
+            <div class="wireframe-section">
+                <h2 class="wireframe-title">📱 Visualização da Tela</h2>
+                <div class="phone-mockup">
+                    <div class="screen">
+                        <div class="mock-header">
+                            <div class="mock-logo">🏥</div>
+                            <div class="mock-welcome">Bem-vindo de volta</div>
+                        </div>
+                        
+                        <div class="mock-form">
+                            <div class="mock-input">Nome de usuário ou email</div>
+                            <div class="mock-input">Senha</div>
+                            
+                            <div class="mock-switch">
+                                <div class="switch-toggle"></div>
+                                <span>Lembrar de mim</span>
+                            </div>
+                            
+                            <div class="mock-button primary">Entrar</div>
+                            <div class="mock-button link">Esqueci a senha</div>
+                        </div>
+                        
+                        <div class="mock-footer">
+                            <div>Não tem uma conta?</div>
+                            <div class="mock-button link">Cadastrar</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="specs-section">
+                <h2 class="specs-title">🧩 Especificações dos Componentes</h2>
+                
+                <div class="layout-structure">
+lay_main (VerticalArrangement)
+├── lay_header (VerticalArrangement)
+├── lay_form (VerticalArrangement)
+├── lay_actions (VerticalArrangement)
+└── lay_footer (VerticalArrangement)
+                </div>
+
+                <div class="component-group">
+                    <h3>📋 Header</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">img_logo_small (Image)</div>
+                        <div class="component-details">
+                            <div><span class="property">Tamanho</span> 80x80 pixels</div>
+                            <div><span class="property">Posição</span> Centro</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">lbl_welcome_back (Label)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Bem-vindo de volta"</div>
+                            <div><span class="property">Fonte</span> 20px, negrito</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>📝 Form</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">txt_username (TextBox)</div>
+                        <div class="component-details">
+                            <div><span class="property">Hint</span> "Nome de usuário ou email"</div>
+                            <div><span class="property">Validação</span> Obrigatório, mín. 3 caracteres</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">txt_password (PasswordTextBox)</div>
+                        <div class="component-details">
+                            <div><span class="property">Hint</span> "Senha"</div>
+                            <div><span class="property">Validação</span> Obrigatório, mín. 6 caracteres</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">swt_remember (Switch)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Lembrar de mim"</div>
+                            <div><span class="property">Função</span> Salvar credenciais no TinyDB</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>🔘 Actions</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">btn_login (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Entrar"</div>
+                            <div><span class="property">Cor</span> #3498db</div>
+                            <div><span class="property">Ação</span> Validar e navegar para scr_dashboard</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_forgot_password (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Esqueci a senha"</div>
+                            <div><span class="property">Estilo</span> Link</div>
+                            <div><span class="property">Ação</span> Mostrar pergunta de segurança</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>👥 Footer</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">lbl_register_prompt (Label)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Não tem uma conta?"</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_register (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Cadastrar"</div>
+                            <div><span class="property">Estilo</span> Link</div>
+                            <div><span class="property">Ação</span> Alternar para modo cadastro</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="functionality-list">
+                    <h4>⚡ Funcionalidades</h4>
+                    <ul>
+                        <li>Validação em tempo real</li>
+                        <li>Alternância login/cadastro</li>
+                        <li>Armazenamento seguro (TinyDB)</li>
+                        <li>Pergunta de segurança para recuperação</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

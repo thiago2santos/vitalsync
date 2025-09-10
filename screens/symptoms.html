@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync - Registro de Sintomas (scr_symptoms)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px;
+        }
+
+        .wireframe-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .wireframe-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .phone-mockup {
+            background: #2c3e50;
+            border-radius: 25px;
+            padding: 20px;
+            margin: 0 auto;
+            width: 300px;
+            height: 600px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .screen {
+            background: white;
+            border-radius: 15px;
+            height: 100%;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .mock-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .mock-back {
+            font-size: 1.2rem;
+            color: #3498db;
+        }
+
+        .mock-title {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .symptoms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .symptom-btn {
+            background: #f8f9fa;
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            padding: 15px 10px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .symptom-btn.selected {
+            border-color: #f39c12;
+            background: #fef9e7;
+            color: #f39c12;
+        }
+
+        .symptom-icon {
+            font-size: 1.2rem;
+        }
+
+        .pain-scale-section {
+            background: #fef9e7;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .pain-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #f39c12;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .pain-visual {
+            height: 30px;
+            background: linear-gradient(to right, #27ae60, #f39c12, #e74c3c);
+            border-radius: 15px;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .pain-indicator {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 3px solid #f39c12;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 60%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .pain-value {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        .description-section {
+            margin-bottom: 20px;
+        }
+
+        .description-textarea {
+            width: 100%;
+            background: #f8f9fa;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.8rem;
+            color: #6c757d;
+            min-height: 80px;
+            resize: none;
+        }
+
+        .photo-section {
+            background: #e8f4fd;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .photo-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .photo-preview {
+            width: 80px;
+            height: 80px;
+            background: #ecf0f1;
+            border-radius: 8px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 2rem;
+        }
+
+        .actions-section {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .mock-button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: none;
+        }
+
+        .mock-button.primary {
+            background: #f39c12;
+            color: white;
+        }
+
+        .mock-button.secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .specs-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+            overflow-y: auto;
+            max-height: 800px;
+        }
+
+        .specs-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .layout-structure {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .component-group {
+            margin-bottom: 30px;
+        }
+
+        .component-group h3 {
+            color: #f39c12;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .component {
+            background: #f8f9fa;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .component-name {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .component-details {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .component-details div {
+            margin-bottom: 5px;
+        }
+
+        .property {
+            display: inline-block;
+            background: #ecf0f1;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 5px;
+        }
+
+        .functionality-list {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .functionality-list h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+
+        .functionality-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .functionality-list li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .functionality-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .phone-mockup {
+                width: 250px;
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .phone-mockup {
+                width: 200px;
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-button">← Voltar ao Índice</a>
+            <h1>🤒 Registro de Sintomas (scr_symptoms)</h1>
+            <p>Registro Detalhado de Sintomas e Escala de Dor</p>
+        </div>
+
+        <div class="content">
+            <div class="wireframe-section">
+                <h2 class="wireframe-title">📱 Visualização da Tela</h2>
+                <div class="phone-mockup">
+                    <div class="screen">
+                        <div class="mock-header">
+                            <div class="mock-back">←</div>
+                            <div class="mock-title">Registrar Sintomas</div>
+                        </div>
+                        
+                        <div class="symptoms-grid">
+                            <div class="symptom-btn selected">
+                                <div class="symptom-icon">🤕</div>
+                                <div>Dor de Cabeça</div>
+                            </div>
+                            <div class="symptom-btn">
+                                <div class="symptom-icon">😴</div>
+                                <div>Fadiga</div>
+                            </div>
+                            <div class="symptom-btn">
+                                <div class="symptom-icon">🤢</div>
+                                <div>Náusea</div>
+                            </div>
+                            <div class="symptom-btn">
+                                <div class="symptom-icon">😵</div>
+                                <div>Tontura</div>
+                            </div>
+                        </div>
+                        
+                        <div class="pain-scale-section">
+                            <div class="pain-title">Escala de Dor (1-10)</div>
+                            <div class="pain-visual">
+                                <div class="pain-indicator"></div>
+                            </div>
+                            <div class="pain-value">6</div>
+                        </div>
+                        
+                        <div class="description-section">
+                            <textarea class="description-textarea" placeholder="Descreva seus sintomas..."></textarea>
+                        </div>
+                        
+                        <div class="photo-section">
+                            <button class="photo-btn">📷 Adicionar Foto</button>
+                            <div class="photo-preview">📷</div>
+                        </div>
+                        
+                        <div class="actions-section">
+                            <button class="mock-button secondary">Cancelar</button>
+                            <button class="mock-button primary">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="specs-section">
+                <h2 class="specs-title">🧩 Especificações dos Componentes</h2>
+                
+                <div class="layout-structure">
+lay_main (VerticalScrollArrangement)
+├── lay_header (HorizontalArrangement)
+├── lay_quick_symptoms (TableArrangement 2x2)
+├── lay_pain_scale (VerticalArrangement)
+├── lay_description (VerticalArrangement)
+├── lay_photo (VerticalArrangement)
+                </div>
+
+                <div class="component-group">
+                    <h3>🚀 Quick Symptoms (Grid)</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">btn_headache (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Dor de Cabeça"</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_fatigue (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Fadiga"</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_nausea (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Náusea"</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_dizziness (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Tontura"</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>📏 Pain Scale</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">lbl_pain_title (Label)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Escala de Dor (1-10)"</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">sld_pain_scale (Slider)</div>
+                        <div class="component-details">
+                            <div><span class="property">Min</span> 1</div>
+                            <div><span class="property">Max</span> 10</div>
+                            <div><span class="property">Default</span> 1</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">cnv_pain_visual (Canvas)</div>
+                        <div class="component-details">
+                            <div><span class="property">Função</span> Escala visual colorida</div>
+                            <div><span class="property">Cores</span> Verde → Amarelo → Vermelho</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>📝 Description</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">txt_symptom_description (TextBox)</div>
+                        <div class="component-details">
+                            <div><span class="property">Hint</span> "Descreva seus sintomas..."</div>
+                            <div><span class="property">Multiline</span> true</div>
+                            <div><span class="property">Linhas</span> 4</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>📷 Photo</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">btn_add_photo (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Adicionar Foto"</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">img_symptom_photo (Image)</div>
+                        <div class="component-details">
+                            <div><span class="property">Função</span> Preview da foto</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="functionality-list">
+                    <h4>⚡ Funcionalidades</h4>
+                    <ul>
+                        <li>Seleção rápida de sintomas comuns</li>
+                        <li>Escala visual de dor</li>
+                        <li>Captura de fotos para sintomas visuais</li>
+                        <li>Histórico de sintomas</li>
+                        <li>Correlação com medicamentos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

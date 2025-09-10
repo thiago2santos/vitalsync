@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync - Especificações de Telas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .screens-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 40px;
+        }
+
+        .screen-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .screen-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: #3498db;
+        }
+
+        .screen-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .screen-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .screen-subtitle {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .screen-content {
+            padding: 20px;
+        }
+
+        .screen-description {
+            color: #495057;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .view-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .view-button:hover {
+            background: linear-gradient(135deg, #2980b9, #1f5f8b);
+            transform: scale(1.05);
+        }
+
+        .stats {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .screens-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧩 VitalSync</h1>
+            <p>Especificações Detalhadas de Componentes - Visualização Interativa</p>
+        </div>
+
+        <div class="screens-grid">
+            <div class="screen-card">
+                <div class="screen-header">
+                    <div class="screen-title">🚀 Tela de Boas-vindas</div>
+                    <div class="screen-subtitle">scr_welcome</div>
+                </div>
+                <div class="screen-content">
+                    <div class="screen-description">
+                        Tela inicial de onboarding com logo, apresentação do app e botões de navegação para começar a usar o VitalSync.
+                    </div>
+                    <a href="welcome.html" class="view-button">Ver Especificações</a>
+                </div>
+            </div>
+
+            <div class="screen-card">
+                <div class="screen-header">
+                    <div class="screen-title">🔐 Tela de Login</div>
+                    <div class="screen-subtitle">scr_login</div>
+                </div>
+                <div class="screen-content">
+                    <div class="screen-description">
+                        Sistema de autenticação com campos de login, senha, opções de lembrar usuário e cadastro de novos usuários.
+                    </div>
+                    <a href="login.html" class="view-button">Ver Especificações</a>
+                </div>
+            </div>
+
+            <div class="screen-card">
+                <div class="screen-header">
+                    <div class="screen-title">🏠 Dashboard Principal</div>
+                    <div class="screen-subtitle">scr_dashboard</div>
+                </div>
+                <div class="screen-content">
+                    <div class="screen-description">
+                        Tela principal com pontuação de saúde, ações rápidas, atividade recente e navegação para outras funcionalidades.
+                    </div>
+                    <a href="dashboard.html" class="view-button">Ver Especificações</a>
+                </div>
+            </div>
+
+            <div class="screen-card">
+                <div class="screen-header">
+                    <div class="screen-title">📊 Sinais Vitais</div>
+                    <div class="screen-subtitle">scr_vital_signs</div>
+                </div>
+                <div class="screen-content">
+                    <div class="screen-description">
+                        Monitoramento de pressão arterial, frequência cardíaca, temperatura, peso, glicemia e contagem de passos.
+                    </div>
+                    <a href="vital-signs.html" class="view-button">Ver Especificações</a>
+                </div>
+            </div>
+
+            <div class="screen-card">
+                <div class="screen-header">
+                    <div class="screen-title">➕ Adicionar Sinal Vital</div>
+                    <div class="screen-subtitle">scr_add_vital</div>
+                </div>
+                <div class="screen-content">
+                    <div class="screen-description">
+                        Formulário para inserção de novos dados de sinais vitais com validação, data/hora e observações.
+                    </div>
+                    <a href="add-vital.html" class="view-button">Ver Especificações</a>
+                </div>
+            </div>
+
+            <div class="screen-card">
+                <div class="screen-header">
+                    <div class="screen-title">💊 Medicamentos</div>
+                    <div class="screen-subtitle">scr_medications</div>
+                </div>
+                <div class="screen-content">
+                    <div class="screen-description">
+                        Gerenciamento completo de medicamentos com próxima dose, programação diária e lista de todos os medicamentos.
+                    </div>
+                    <a href="medications.html" class="view-button">Ver Especificações</a>
+                </div>
+            </div>
+
+            <div class="screen-card">
+                <div class="screen-header">
+                    <div class="screen-title">➕ Adicionar Medicamento</div>
+                    <div class="screen-subtitle">scr_add_med</div>
+                </div>
+                <div class="screen-content">
+                    <div class="screen-description">
+                        Cadastro de novos medicamentos com scanner de código de barras, foto de receita e configuração de horários.
+                    </div>
+                    <a href="add-medication.html" class="view-button">Ver Especificações</a>
+                </div>
+            </div>
+
+            <div class="screen-card">
+                <div class="screen-header">
+                    <div class="screen-title">📱 Scanner de Códigos</div>
+                    <div class="screen-subtitle">scr_scanner</div>
+                </div>
+                <div class="screen-content">
+                    <div class="screen-description">
+                        Scanner automático de códigos de barras para identificação de medicamentos com busca de informações.
+                    </div>
+                    <a href="scanner.html" class="view-button">Ver Especificações</a>
+                </div>
+            </div>
+
+            <div class="screen-card">
+                <div class="screen-header">
+                    <div class="screen-title">🤒 Registro de Sintomas</div>
+                    <div class="screen-subtitle">scr_symptoms</div>
+                </div>
+                <div class="screen-content">
+                    <div class="screen-description">
+                        Registro de sintomas com seleção rápida, escala de dor visual, descrição detalhada e captura de fotos.
+                    </div>
+                    <a href="symptoms.html" class="view-button">Ver Especificações</a>
+                </div>
+            </div>
+
+            <div class="screen-card">
+                <div class="screen-header">
+                    <div class="screen-title">📈 Relatórios de Saúde</div>
+                    <div class="screen-subtitle">scr_reports</div>
+                </div>
+                <div class="screen-content">
+                    <div class="screen-description">
+                        Visualização de dados com gráficos de tendências, progresso e aderência aos medicamentos por período.
+                    </div>
+                    <a href="reports.html" class="view-button">Ver Especificações</a>
+                </div>
+            </div>
+
+            <div class="screen-card">
+                <div class="screen-header">
+                    <div class="screen-title">🏥 Consultas Médicas</div>
+                    <div class="screen-subtitle">scr_appointments</div>
+                </div>
+                <div class="screen-content">
+                    <div class="screen-description">
+                        Gerenciamento de consultas com próximos agendamentos, lembretes e localização de farmácias próximas.
+                    </div>
+                    <a href="appointments.html" class="view-button">Ver Especificações</a>
+                </div>
+            </div>
+
+            <div class="screen-card">
+                <div class="screen-header">
+                    <div class="screen-title">👤 Perfil do Usuário</div>
+                    <div class="screen-subtitle">scr_profile</div>
+                </div>
+                <div class="screen-content">
+                    <div class="screen-description">
+                        Perfil completo com informações pessoais, dados de saúde e contatos de emergência.
+                    </div>
+                    <a href="profile.html" class="view-button">Ver Especificações</a>
+                </div>
+            </div>
+
+            <div class="screen-card">
+                <div class="screen-header">
+                    <div class="screen-title">⚙️ Configurações</div>
+                    <div class="screen-subtitle">scr_settings</div>
+                </div>
+                <div class="screen-content">
+                    <div class="screen-description">
+                        Configurações do aplicativo incluindo notificações, backup de dados, idioma e informações sobre o app.
+                    </div>
+                    <a href="settings.html" class="view-button">Ver Especificações</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">13</div>
+                    <div class="stat-label">Telas Especificadas</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Componentes Detalhados</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">MIT App Inventor</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 VitalSync - Especificações de Componentes para MIT App Inventor</p>
+        </div>
+    </div>
+</body>
+</html>

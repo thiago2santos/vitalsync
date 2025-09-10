@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync - Configurações (scr_settings)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #95a5a6, #7f8c8d); color: white; padding: 30px; text-align: center; position: relative; }
+        .header h1 { font-size: 2rem; margin-bottom: 10px; font-weight: 300; }
+        .back-button { position: absolute; top: 30px; left: 30px; background: rgba(255,255,255,0.2); color: white; text-decoration: none; padding: 10px 20px; border-radius: 25px; transition: all 0.3s ease; }
+        .back-button:hover { background: rgba(255,255,255,0.3); }
+        .content { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 40px; }
+        .wireframe-section { background: #f8f9fa; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .wireframe-title { font-size: 1.5rem; color: #2c3e50; margin-bottom: 20px; text-align: center; }
+        .phone-mockup { background: #2c3e50; border-radius: 25px; padding: 20px; margin: 0 auto; width: 300px; height: 600px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .screen { background: white; border-radius: 15px; height: 100%; padding: 15px; display: flex; flex-direction: column; overflow-y: auto; }
+        .mock-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #ecf0f1; }
+        .settings-section { margin-bottom: 20px; }
+        .section-title { font-size: 0.9rem; font-weight: bold; color: #2c3e50; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid #ecf0f1; }
+        .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f8f9fa; }
+        .setting-item:last-child { border-bottom: none; }
+        .setting-label { font-size: 0.8rem; color: #2c3e50; }
+        .setting-switch { width: 40px; height: 20px; background: #3498db; border-radius: 10px; position: relative; }
+        .setting-switch::after { content: ''; position: absolute; width: 16px; height: 16px; background: white; border-radius: 50%; top: 2px; right: 2px; }
+        .setting-switch.off { background: #bdc3c7; }
+        .setting-switch.off::after { right: auto; left: 2px; }
+        .setting-button { background: #f8f9fa; border: 1px solid #ecf0f1; border-radius: 5px; padding: 8px 12px; font-size: 0.8rem; color: #6c757d; }
+        .setting-picker { background: #f8f9fa; border: 1px solid #ecf0f1; border-radius: 5px; padding: 8px 12px; font-size: 0.8rem; color: #6c757d; text-align: center; }
+        .version-info { text-align: center; padding: 15px; background: #f8f9fa; border-radius: 10px; margin-top: 10px; }
+        .version-text { font-size: 0.8rem; color: #6c757d; }
+        .specs-section { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); height: fit-content; overflow-y: auto; max-height: 800px; }
+        .specs-title { font-size: 1.5rem; color: #2c3e50; margin-bottom: 20px; text-align: center; }
+        .layout-structure { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 30px; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6; }
+        .component-group { margin-bottom: 30px; }
+        .component-group h3 { color: #95a5a6; font-size: 1.2rem; margin-bottom: 15px; padding-bottom: 5px; border-bottom: 2px solid #ecf0f1; }
+        .component { background: #f8f9fa; border-left: 4px solid #95a5a6; padding: 15px; margin-bottom: 15px; border-radius: 0 10px 10px 0; }
+        .component-name { font-weight: bold; color: #2c3e50; font-size: 1rem; margin-bottom: 8px; }
+        .component-details { font-size: 0.9rem; color: #555; }
+        .component-details div { margin-bottom: 5px; }
+        .property { display: inline-block; background: #ecf0f1; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; margin-right: 8px; margin-bottom: 5px; }
+        .functionality-list { background: #e8f5e8; border-left: 4px solid #27ae60; padding: 15px; border-radius: 0 10px 10px 0; }
+        .functionality-list h4 { color: #27ae60; margin-bottom: 10px; }
+        .functionality-list ul { list-style: none; padding-left: 0; }
+        .functionality-list li { padding: 5px 0; position: relative; padding-left: 20px; }
+        .functionality-list li:before { content: "✓"; position: absolute; left: 0; color: #27ae60; font-weight: bold; }
+        @media (max-width: 1024px) { .content { grid-template-columns: 1fr; gap: 20px; } .phone-mockup { width: 250px; height: 500px; } }
+        @media (max-width: 768px) { .content { padding: 20px; } .phone-mockup { width: 200px; height: 400px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-button">← Voltar ao Índice</a>
+            <h1>⚙️ Configurações (scr_settings)</h1>
+            <p>Configurações do Aplicativo e Preferências</p>
+        </div>
+        <div class="content">
+            <div class="wireframe-section">
+                <h2 class="wireframe-title">📱 Visualização da Tela</h2>
+                <div class="phone-mockup">
+                    <div class="screen">
+                        <div class="mock-header">
+                            <div style="font-size: 1.2rem; color: #3498db;">←</div>
+                            <div style="font-size: 1rem; font-weight: bold; color: #2c3e50;">Configurações</div>
+                        </div>
+                        <div class="settings-section">
+                            <div class="section-title">Notificações</div>
+                            <div class="setting-item">
+                                <div class="setting-label">Lembretes de Medicamentos</div>
+                                <div class="setting-switch"></div>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-label">Alertas de Consultas</div>
+                                <div class="setting-switch"></div>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-label">Dicas de Saúde</div>
+                                <div class="setting-switch off"></div>
+                            </div>
+                        </div>
+                        <div class="settings-section">
+                            <div class="section-title">Dados e Backup</div>
+                            <div class="setting-item">
+                                <div class="setting-label">Fazer Backup</div>
+                                <div class="setting-button">Executar</div>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-label">Restaurar Dados</div>
+                                <div class="setting-button">Restaurar</div>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-label">Exportar Dados</div>
+                                <div class="setting-button">Exportar</div>
+                            </div>
+                        </div>
+                        <div class="settings-section">
+                            <div class="section-title">Aplicativo</div>
+                            <div class="setting-item">
+                                <div class="setting-label">Idioma</div>
+                                <div class="setting-picker">Português</div>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-label">Modo Escuro</div>
+                                <div class="setting-switch off"></div>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-label">Tutorial</div>
+                                <div class="setting-button">Iniciar</div>
+                            </div>
+                        </div>
+                        <div class="settings-section">
+                            <div class="section-title">Sobre</div>
+                            <div class="setting-item">
+                                <div class="setting-label">Ajuda e Suporte</div>
+                                <div class="setting-button">Abrir</div>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-label">Política de Privacidade</div>
+                                <div class="setting-button">Ver</div>
+                            </div>
+                        </div>
+                        <div class="version-info">
+                            <div class="version-text">VitalSync v1.0.0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="specs-section">
+                <h2 class="specs-title">🧩 Especificações dos Componentes</h2>
+                <div class="layout-structure">
+lay_main (VerticalScrollArrangement)
+├── lay_header (HorizontalArrangement)
+├── lay_notifications (VerticalArrangement)
+├── lay_data (VerticalArrangement)
+├── lay_app (VerticalArrangement)
+├── lay_about (VerticalArrangement)
+                </div>
+                <div class="component-group">
+                    <h3>🔔 Notifications</h3>
+                    <div class="component">
+                        <div class="component-name">lbl_notifications_title (Label)</div>
+                        <div class="component-details"><div><span class="property">Texto</span> "Notificações"</div></div>
+                    </div>
+                    <div class="component">
+                        <div class="component-name">swt_med_reminders (Switch)</div>
+                        <div class="component-details"><div><span class="property">Texto</span> "Lembretes de Medicamentos"</div></div>
+                    </div>
+                    <div class="component">
+                        <div class="component-name">swt_appointment_alerts (Switch)</div>
+                        <div class="component-details"><div><span class="property">Texto</span> "Alertas de Consultas"</div></div>
+                    </div>
+                    <div class="component">
+                        <div class="component-name">swt_health_tips (Switch)</div>
+                        <div class="component-details"><div><span class="property">Texto</span> "Dicas de Saúde"</div></div>
+                    </div>
+                </div>
+                <div class="component-group">
+                    <h3>💾 Data</h3>
+                    <div class="component">
+                        <div class="component-name">lbl_data_title (Label)</div>
+                        <div class="component-details"><div><span class="property">Texto</span> "Dados e Backup"</div></div>
+                    </div>
+                    <div class="component">
+                        <div class="component-name">btn_backup_data (Button)</div>
+                        <div class="component-details"><div><span class="property">Texto</span> "Fazer Backup"</div></div>
+                    </div>
+                    <div class="component">
+                        <div class="component-name">btn_restore_data (Button)</div>
+                        <div class="component-details"><div><span class="property">Texto</span> "Restaurar Dados"</div></div>
+                    </div>
+                    <div class="component">
+                        <div class="component-name">btn_export_data (Button)</div>
+                        <div class="component-details"><div><span class="property">Texto</span> "Exportar Dados"</div></div>
+                    </div>
+                </div>
+                <div class="component-group">
+                    <h3>📱 App</h3>
+                    <div class="component">
+                        <div class="component-name">lbl_app_title (Label)</div>
+                        <div class="component-details"><div><span class="property">Texto</span> "Aplicativo"</div></div>
+                    </div>
+                    <div class="component">
+                        <div class="component-name">pkr_language (ListPicker)</div>
+                        <div class="component-details"><div><span class="property">Função</span> "Idioma"</div></div>
+                    </div>
+                    <div class="component">
+                        <div class="component-name">swt_dark_mode (Switch)</div>
+                        <div class="component-details"><div><span class="property">Texto</span> "Modo Escuro"</div></div>
+                    </div>
+                    <div class="component">
+                        <div class="component-name">btn_tutorial (Button)</div>
+                        <div class="component-details"><div><span class="property">Texto</span> "Tutorial"</div></div>
+                    </div>
+                </div>
+                <div class="component-group">
+                    <h3>ℹ️ About</h3>
+                    <div class="component">
+                        <div class="component-name">lbl_about_title (Label)</div>
+                        <div class="component-details"><div><span class="property">Texto</span> "Sobre"</div></div>
+                    </div>
+                    <div class="component">
+                        <div class="component-name">btn_help (Button)</div>
+                        <div class="component-details"><div><span class="property">Texto</span> "Ajuda e Suporte"</div></div>
+                    </div>
+                    <div class="component">
+                        <div class="component-name">btn_privacy (Button)</div>
+                        <div class="component-details"><div><span class="property">Texto</span> "Política de Privacidade"</div></div>
+                    </div>
+                    <div class="component">
+                        <div class="component-name">lbl_version (Label)</div>
+                        <div class="component-details"><div><span class="property">Texto</span> "Versão 1.0.0"</div></div>
+                    </div>
+                </div>
+                <div class="functionality-list">
+                    <h4>⚡ Funcionalidades</h4>
+                    <ul>
+                        <li>Configurações persistentes (TinyDB)</li>
+                        <li>Backup na nuvem (CloudDB)</li>
+                        <li>Exportação de dados</li>
+                        <li>Sistema de ajuda integrado</li>
+                        <li>Configurações de acessibilidade</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

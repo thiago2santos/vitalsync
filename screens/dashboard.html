@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync - Dashboard Principal (scr_dashboard)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px;
+        }
+
+        .wireframe-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .wireframe-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .phone-mockup {
+            background: #2c3e50;
+            border-radius: 25px;
+            padding: 20px;
+            margin: 0 auto;
+            width: 300px;
+            height: 600px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .screen {
+            background: white;
+            border-radius: 15px;
+            height: 100%;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .mock-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .mock-greeting {
+            flex: 1;
+        }
+
+        .greeting-text {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .date-text {
+            font-size: 0.7rem;
+            color: #7f8c8d;
+        }
+
+        .mock-avatar {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .health-score {
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #e8f5e8, #d4edda);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .score-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(#27ae60 0deg 306deg, #ecf0f1 306deg 360deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            position: relative;
+        }
+
+        .score-circle::before {
+            content: '';
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .score-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #27ae60;
+            z-index: 1;
+        }
+
+        .score-message {
+            font-size: 0.8rem;
+            color: #27ae60;
+            font-weight: 500;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            background: white;
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            padding: 15px 10px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-btn.vitals { border-color: #e74c3c; color: #e74c3c; }
+        .action-btn.meds { border-color: #27ae60; color: #27ae60; }
+        .action-btn.symptoms { border-color: #f39c12; color: #f39c12; }
+        .action-btn.appointments { border-color: #9b59b6; color: #9b59b6; }
+
+        .action-icon {
+            font-size: 1.2rem;
+        }
+
+        .recent-activity {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .activity-item {
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            font-size: 0.7rem;
+            color: #6c757d;
+        }
+
+        .navigation-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #ecf0f1;
+            margin-top: auto;
+        }
+
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-size: 0.6rem;
+            color: #6c757d;
+        }
+
+        .nav-btn.active {
+            color: #3498db;
+        }
+
+        .nav-icon {
+            font-size: 1rem;
+        }
+
+        .specs-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+            overflow-y: auto;
+            max-height: 800px;
+        }
+
+        .specs-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .layout-structure {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .component-group {
+            margin-bottom: 30px;
+        }
+
+        .component-group h3 {
+            color: #3498db;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .component {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .component-name {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .component-details {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .component-details div {
+            margin-bottom: 5px;
+        }
+
+        .property {
+            display: inline-block;
+            background: #ecf0f1;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 5px;
+        }
+
+        .functionality-list {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .functionality-list h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+
+        .functionality-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .functionality-list li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .functionality-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .phone-mockup {
+                width: 250px;
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .phone-mockup {
+                width: 200px;
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-button">← Voltar ao Índice</a>
+            <h1>🏠 Dashboard Principal (scr_dashboard)</h1>
+            <p>Tela Principal com Visão Geral da Saúde</p>
+        </div>
+
+        <div class="content">
+            <div class="wireframe-section">
+                <h2 class="wireframe-title">📱 Visualização da Tela</h2>
+                <div class="phone-mockup">
+                    <div class="screen">
+                        <div class="mock-header">
+                            <div class="mock-greeting">
+                                <div class="greeting-text">Bom dia, João</div>
+                                <div class="date-text">10 de Setembro, 2024</div>
+                            </div>
+                            <div class="mock-avatar">👤</div>
+                        </div>
+                        
+                        <div class="health-score">
+                            <div class="score-circle">
+                                <div class="score-value">85</div>
+                            </div>
+                            <div class="score-message">Ótimo trabalho!</div>
+                        </div>
+                        
+                        <div class="quick-actions">
+                            <div class="action-btn vitals">
+                                <div class="action-icon">❤️</div>
+                                <div>Sinais Vitais</div>
+                            </div>
+                            <div class="action-btn meds">
+                                <div class="action-icon">💊</div>
+                                <div>Medicamentos</div>
+                            </div>
+                            <div class="action-btn symptoms">
+                                <div class="action-icon">🌡️</div>
+                                <div>Sintomas</div>
+                            </div>
+                            <div class="action-btn appointments">
+                                <div class="action-icon">📅</div>
+                                <div>Consultas</div>
+                            </div>
+                        </div>
+                        
+                        <div class="recent-activity">
+                            <div class="activity-title">Atividade Recente</div>
+                            <div class="activity-item">Pressão arterial registrada - 2h atrás</div>
+                            <div class="activity-item">Medicamento tomado - 4h atrás</div>
+                            <div class="activity-item">Peso registrado - 1 dia atrás</div>
+                        </div>
+                        
+                        <div class="navigation-bar">
+                            <div class="nav-btn active">
+                                <div class="nav-icon">🏠</div>
+                                <div>Home</div>
+                            </div>
+                            <div class="nav-btn">
+                                <div class="nav-icon">📊</div>
+                                <div>Monitor</div>
+                            </div>
+                            <div class="nav-btn">
+                                <div class="nav-icon">📈</div>
+                                <div>Relatórios</div>
+                            </div>
+                            <div class="nav-btn">
+                                <div class="nav-icon">👤</div>
+                                <div>Perfil</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="specs-section">
+                <h2 class="specs-title">🧩 Especificações dos Componentes</h2>
+                
+                <div class="layout-structure">
+lay_main (VerticalScrollArrangement)
+├── lay_header (HorizontalArrangement)
+├── lay_health_score (VerticalArrangement)
+├── lay_quick_actions (TableArrangement 2x2)
+├── lay_recent_activity (VerticalArrangement)
+└── lay_navigation (HorizontalArrangement)
+                </div>
+
+                <div class="component-group">
+                    <h3>📋 Header</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">lbl_greeting (Label)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Bom dia, [Nome]" (dinâmico por horário)</div>
+                            <div><span class="property">Fonte</span> 18px, negrito</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">lbl_date (Label)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> Data atual formatada</div>
+                            <div><span class="property">Fonte</span> 12px, regular</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">img_user_avatar (Image)</div>
+                        <div class="component-details">
+                            <div><span class="property">Tamanho</span> 40x40 pixels</div>
+                            <div><span class="property">Forma</span> Circular</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>📊 Health Score</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">cnv_health_chart (Canvas)</div>
+                        <div class="component-details">
+                            <div><span class="property">Função</span> Gráfico circular de pontuação</div>
+                            <div><span class="property">Tamanho</span> 150x150 pixels</div>
+                            <div><span class="property">Cores</span> Gradiente verde-azul</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">lbl_score_value (Label)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "85/100" (dinâmico)</div>
+                            <div><span class="property">Fonte</span> 32px, negrito</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">lbl_score_message (Label)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Ótimo trabalho!" (baseado na pontuação)</div>
+                            <div><span class="property">Fonte</span> 14px, regular</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>🚀 Quick Actions (Grid 2x2)</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">btn_vital_signs (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Ícone</span> Coração</div>
+                            <div><span class="property">Texto</span> "Sinais Vitais"</div>
+                            <div><span class="property">Cor</span> #e74c3c</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_medications (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Ícone</span> Pílula</div>
+                            <div><span class="property">Texto</span> "Medicamentos"</div>
+                            <div><span class="property">Cor</span> #27ae60</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_symptoms (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Ícone</span> Termômetro</div>
+                            <div><span class="property">Texto</span> "Sintomas"</div>
+                            <div><span class="property">Cor</span> #f39c12</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_appointments (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Ícone</span> Calendário</div>
+                            <div><span class="property">Texto</span> "Consultas"</div>
+                            <div><span class="property">Cor</span> #9b59b6</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>📝 Recent Activity</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">lbl_activity_title (Label)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Atividade Recente"</div>
+                            <div><span class="property">Fonte</span> 16px, negrito</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">lst_recent_activity (ListView)</div>
+                        <div class="component-details">
+                            <div><span class="property">Itens</span> Últimas 5 ações do usuário</div>
+                            <div><span class="property">Formato</span> "Ação - Tempo"</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>🧭 Navigation Bar</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">btn_nav_home (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Estado</span> Ativo</div>
+                            <div><span class="property">Ícone</span> Casa</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_nav_monitor (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Ação</span> scr_vital_signs</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_nav_reports (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Ação</span> scr_reports</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_nav_profile (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Ação</span> scr_profile</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="functionality-list">
+                    <h4>⚡ Funcionalidades</h4>
+                    <ul>
+                        <li>Atualização automática da pontuação</li>
+                        <li>Contagem de passos via Pedometer</li>
+                        <li>Notificações de lembretes</li>
+                        <li>Refresh manual (pull-to-refresh)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync - Tela de Boas-vindas (scr_welcome)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px;
+        }
+
+        .wireframe-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .wireframe-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .phone-mockup {
+            background: #2c3e50;
+            border-radius: 25px;
+            padding: 20px;
+            margin: 0 auto;
+            width: 300px;
+            height: 600px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .screen {
+            background: white;
+            border-radius: 15px;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .mock-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .mock-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .mock-content {
+            flex: 1;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .mock-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .mock-subtitle {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+
+        .mock-description {
+            font-size: 0.8rem;
+            color: #95a5a6;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .mock-illustration {
+            width: 150px;
+            height: 100px;
+            background: linear-gradient(45deg, #e74c3c, #f39c12, #27ae60, #3498db);
+            border-radius: 10px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .mock-footer {
+            display: flex;
+            gap: 10px;
+        }
+
+        .mock-button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .mock-button.primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .mock-button.secondary {
+            background: transparent;
+            color: #3498db;
+            border: 2px solid #3498db;
+        }
+
+        .specs-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .specs-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .layout-structure {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .component-group {
+            margin-bottom: 30px;
+        }
+
+        .component-group h3 {
+            color: #3498db;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .component {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .component-name {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .component-details {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .component-details div {
+            margin-bottom: 5px;
+        }
+
+        .property {
+            display: inline-block;
+            background: #ecf0f1;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 5px;
+        }
+
+        .functionality-list {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .functionality-list h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+
+        .functionality-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .functionality-list li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .functionality-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .phone-mockup {
+                width: 250px;
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .phone-mockup {
+                width: 200px;
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-button">← Voltar ao Índice</a>
+            <h1>🚀 Tela de Boas-vindas (scr_welcome)</h1>
+            <p>Tela de Onboarding e Apresentação do VitalSync</p>
+        </div>
+
+        <div class="content">
+            <div class="wireframe-section">
+                <h2 class="wireframe-title">📱 Visualização da Tela</h2>
+                <div class="phone-mockup">
+                    <div class="screen">
+                        <div class="mock-header">
+                            <div class="mock-logo">🏥</div>
+                        </div>
+                        
+                        <div class="mock-content">
+                            <div class="mock-title">Bem-vindo ao VitalSync</div>
+                            <div class="mock-subtitle">Seu companheiro pessoal de saúde</div>
+                            <div class="mock-description">
+                                Monitore sinais vitais, gerencie medicamentos e acompanhe seu bem-estar com facilidade
+                            </div>
+                            <div class="mock-illustration">🩺</div>
+                        </div>
+                        
+                        <div class="mock-footer">
+                            <div class="mock-button secondary">Pular</div>
+                            <div class="mock-button primary">Começar</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="specs-section">
+                <h2 class="specs-title">🧩 Especificações dos Componentes</h2>
+                
+                <div class="layout-structure">
+lay_main (VerticalArrangement)
+├── lay_header (VerticalArrangement)
+├── lay_content (VerticalScrollArrangement)
+└── lay_footer (HorizontalArrangement)
+                </div>
+
+                <div class="component-group">
+                    <h3>📋 Header</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">img_logo (Image)</div>
+                        <div class="component-details">
+                            <div><span class="property">Função</span> Logo do VitalSync</div>
+                            <div><span class="property">Tamanho</span> 120x120 pixels</div>
+                            <div><span class="property">Posição</span> Centro do header</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>📝 Content</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">lbl_title (Label)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Bem-vindo ao VitalSync"</div>
+                            <div><span class="property">Fonte</span> 24px, negrito</div>
+                            <div><span class="property">Cor</span> #2c3e50</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">lbl_subtitle (Label)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Seu companheiro pessoal de saúde"</div>
+                            <div><span class="property">Fonte</span> 16px, regular</div>
+                            <div><span class="property">Cor</span> #7f8c8d</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">lbl_description (Label)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Monitore sinais vitais, gerencie medicamentos e acompanhe seu bem-estar com facilidade"</div>
+                            <div><span class="property">Fonte</span> 14px, regular</div>
+                            <div><span class="property">Cor</span> #95a5a6</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">cnv_onboarding (Canvas)</div>
+                        <div class="component-details">
+                            <div><span class="property">Função</span> Ilustração animada simples</div>
+                            <div><span class="property">Tamanho</span> 200x150 pixels</div>
+                            <div><span class="property">Conteúdo</span> Ícones de saúde desenhados</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>🔘 Footer</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">btn_start (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Começar"</div>
+                            <div><span class="property">Cor</span> #3498db (azul)</div>
+                            <div><span class="property">Ação</span> Navegar para scr_login</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_skip (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Pular"</div>
+                            <div><span class="property">Cor</span> Transparente com borda</div>
+                            <div><span class="property">Ação</span> Navegar para scr_login</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="functionality-list">
+                    <h4>⚡ Funcionalidades</h4>
+                    <ul>
+                        <li>Animação de entrada suave</li>
+                        <li>Navegação por gestos (swipe)</li>
+                        <li>Indicadores de progresso (dots)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

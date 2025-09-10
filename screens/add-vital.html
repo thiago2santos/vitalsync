@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync - Adicionar Sinal Vital (scr_add_vital)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px;
+        }
+
+        .wireframe-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .wireframe-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .phone-mockup {
+            background: #2c3e50;
+            border-radius: 25px;
+            padding: 20px;
+            margin: 0 auto;
+            width: 300px;
+            height: 600px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .screen {
+            background: white;
+            border-radius: 15px;
+            height: 100%;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .mock-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .mock-back {
+            font-size: 1.2rem;
+            color: #3498db;
+        }
+
+        .mock-title {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .mock-camera {
+            font-size: 1.2rem;
+            color: #f39c12;
+        }
+
+        .form-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .vital-type {
+            background: #e8f4fd;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            color: #3498db;
+            font-size: 0.9rem;
+        }
+
+        .slider-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .slider-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+
+        .slider-track {
+            height: 6px;
+            background: #ecf0f1;
+            border-radius: 3px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .slider-fill {
+            height: 100%;
+            background: #3498db;
+            border-radius: 3px;
+            width: 60%;
+        }
+
+        .slider-thumb {
+            width: 20px;
+            height: 20px;
+            background: #3498db;
+            border-radius: 50%;
+            position: absolute;
+            top: -7px;
+            right: 40%;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .value-display {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .notes-input {
+            background: #f8f9fa;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.8rem;
+            color: #6c757d;
+            min-height: 60px;
+            resize: none;
+        }
+
+        .datetime-section {
+            display: flex;
+            gap: 10px;
+        }
+
+        .datetime-input {
+            flex: 1;
+            background: #f8f9fa;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-align: center;
+        }
+
+        .actions-section {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .mock-button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: none;
+        }
+
+        .mock-button.primary {
+            background: #27ae60;
+            color: white;
+        }
+
+        .mock-button.secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .specs-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+            overflow-y: auto;
+            max-height: 800px;
+        }
+
+        .specs-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .layout-structure {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .component-group {
+            margin-bottom: 30px;
+        }
+
+        .component-group h3 {
+            color: #f39c12;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .component {
+            background: #f8f9fa;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .component-name {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .component-details {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .component-details div {
+            margin-bottom: 5px;
+        }
+
+        .property {
+            display: inline-block;
+            background: #ecf0f1;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 5px;
+        }
+
+        .functionality-list {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .functionality-list h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+
+        .functionality-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .functionality-list li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .functionality-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .phone-mockup {
+                width: 250px;
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .phone-mockup {
+                width: 200px;
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-button">← Voltar ao Índice</a>
+            <h1>➕ Adicionar Sinal Vital (scr_add_vital)</h1>
+            <p>Formulário para Inserção de Novos Dados Vitais</p>
+        </div>
+
+        <div class="content">
+            <div class="wireframe-section">
+                <h2 class="wireframe-title">📱 Visualização da Tela</h2>
+                <div class="phone-mockup">
+                    <div class="screen">
+                        <div class="mock-header">
+                            <div class="mock-back">←</div>
+                            <div class="mock-title">Adicionar Pressão</div>
+                            <div class="mock-camera">📷</div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <div class="vital-type">Pressão Arterial</div>
+                            
+                            <div class="slider-section">
+                                <div class="slider-label">Pressão Sistólica</div>
+                                <div class="slider-track">
+                                    <div class="slider-fill"></div>
+                                    <div class="slider-thumb"></div>
+                                </div>
+                                <div class="value-display">120 mmHg</div>
+                            </div>
+                            
+                            <div class="slider-section">
+                                <div class="slider-label">Pressão Diastólica</div>
+                                <div class="slider-track">
+                                    <div class="slider-fill" style="width: 40%;"></div>
+                                    <div class="slider-thumb" style="right: 60%;"></div>
+                                </div>
+                                <div class="value-display">80 mmHg</div>
+                            </div>
+                            
+                            <textarea class="notes-input" placeholder="Observações (opcional)"></textarea>
+                            
+                            <div class="datetime-section">
+                                <div class="datetime-input">10/09/2024</div>
+                                <div class="datetime-input">14:30</div>
+                            </div>
+                        </div>
+                        
+                        <div class="actions-section">
+                            <button class="mock-button secondary">Cancelar</button>
+                            <button class="mock-button primary">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="specs-section">
+                <h2 class="specs-title">🧩 Especificações dos Componentes</h2>
+                
+                <div class="layout-structure">
+lay_main (VerticalArrangement)
+├── lay_header (HorizontalArrangement)
+├── lay_form (VerticalArrangement)
+├── lay_datetime (HorizontalArrangement)
+├── lay_actions (HorizontalArrangement)
+                </div>
+
+                <div class="component-group">
+                    <h3>📋 Header</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">btn_back (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Ação</span> Voltar à tela anterior</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">lbl_title (Label)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Adicionar [Tipo]"</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_camera (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Função</span> Fotografar (se aplicável)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>📝 Form</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">lbl_vital_type (Label)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> Tipo selecionado</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">sld_value_input (Slider) OU txt_value_input (TextBox)</div>
+                        <div class="component-details">
+                            <div><span class="property">Função</span> Entrada do valor</div>
+                            <div><span class="property">Validação</span> Faixas específicas por tipo</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">lbl_value_display (Label)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> Valor atual do slider</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">txt_notes (TextBox)</div>
+                        <div class="component-details">
+                            <div><span class="property">Hint</span> "Observações (opcional)"</div>
+                            <div><span class="property">Multiline</span> true</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>📅 DateTime</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">pkr_date (DatePicker)</div>
+                        <div class="component-details">
+                            <div><span class="property">Default</span> Data atual</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">pkr_time (TimePicker)</div>
+                        <div class="component-details">
+                            <div><span class="property">Default</span> Hora atual</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>🔘 Actions</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">btn_save (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Salvar"</div>
+                            <div><span class="property">Cor</span> #27ae60</div>
+                            <div><span class="property">Ação</span> Validar e salvar no TinyDB</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_cancel (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Texto</span> "Cancelar"</div>
+                            <div><span class="property">Cor</span> #95a5a6</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="functionality-list">
+                    <h4>⚡ Funcionalidades</h4>
+                    <ul>
+                        <li>Validação em tempo real</li>
+                        <li>Faixas de valores por tipo</li>
+                        <li>Captura de fotos (sintomas visuais)</li>
+                        <li>Alertas para valores críticos</li>
+                        <li>Salvamento automático</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

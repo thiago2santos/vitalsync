@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync - Documentação Completa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .main-header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            margin-right: 15px;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-item.active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+            min-height: calc(100vh - 100px);
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .main-sections {
+            padding: 60px 40px;
+        }
+
+        .sections-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            border: 3px solid transparent;
+        }
+
+        .section-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            border-color: #3498db;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .section-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .section-description {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+
+        .section-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .section-features li {
+            padding: 8px 0;
+            color: #555;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .section-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #2980b9, #1f5f8b);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.3);
+            text-decoration: none;
+            color: white;
+        }
+
+        .cta-button.secondary {
+            background: linear-gradient(135deg, #27ae60, #229954);
+        }
+
+        .cta-button.secondary:hover {
+            background: linear-gradient(135deg, #229954, #1e8449);
+            box-shadow: 0 10px 30px rgba(39, 174, 96, 0.3);
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .footer-description {
+            opacity: 0.8;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-link:hover {
+            opacity: 1;
+            text-decoration: none;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+                padding: 0 20px;
+            }
+
+            .main-nav {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .nav-item {
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .sections-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🏥</span>
+                VitalSync Docs
+            </div>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-item active">
+                    <span>🏠</span> Início
+                </a>
+                <a href="screens/index.html" class="nav-item">
+                    <span>📱</span> Especificações
+                </a>
+                <a href="user-journey/index.html" class="nav-item">
+                    <span>🚀</span> Jornadas
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="hero-title">🏥 VitalSync</h1>
+            <p class="hero-subtitle">
+                Documentação Completa do App Móvel de Saúde para MIT App Inventor
+            </p>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">13</div>
+                    <div class="stat-label">Telas Especificadas</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Features Principais</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Personas Mapeadas</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Componentes MIT</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seções Principais -->
+        <section class="main-sections">
+            <div class="sections-grid">
+                <a href="screens/index.html" class="section-card">
+                    <span class="section-icon">📱</span>
+                    <h2 class="section-title">Especificações de Telas</h2>
+                    <p class="section-description">
+                        Visualização lado a lado de wireframes e especificações detalhadas 
+                        de cada componente para implementação no MIT App Inventor.
+                    </p>
+                    <ul class="section-features">
+                        <li>13 telas completamente especificadas</li>
+                        <li>Mockups realistas em formato mobile</li>
+                        <li>150+ componentes MIT App Inventor</li>
+                        <li>Propriedades, ações e validações</li>
+                        <li>Layout responsivo e interativo</li>
+                    </ul>
+                </a>
+
+                <a href="user-journey/index.html" class="section-card">
+                    <span class="section-icon">🚀</span>
+                    <h2 class="section-title">Jornadas do Usuário</h2>
+                    <p class="section-description">
+                        Análise completa das jornadas, personas e features com 
+                        diagramas interativos e roadmap de desenvolvimento.
+                    </p>
+                    <ul class="section-features">
+                        <li>6 features com fluxogramas detalhados</li>
+                        <li>3 personas com jornadas específicas</li>
+                        <li>Diagramas Mermaid interativos</li>
+                        <li>Roadmap de desenvolvimento</li>
+                        <li>Análise de UX e priorização</li>
+                    </ul>
+                </a>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <h2 class="cta-title">🎯 Comece Agora</h2>
+            <p class="cta-description">
+                Explore a documentação completa e comece a implementar o VitalSync 
+                no MIT App Inventor com todas as especificações necessárias.
+            </p>
+            <div class="cta-buttons">
+                <a href="screens/index.html" class="cta-button">
+                    <span>📱</span> Ver Especificações
+                </a>
+                <a href="user-journey/index.html" class="cta-button secondary">
+                    <span>🚀</span> Explorar Jornadas
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <h3 class="footer-title">VitalSync Documentation</h3>
+                <p class="footer-description">
+                    Documentação completa para desenvolvimento de um app móvel de saúde 
+                    usando MIT App Inventor, incluindo especificações técnicas e análise de UX.
+                </p>
+                <div class="footer-links">
+                    <a href="screens/index.html" class="footer-link">Especificações</a>
+                    <a href="user-journey/index.html" class="footer-link">Jornadas</a>
+                    <a href="COMPONENTS_SPEC.md" class="footer-link">Documentação Técnica</a>
+                </div>
+                <p style="margin-top: 20px; opacity: 0.6; font-size: 0.9rem;">
+                    &copy; 2024 VitalSync - Desenvolvido para MIT App Inventor
+                </p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

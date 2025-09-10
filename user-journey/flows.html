@@ -21,6 +21,27 @@
     </style>
 </head>
 <body>
+    <!-- Header Principal -->
+    <header style="background: linear-gradient(135deg, #2c3e50, #34495e); color: white; padding: 10px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+        <div style="max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 40px;">
+            <a href="../index.html" style="display: flex; align-items: center; font-size: 1.3rem; font-weight: 600; text-decoration: none; color: white;">
+                <span style="font-size: 1.6rem; margin-right: 10px;">🏥</span>
+                VitalSync Docs
+            </a>
+            <nav style="display: flex; gap: 20px;">
+                <a href="../index.html" style="color: white; text-decoration: none; padding: 8px 15px; border-radius: 20px; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px;">
+                    <span>🏠</span> Início
+                </a>
+                <a href="../screens/index.html" style="color: white; text-decoration: none; padding: 8px 15px; border-radius: 20px; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px;">
+                    <span>📱</span> Especificações
+                </a>
+                <a href="index.html" style="color: white; text-decoration: none; padding: 8px 15px; border-radius: 20px; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.2);">
+                    <span>🚀</span> Jornadas
+                </a>
+            </nav>
+        </div>
+    </header>
+
     <div class="container">
         <div class="header">
             <a href="index.html" class="back-button">← Voltar ao Índice</a>
@@ -121,6 +142,246 @@
                             K --> M[Atualizar Gráficos]
                             L --> M
                             M --> N[Voltar Dashboard]
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-section">
+                <div class="flow-title">🤒 Fluxo de Sintomas</div>
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        flowchart TD
+                            A[Dashboard] --> B[Sintomas]
+                            B --> C{Ação}
+                            C -->|Registrar Novo| D[Selecionar Sintoma]
+                            C -->|Ver Histórico| E[Lista Sintomas]
+                            
+                            D --> F[Intensidade 1-10]
+                            F --> G[Observações]
+                            G --> H[Data/Hora]
+                            H --> I[Salvar TinyDB]
+                            
+                            E --> J{Filtrar}
+                            J -->|Por Data| K[Calendário]
+                            J -->|Por Tipo| L[Categorias]
+                            J -->|Todos| M[Lista Completa]
+                            
+                            K --> N[Exibir Filtrados]
+                            L --> N
+                            M --> N
+                            
+                            I --> O[Verificar Padrões]
+                            O --> P{Sintoma Recorrente?}
+                            P -->|Sim| Q[Sugerir Consulta]
+                            P -->|Não| R[Dashboard]
+                            Q --> R
+                            N --> R
+                            
+                            style D fill:#e74c3c,stroke:#c0392b,color:#fff
+                            style Q fill:#f39c12,stroke:#e67e22,color:#fff
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-section">
+                <div class="flow-title">🏥 Fluxo de Consultas</div>
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        stateDiagram-v2
+                            [*] --> Dashboard
+                            Dashboard --> Consultas
+                            Consultas --> VerAgenda
+                            Consultas --> NovaConsulta
+                            
+                            VerAgenda --> ConsultaProxima
+                            VerAgenda --> ConsultasPassadas
+                            ConsultaProxima --> DetalhesConsulta
+                            ConsultasPassadas --> HistoricoConsulta
+                            
+                            NovaConsulta --> EscolherMedico
+                            EscolherMedico --> EscolherData
+                            EscolherData --> EscolherHorario
+                            EscolherHorario --> ConfirmarDados
+                            ConfirmarDados --> SalvarConsulta
+                            
+                            DetalhesConsulta --> LembrarConsulta
+                            DetalhesConsulta --> CancelarConsulta
+                            LembrarConsulta --> ConfigurarNotificacao
+                            CancelarConsulta --> ConfirmarCancelamento
+                            
+                            SalvarConsulta --> AtivarLembrete
+                            AtivarLembrete --> Dashboard
+                            ConfigurarNotificacao --> Dashboard
+                            ConfirmarCancelamento --> Dashboard
+                            HistoricoConsulta --> Dashboard
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-section">
+                <div class="flow-title">📈 Fluxo de Relatórios</div>
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        graph TB
+                            A[Dashboard] --> B[Relatórios]
+                            B --> C{Tipo de Relatório}
+                            
+                            C -->|Sinais Vitais| D[Relatório Vitais]
+                            C -->|Medicamentos| E[Relatório Medicamentos]
+                            C -->|Sintomas| F[Relatório Sintomas]
+                            C -->|Completo| G[Relatório Geral]
+                            
+                            D --> H[Selecionar Período]
+                            E --> H
+                            F --> H
+                            G --> H
+                            
+                            H --> I[Processar Dados TinyDB]
+                            I --> J[Gerar Gráficos]
+                            J --> K[Calcular Estatísticas]
+                            K --> L{Formato Saída}
+                            
+                            L -->|Visualizar| M[Exibir na Tela]
+                            L -->|Compartilhar| N[Gerar PDF/Imagem]
+                            L -->|Enviar| O[Email/WhatsApp]
+                            
+                            M --> P[Análise Interativa]
+                            N --> Q[Salvar/Compartilhar]
+                            O --> R[Enviar para Médico]
+                            
+                            P --> S[Dashboard]
+                            Q --> S
+                            R --> S
+                            
+                            style J fill:#3498db,stroke:#2980b9,color:#fff
+                            style N fill:#27ae60,stroke:#229954,color:#fff
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-section">
+                <div class="flow-title">👤 Fluxo de Perfil e Configurações</div>
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        flowchart LR
+                            A[Dashboard] --> B[Perfil]
+                            B --> C{Seção}
+                            
+                            C -->|Dados Pessoais| D[Editar Perfil]
+                            C -->|Configurações| E[Settings]
+                            C -->|Backup| F[Backup Dados]
+                            
+                            D --> G[Nome/Idade/Peso]
+                            G --> H[Foto Perfil]
+                            H --> I[Contatos Emergência]
+                            I --> J[Salvar Alterações]
+                            
+                            E --> K[Notificações]
+                            E --> L[Lembretes]
+                            E --> M[Privacidade]
+                            E --> N[Tema/Idioma]
+                            
+                            K --> O[Configurar Horários]
+                            L --> P[Ativar/Desativar]
+                            M --> Q[Senha/Biometria]
+                            N --> R[Personalização]
+                            
+                            F --> S[Exportar TinyDB]
+                            S --> T[Salvar Arquivo]
+                            
+                            J --> U[Dashboard]
+                            O --> U
+                            P --> U
+                            Q --> U
+                            R --> U
+                            T --> U
+                            
+                            style Q fill:#e74c3c,stroke:#c0392b,color:#fff
+                            style S fill:#f39c12,stroke:#e67e22,color:#fff
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-section">
+                <div class="flow-title">🔐 Fluxo de Autenticação</div>
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        stateDiagram-v2
+                            [*] --> Welcome
+                            Welcome --> PrimeiroAcesso
+                            Welcome --> UsuarioExistente
+                            
+                            PrimeiroAcesso --> CriarConta
+                            CriarConta --> InserirDados
+                            InserirDados --> DefinirSenha
+                            DefinirSenha --> ConfigurarBiometria
+                            ConfigurarBiometria --> CriarPerfilInicial
+                            CriarPerfilInicial --> Dashboard
+                            
+                            UsuarioExistente --> Login
+                            Login --> VerificarCredenciais
+                            VerificarCredenciais --> CredenciaisOK
+                            VerificarCredenciais --> CredenciaisErro
+                            
+                            CredenciaisOK --> VerificarBiometria
+                            VerificarBiometria --> BiometriaOK
+                            VerificarBiometria --> BiometriaFalhou
+                            BiometriaOK --> Dashboard
+                            BiometriaFalhou --> Login
+                            
+                            CredenciaisErro --> TentativasExcedidas
+                            CredenciaisErro --> Login
+                            TentativasExcedidas --> BloqueioTemporario
+                            BloqueioTemporario --> RecuperarSenha
+                            RecuperarSenha --> Login
+                            
+                            Dashboard --> Logout
+                            Logout --> Welcome
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-section">
+                <div class="flow-title">⏰ Fluxo de Lembretes e Notificações</div>
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        graph TD
+                            A[Sistema Iniciado] --> B[Clock Component]
+                            B --> C[Verificar Horários]
+                            C --> D{Tipo de Lembrete}
+                            
+                            D -->|Medicamento| E[Hora do Remédio]
+                            D -->|Consulta| F[Consulta Próxima]
+                            D -->|Sinais Vitais| G[Medir Pressão]
+                            D -->|Exercício| H[Atividade Física]
+                            
+                            E --> I[Notificação Push]
+                            F --> I
+                            G --> I
+                            H --> I
+                            
+                            I --> J[Som + Vibração]
+                            J --> K{Usuário Responde?}
+                            
+                            K -->|Confirma| L[Marcar Como Feito]
+                            K -->|Adia| M[Reagendar +15min]
+                            K -->|Ignora| N[Repetir em 5min]
+                            
+                            L --> O[Atualizar TinyDB]
+                            M --> P[Novo Agendamento]
+                            N --> Q[Contador Tentativas]
+                            
+                            O --> R[Calcular Aderência]
+                            P --> C
+                            Q --> S{Max Tentativas?}
+                            
+                            S -->|Não| I
+                            S -->|Sim| T[Registrar Perda]
+                            T --> R
+                            R --> U[Dashboard Atualizado]
+                            
+                            style I fill:#e74c3c,stroke:#c0392b,color:#fff
+                            style R fill:#27ae60,stroke:#229954,color:#fff
                     </div>
                 </div>
             </div>

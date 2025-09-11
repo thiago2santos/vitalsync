@@ -96,7 +96,8 @@
             padding: 15px;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            overflow: visible;
+            position: relative;
         }
 
         .mock-header {
@@ -233,6 +234,10 @@
             padding: 10px 0;
             border-top: 1px solid #ecf0f1;
             margin-top: auto;
+            background: white;
+            border-radius: 0 0 15px 15px;
+            position: relative;
+            z-index: 10;
         }
 
         .nav-btn {
@@ -431,7 +436,6 @@
                             <div class="activity-title">Atividade Recente</div>
                             <div class="activity-item">Pressão arterial registrada - 2h atrás</div>
                             <div class="activity-item">Medicamento tomado - 4h atrás</div>
-                            <div class="activity-item">Peso registrado - 1 dia atrás</div>
                         </div>
                         
                         <div class="navigation-bar">

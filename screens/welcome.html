@@ -143,8 +143,8 @@
         }
 
         .mock-illustration {
-            width: 150px;
-            height: 100px;
+            width: 200px;
+            height: 150px;
             background: linear-gradient(45deg, #e74c3c, #f39c12, #27ae60, #3498db);
             border-radius: 10px;
             margin: 0 auto;
@@ -153,7 +153,65 @@
             justify-content: center;
             color: white;
             font-size: 2rem;
+            position: relative;
+            overflow: hidden;
         }
+
+        /* Canvas Animation Styles */
+        .canvas-container {
+            width: 200px;
+            height: 150px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        #onboardingCanvas {
+            border-radius: 10px;
+            display: block;
+        }
+
+        /* Floating health icons animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.05); }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .health-icon {
+            position: absolute;
+            font-size: 24px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .health-icon:nth-child(1) { top: 20px; left: 30px; animation-delay: 0s; }
+        .health-icon:nth-child(2) { top: 40px; right: 25px; animation-delay: 0.5s; }
+        .health-icon:nth-child(3) { bottom: 30px; left: 20px; animation-delay: 1s; }
+        .health-icon:nth-child(4) { bottom: 20px; right: 30px; animation-delay: 1.5s; }
+        .health-icon:nth-child(5) { top: 60px; left: 50%; transform: translateX(-50%); animation-delay: 2s; }
 
         .mock-footer {
             display: flex;
@@ -350,7 +408,14 @@
                             <div class="mock-description">
                                 Monitore sinais vitais, gerencie medicamentos e acompanhe seu bem-estar com facilidade
                             </div>
-                            <div class="mock-illustration">🩺</div>
+                            <div class="canvas-container">
+                                <canvas id="onboardingCanvas" width="200" height="150"></canvas>
+                                <div class="health-icon">❤️</div>
+                                <div class="health-icon">🩺</div>
+                                <div class="health-icon">💊</div>
+                                <div class="health-icon">🌡️</div>
+                                <div class="health-icon">⚕️</div>
+                            </div>
                         </div>
                         
                         <div class="mock-footer">

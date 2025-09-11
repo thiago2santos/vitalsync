@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync Onboarding Animation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .animation-container {
+            width: 300px;
+            height: 200px;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+        }
+
+        #onboardingCanvas {
+            border-radius: 15px;
+            display: block;
+        }
+
+        /* Floating health icons animation */
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg); 
+                opacity: 0.7; 
+            }
+            50% { 
+                transform: translateY(-15px) rotate(180deg); 
+                opacity: 1; 
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 0.8; 
+            }
+            50% { 
+                transform: scale(1.3); 
+                opacity: 1; 
+            }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.05); }
+        }
+
+        .health-icon {
+            position: absolute;
+            font-size: 28px;
+            z-index: 10;
+        }
+
+        .health-icon:nth-child(2) { 
+            top: 25px; 
+            left: 40px; 
+            animation: float 3s ease-in-out infinite;
+            animation-delay: 0s; 
+        }
+        
+        .health-icon:nth-child(3) { 
+            top: 50px; 
+            right: 35px; 
+            animation: pulse 2s ease-in-out infinite;
+            animation-delay: 0.5s; 
+        }
+        
+        .health-icon:nth-child(4) { 
+            bottom: 40px; 
+            left: 30px; 
+            animation: float 3.5s ease-in-out infinite;
+            animation-delay: 1s; 
+        }
+        
+        .health-icon:nth-child(5) { 
+            bottom: 30px; 
+            right: 40px; 
+            animation: heartbeat 1.5s ease-in-out infinite;
+            animation-delay: 1.5s; 
+        }
+        
+        .health-icon:nth-child(6) { 
+            top: 80px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            animation: pulse 2.5s ease-in-out infinite;
+            animation-delay: 2s; 
+        }
+    </style>
+</head>
+<body>
+    <div class="animation-container">
+        <canvas id="onboardingCanvas" width="300" height="200"></canvas>
+        <div class="health-icon">❤️</div>
+        <div class="health-icon">🩺</div>
+        <div class="health-icon">💊</div>
+        <div class="health-icon">🌡️</div>
+        <div class="health-icon">⚕️</div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('onboardingCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Animation variables
+        let time = 0;
+        const particles = [];
+
+        // Create wellness particles
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 2 - 1;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.color = this.getRandomColor();
+            }
+
+            getRandomColor() {
+                const colors = ['#3498db', '#27ae60', '#e74c3c', '#f39c12', '#9b59b6'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Bounce off edges
+                if (this.x <= 0 || this.x >= canvas.width) this.speedX *= -1;
+                if (this.y <= 0 || this.y >= canvas.height) this.speedY *= -1;
+
+                // Pulsing effect
+                this.opacity = 0.3 + Math.sin(time * 0.02 + this.x * 0.01) * 0.2;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < 15; i++) {
+            particles.push(new Particle());
+        }
+
+        // Draw breathing circle in center
+        function drawBreathingCircle() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const baseRadius = 30;
+            const breathingRadius = baseRadius + Math.sin(time * 0.03) * 10;
+
+            // Outer glow
+            const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, breathingRadius + 20);
+            gradient.addColorStop(0, 'rgba(52, 152, 219, 0.3)');
+            gradient.addColorStop(1, 'rgba(52, 152, 219, 0)');
+
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, breathingRadius + 20, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Main circle
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, breathingRadius, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Inner pulse
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, breathingRadius * 0.7, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Draw wave pattern
+        function drawWavePattern() {
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+
+            for (let x = 0; x < canvas.width; x += 5) {
+                const y = canvas.height / 2 + Math.sin((x + time) * 0.02) * 20;
+                if (x === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            ctx.stroke();
+
+            // Second wave
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.beginPath();
+            for (let x = 0; x < canvas.width; x += 5) {
+                const y = canvas.height / 2 + Math.sin((x + time + 50) * 0.025) * 15;
+                if (x === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            ctx.stroke();
+        }
+
+        // Animation loop
+        function animate() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw wave pattern
+            drawWavePattern();
+
+            // Update and draw particles
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            // Draw breathing circle
+            drawBreathingCircle();
+
+            time++;
+            requestAnimationFrame(animate);
+        }
+
+        // Start animation
+        animate();
+
+        // Add touch interaction for mobile
+        canvas.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            
+            // Add burst of particles at touch point
+            for (let i = 0; i < 5; i++) {
+                const particle = new Particle();
+                particle.x = x;
+                particle.y = y;
+                particles.push(particle);
+            }
+            
+            // Remove excess particles
+            if (particles.length > 30) {
+                particles.splice(0, 5);
+            }
+        });
+    </script>
+</body>
+</html>

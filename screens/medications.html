@@ -305,6 +305,35 @@
             font-weight: bold;
         }
 
+        .navigation-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #ecf0f1;
+            margin-top: auto;
+            background: white;
+            border-radius: 0 0 15px 15px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-size: 0.6rem;
+            color: #6c757d;
+        }
+
+        .nav-btn.active {
+            color: #27ae60;
+        }
+
+        .nav-icon {
+            font-size: 1rem;
+        }
+
         @media (max-width: 1024px) {
             .content {
                 grid-template-columns: 1fr;
@@ -395,6 +424,25 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="navigation-bar">
+                            <div class="nav-btn">
+                                <div class="nav-icon">🏠</div>
+                                <div>Home</div>
+                            </div>
+                            <div class="nav-btn">
+                                <div class="nav-icon">📊</div>
+                                <div>Monitor</div>
+                            </div>
+                            <div class="nav-btn active">
+                                <div class="nav-icon">💊</div>
+                                <div>Meds</div>
+                            </div>
+                            <div class="nav-btn">
+                                <div class="nav-icon">👤</div>
+                                <div>Perfil</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -408,6 +456,7 @@ lay_main (VerticalScrollArrangement)
 ├── lay_next_dose (VerticalArrangement)
 ├── lay_today_schedule (VerticalArrangement)
 ├── lay_med_list (VerticalArrangement)
+└── lay_navigation (HorizontalArrangement)
                 </div>
 
                 <div class="component-group">
@@ -484,6 +533,41 @@ lay_main (VerticalScrollArrangement)
                         <div class="component-details">
                             <div><span class="property">Itens</span> Lista completa</div>
                             <div><span class="property">Ação</span> Toque para editar</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>🧭 Navigation Bar</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">btn_nav_home (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Ícone</span> Casa</div>
+                            <div><span class="property">Ação</span> scr_dashboard</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_nav_monitor (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Ícone</span> Gráfico</div>
+                            <div><span class="property">Ação</span> scr_vital_signs</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_nav_meds (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Estado</span> Ativo</div>
+                            <div><span class="property">Ícone</span> Pílula</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_nav_profile (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Ação</span> scr_profile</div>
                         </div>
                     </div>
                 </div>

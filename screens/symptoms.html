@@ -369,6 +369,35 @@
             font-weight: bold;
         }
 
+        .navigation-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #ecf0f1;
+            margin-top: auto;
+            background: white;
+            border-radius: 0 0 15px 15px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-size: 0.6rem;
+            color: #6c757d;
+        }
+
+        .nav-btn.active {
+            color: #f39c12;
+        }
+
+        .nav-icon {
+            font-size: 1rem;
+        }
+
         @media (max-width: 1024px) {
             .content {
                 grid-template-columns: 1fr;
@@ -451,6 +480,25 @@
                             <button class="mock-button secondary">Cancelar</button>
                             <button class="mock-button primary">Salvar</button>
                         </div>
+                        
+                        <div class="navigation-bar">
+                            <div class="nav-btn">
+                                <div class="nav-icon">🏠</div>
+                                <div>Home</div>
+                            </div>
+                            <div class="nav-btn">
+                                <div class="nav-icon">📊</div>
+                                <div>Monitor</div>
+                            </div>
+                            <div class="nav-btn">
+                                <div class="nav-icon">💊</div>
+                                <div>Meds</div>
+                            </div>
+                            <div class="nav-btn">
+                                <div class="nav-icon">👤</div>
+                                <div>Perfil</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -465,6 +513,7 @@ lay_main (VerticalScrollArrangement)
 ├── lay_pain_scale (VerticalArrangement)
 ├── lay_description (VerticalArrangement)
 ├── lay_photo (VerticalArrangement)
+└── lay_navigation (HorizontalArrangement)
                 </div>
 
                 <div class="component-group">
@@ -554,6 +603,38 @@ lay_main (VerticalScrollArrangement)
                         <div class="component-name">img_symptom_photo (Image)</div>
                         <div class="component-details">
                             <div><span class="property">Função</span> Preview da foto</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-group">
+                    <h3>🧭 Navigation Bar</h3>
+                    
+                    <div class="component">
+                        <div class="component-name">btn_nav_home (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Ação</span> scr_dashboard</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_nav_monitor (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Ação</span> scr_vital_signs</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_nav_meds (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Ação</span> scr_medications</div>
+                        </div>
+                    </div>
+
+                    <div class="component">
+                        <div class="component-name">btn_nav_profile (Button)</div>
+                        <div class="component-details">
+                            <div><span class="property">Ação</span> scr_profile</div>
                         </div>
                     </div>
                 </div>

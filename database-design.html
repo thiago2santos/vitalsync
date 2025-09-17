@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSync - Database Design & Entity Model</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #1abc9c, #16a085); color: white; padding: 40px; text-align: center; position: relative; }
+        .header h1 { font-size: 2.5rem; margin-bottom: 15px; font-weight: 300; }
+        .back-button { position: absolute; top: 30px; left: 30px; background: rgba(255,255,255,0.2); color: white; text-decoration: none; padding: 12px 24px; border-radius: 25px; transition: all 0.3s ease; }
+        .back-button:hover { background: rgba(255,255,255,0.3); }
+        .content { padding: 40px; }
+        .section { margin-bottom: 60px; background: #f8f9fa; border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .section-title { font-size: 2rem; color: #2c3e50; margin-bottom: 20px; text-align: center; font-weight: 600; }
+        .section-description { font-size: 1.1rem; color: #6c757d; line-height: 1.6; margin-bottom: 30px; text-align: center; }
+        .mermaid-container { background: white; border-radius: 15px; padding: 30px; margin: 30px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow-x: auto; }
+        .entity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; margin: 30px 0; }
+        .entity-card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-left: 5px solid #3498db; }
+        .entity-title { font-size: 1.4rem; color: #2c3e50; margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .entity-description { color: #6c757d; margin-bottom: 20px; line-height: 1.5; }
+        .fields-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .fields-table th { background: #ecf0f1; padding: 12px; text-align: left; font-weight: 600; color: #2c3e50; border-bottom: 2px solid #bdc3c7; }
+        .fields-table td { padding: 10px 12px; border-bottom: 1px solid #ecf0f1; vertical-align: top; }
+        .field-name { font-family: 'Courier New', monospace; font-weight: 600; color: #e74c3c; }
+        .field-type { font-family: 'Courier New', monospace; color: #27ae60; font-size: 0.9rem; }
+        .field-constraint { font-size: 0.85rem; color: #8e44ad; font-style: italic; }
+        .best-practices { background: #e8f5e8; border-left: 5px solid #27ae60; padding: 20px; border-radius: 0 10px 10px 0; margin: 20px 0; }
+        .best-practices h4 { color: #27ae60; margin-bottom: 15px; font-size: 1.2rem; }
+        .best-practices ul { list-style: none; padding-left: 0; }
+        .best-practices li { padding: 8px 0; position: relative; padding-left: 25px; line-height: 1.5; }
+        .best-practices li:before { content: "✓"; position: absolute; left: 0; color: #27ae60; font-weight: bold; font-size: 1.1rem; }
+        .implementation-note { background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .implementation-note h4 { color: #856404; margin-bottom: 10px; }
+        .implementation-note p { color: #856404; line-height: 1.5; }
+        .code-block { background: #2c3e50; color: #ecf0f1; padding: 20px; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.4; overflow-x: auto; margin: 15px 0; }
+        .relationships { background: #e3f2fd; border-left: 5px solid #2196f3; padding: 20px; border-radius: 0 10px 10px 0; margin: 20px 0; }
+        .relationships h4 { color: #1976d2; margin-bottom: 15px; }
+        .relationships ul { list-style: none; padding-left: 0; }
+        .relationships li { padding: 5px 0; color: #1976d2; }
+        @media (max-width: 768px) { .entity-grid { grid-template-columns: 1fr; } .content { padding: 20px; } }
+    </style>
+</head>
+<body>
+    <!-- Header Principal -->
+    <header style="background: linear-gradient(135deg, #2c3e50, #34495e); color: white; padding: 10px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+        <div style="max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 40px;">
+            <a href="index.html" style="display: flex; align-items: center; font-size: 1.3rem; font-weight: 600; text-decoration: none; color: white;">
+                <span style="font-size: 1.6rem; margin-right: 10px;">🏥</span>
+                VitalSync Docs
+            </a>
+            <nav style="display: flex; gap: 20px;">
+                <a href="index.html" style="color: white; text-decoration: none; padding: 8px 15px; border-radius: 20px; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px;">
+                    <span>🏠</span> Início
+                </a>
+                <a href="screens/index.html" style="color: white; text-decoration: none; padding: 8px 15px; border-radius: 20px; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px;">
+                    <span>📱</span> Especificações
+                </a>
+                <a href="user-journey/index.html" style="color: white; text-decoration: none; padding: 8px 15px; border-radius: 20px; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px;">
+                    <span>🚀</span> Jornadas
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-button">← Voltar ao Início</a>
+            <h1>🗄️ Database Design & Entity Model</h1>
+            <p>Modelo de Dados Completo para MIT App Inventor com TinyDB</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <div class="section-title">📊 Entity Relationship Diagram</div>
+                <div class="section-description">
+                    Diagrama completo das entidades e relacionamentos do VitalSync
+                </div>
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        erDiagram
+                            USER ||--o{ VITAL_SIGN : records
+                            USER ||--o{ MEDICATION : takes
+                            USER ||--o{ SYMPTOM : reports
+                            USER ||--o{ APPOINTMENT : schedules
+                            USER ||--|| USER_PROFILE : has
+                            USER ||--|| APP_SETTINGS : configures
+                            
+                            MEDICATION ||--o{ MEDICATION_SCHEDULE : has
+                            MEDICATION ||--o{ MEDICATION_LOG : generates
+                            SYMPTOM ||--o{ SYMPTOM_PHOTO : includes
+                            VITAL_SIGN ||--o{ VITAL_PHOTO : includes
+                            
+                            USER {
+                                string user_id PK
+                                string username
+                                string password_hash
+                                string security_question
+                                string security_answer
+                                datetime created_at
+                                datetime last_login
+                                boolean remember_me
+                            }
+                            
+                            USER_PROFILE {
+                                string user_id PK,FK
+                                string full_name
+                                date birth_date
+                                string gender
+                                float height
+                                string blood_type
+                                text allergies
+                                text medical_conditions
+                                string profile_photo_path
+                                json emergency_contacts
+                                datetime updated_at
+                            }
+                            
+                            VITAL_SIGN {
+                                string vital_id PK
+                                string user_id FK
+                                string vital_type
+                                float systolic_bp
+                                float diastolic_bp
+                                float heart_rate
+                                float temperature
+                                float weight
+                                float glucose
+                                integer steps
+                                text notes
+                                datetime recorded_at
+                                string source
+                            }
+                            
+                            MEDICATION {
+                                string medication_id PK
+                                string user_id FK
+                                string name
+                                string dosage
+                                string medication_type
+                                integer quantity_stock
+                                string barcode
+                                string prescription_photo_path
+                                boolean active
+                                datetime created_at
+                            }
+                            
+                            MEDICATION_SCHEDULE {
+                                string schedule_id PK
+                                string medication_id FK
+                                string frequency
+                                json schedule_times
+                                boolean notifications_enabled
+                                datetime start_date
+                                datetime end_date
+                            }
+                            
+                            MEDICATION_LOG {
+                                string log_id PK
+                                string medication_id FK
+                                datetime scheduled_time
+                                datetime taken_time
+                                string status
+                                text notes
+                            }
+                            
+                            SYMPTOM {
+                                string symptom_id PK
+                                string user_id FK
+                                string symptom_type
+                                integer pain_scale
+                                text description
+                                datetime recorded_at
+                                json related_medications
+                            }
+                            
+                            SYMPTOM_PHOTO {
+                                string photo_id PK
+                                string symptom_id FK
+                                string photo_path
+                                datetime captured_at
+                            }
+                            
+                            VITAL_PHOTO {
+                                string photo_id PK
+                                string vital_id FK
+                                string photo_path
+                                datetime captured_at
+                            }
+                            
+                            APPOINTMENT {
+                                string appointment_id PK
+                                string user_id FK
+                                string doctor_name
+                                string specialty
+                                string location
+                                datetime appointment_date
+                                text notes
+                                string status
+                                boolean reminder_enabled
+                                datetime created_at
+                            }
+                            
+                            APP_SETTINGS {
+                                string user_id PK,FK
+                                boolean med_reminders
+                                boolean appointment_alerts
+                                boolean health_tips
+                                string language
+                                boolean dark_mode
+                                json notification_times
+                                datetime updated_at
+                            }
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">🏗️ Entity Specifications</div>
+                <div class="section-description">
+                    Especificações detalhadas de cada entidade com campos, tipos e restrições
+                </div>
+
+                <div class="entity-grid">
+                    <div class="entity-card">
+                        <div class="entity-title">
+                            <span>👤</span> USER
+                        </div>
+                        <div class="entity-description">
+                            Entidade principal para autenticação e identificação do usuário
+                        </div>
+                        <table class="fields-table">
+                            <thead>
+                                <tr>
+                                    <th>Campo</th>
+                                    <th>Tipo</th>
+                                    <th>Restrições</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="field-name">user_id</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">PK, UUID, NOT NULL</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">username</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">UNIQUE, 3-50 chars</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">password_hash</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">NOT NULL, min 6 chars</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">security_question</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">NOT NULL</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">security_answer</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">NOT NULL</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">created_at</td>
+                                    <td class="field-type">DATETIME</td>
+                                    <td class="field-constraint">DEFAULT NOW()</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">last_login</td>
+                                    <td class="field-type">DATETIME</td>
+                                    <td class="field-constraint">NULLABLE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">remember_me</td>
+                                    <td class="field-type">BOOLEAN</td>
+                                    <td class="field-constraint">DEFAULT FALSE</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="entity-card">
+                        <div class="entity-title">
+                            <span>📋</span> USER_PROFILE
+                        </div>
+                        <div class="entity-description">
+                            Informações pessoais e de saúde do usuário
+                        </div>
+                        <table class="fields-table">
+                            <thead>
+                                <tr>
+                                    <th>Campo</th>
+                                    <th>Tipo</th>
+                                    <th>Restrições</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="field-name">user_id</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">PK, FK → USER</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">full_name</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">NOT NULL, 2-100 chars</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">birth_date</td>
+                                    <td class="field-type">DATE</td>
+                                    <td class="field-constraint">NULLABLE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">gender</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">M/F/Other</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">height</td>
+                                    <td class="field-type">FLOAT</td>
+                                    <td class="field-constraint">0.5-3.0 meters</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">blood_type</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">A+/A-/B+/B-/AB+/AB-/O+/O-</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">allergies</td>
+                                    <td class="field-type">TEXT</td>
+                                    <td class="field-constraint">NULLABLE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">medical_conditions</td>
+                                    <td class="field-type">TEXT</td>
+                                    <td class="field-constraint">NULLABLE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">profile_photo_path</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">File path</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">emergency_contacts</td>
+                                    <td class="field-type">JSON</td>
+                                    <td class="field-constraint">Array of contacts</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="entity-card">
+                        <div class="entity-title">
+                            <span>📊</span> VITAL_SIGN
+                        </div>
+                        <div class="entity-description">
+                            Registros de sinais vitais e métricas de saúde
+                        </div>
+                        <table class="fields-table">
+                            <thead>
+                                <tr>
+                                    <th>Campo</th>
+                                    <th>Tipo</th>
+                                    <th>Restrições</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="field-name">vital_id</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">PK, UUID</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">user_id</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">FK → USER</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">vital_type</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">BP/HR/TEMP/WEIGHT/GLUCOSE/STEPS</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">systolic_bp</td>
+                                    <td class="field-type">FLOAT</td>
+                                    <td class="field-constraint">60-300 mmHg</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">diastolic_bp</td>
+                                    <td class="field-type">FLOAT</td>
+                                    <td class="field-constraint">40-200 mmHg</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">heart_rate</td>
+                                    <td class="field-type">FLOAT</td>
+                                    <td class="field-constraint">30-220 bpm</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">temperature</td>
+                                    <td class="field-type">FLOAT</td>
+                                    <td class="field-constraint">30-45 °C</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">weight</td>
+                                    <td class="field-type">FLOAT</td>
+                                    <td class="field-constraint">1-500 kg</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">glucose</td>
+                                    <td class="field-type">FLOAT</td>
+                                    <td class="field-constraint">20-600 mg/dL</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">steps</td>
+                                    <td class="field-type">INTEGER</td>
+                                    <td class="field-constraint">0-100000</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">notes</td>
+                                    <td class="field-type">TEXT</td>
+                                    <td class="field-constraint">NULLABLE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">recorded_at</td>
+                                    <td class="field-type">DATETIME</td>
+                                    <td class="field-constraint">NOT NULL</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">source</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">MANUAL/BLUETOOTH/SENSOR</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="entity-card">
+                        <div class="entity-title">
+                            <span>💊</span> MEDICATION
+                        </div>
+                        <div class="entity-description">
+                            Medicamentos cadastrados pelo usuário
+                        </div>
+                        <table class="fields-table">
+                            <thead>
+                                <tr>
+                                    <th>Campo</th>
+                                    <th>Tipo</th>
+                                    <th>Restrições</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="field-name">medication_id</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">PK, UUID</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">user_id</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">FK → USER</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">name</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">NOT NULL, 2-200 chars</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">dosage</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">Ex: "10mg", "1 comprimido"</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">medication_type</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">TABLET/CAPSULE/LIQUID/INJECTION</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">quantity_stock</td>
+                                    <td class="field-type">INTEGER</td>
+                                    <td class="field-constraint">0-9999</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">barcode</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">NULLABLE, from scanner</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">prescription_photo_path</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">File path</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">active</td>
+                                    <td class="field-type">BOOLEAN</td>
+                                    <td class="field-constraint">DEFAULT TRUE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">created_at</td>
+                                    <td class="field-type">DATETIME</td>
+                                    <td class="field-constraint">DEFAULT NOW()</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="entity-card">
+                        <div class="entity-title">
+                            <span>⏰</span> MEDICATION_SCHEDULE
+                        </div>
+                        <div class="entity-description">
+                            Horários e frequência dos medicamentos
+                        </div>
+                        <table class="fields-table">
+                            <thead>
+                                <tr>
+                                    <th>Campo</th>
+                                    <th>Tipo</th>
+                                    <th>Restrições</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="field-name">schedule_id</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">PK, UUID</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">medication_id</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">FK → MEDICATION</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">frequency</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">1X/2X/3X/CUSTOM</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">schedule_times</td>
+                                    <td class="field-type">JSON</td>
+                                    <td class="field-constraint">Array of times ["08:00", "20:00"]</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">notifications_enabled</td>
+                                    <td class="field-type">BOOLEAN</td>
+                                    <td class="field-constraint">DEFAULT TRUE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">start_date</td>
+                                    <td class="field-type">DATETIME</td>
+                                    <td class="field-constraint">NOT NULL</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">end_date</td>
+                                    <td class="field-type">DATETIME</td>
+                                    <td class="field-constraint">NULLABLE</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="entity-card">
+                        <div class="entity-title">
+                            <span>📝</span> MEDICATION_LOG
+                        </div>
+                        <div class="entity-description">
+                            Histórico de medicamentos tomados/perdidos
+                        </div>
+                        <table class="fields-table">
+                            <thead>
+                                <tr>
+                                    <th>Campo</th>
+                                    <th>Tipo</th>
+                                    <th>Restrições</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="field-name">log_id</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">PK, UUID</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">medication_id</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">FK → MEDICATION</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">scheduled_time</td>
+                                    <td class="field-type">DATETIME</td>
+                                    <td class="field-constraint">NOT NULL</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">taken_time</td>
+                                    <td class="field-type">DATETIME</td>
+                                    <td class="field-constraint">NULLABLE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">status</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">TAKEN/MISSED/DELAYED</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">notes</td>
+                                    <td class="field-type">TEXT</td>
+                                    <td class="field-constraint">NULLABLE</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="entity-card">
+                        <div class="entity-title">
+                            <span>🤒</span> SYMPTOM
+                        </div>
+                        <div class="entity-description">
+                            Registro de sintomas e escala de dor
+                        </div>
+                        <table class="fields-table">
+                            <thead>
+                                <tr>
+                                    <th>Campo</th>
+                                    <th>Tipo</th>
+                                    <th>Restrições</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="field-name">symptom_id</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">PK, UUID</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">user_id</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">FK → USER</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">symptom_type</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">HEADACHE/FATIGUE/NAUSEA/DIZZINESS/OTHER</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">pain_scale</td>
+                                    <td class="field-type">INTEGER</td>
+                                    <td class="field-constraint">1-10</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">description</td>
+                                    <td class="field-type">TEXT</td>
+                                    <td class="field-constraint">NULLABLE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">recorded_at</td>
+                                    <td class="field-type">DATETIME</td>
+                                    <td class="field-constraint">NOT NULL</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">related_medications</td>
+                                    <td class="field-type">JSON</td>
+                                    <td class="field-constraint">Array of medication IDs</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="entity-card">
+                        <div class="entity-title">
+                            <span>🏥</span> APPOINTMENT
+                        </div>
+                        <div class="entity-description">
+                            Consultas médicas agendadas
+                        </div>
+                        <table class="fields-table">
+                            <thead>
+                                <tr>
+                                    <th>Campo</th>
+                                    <th>Tipo</th>
+                                    <th>Restrições</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="field-name">appointment_id</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">PK, UUID</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">user_id</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">FK → USER</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">doctor_name</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">NOT NULL, 2-100 chars</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">specialty</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">NULLABLE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">location</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">NULLABLE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">appointment_date</td>
+                                    <td class="field-type">DATETIME</td>
+                                    <td class="field-constraint">NOT NULL, future date</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">notes</td>
+                                    <td class="field-type">TEXT</td>
+                                    <td class="field-constraint">NULLABLE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">status</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">SCHEDULED/COMPLETED/CANCELLED</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">reminder_enabled</td>
+                                    <td class="field-type">BOOLEAN</td>
+                                    <td class="field-constraint">DEFAULT TRUE</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="entity-card">
+                        <div class="entity-title">
+                            <span>⚙️</span> APP_SETTINGS
+                        </div>
+                        <div class="entity-description">
+                            Configurações personalizadas do aplicativo
+                        </div>
+                        <table class="fields-table">
+                            <thead>
+                                <tr>
+                                    <th>Campo</th>
+                                    <th>Tipo</th>
+                                    <th>Restrições</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="field-name">user_id</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">PK, FK → USER</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">med_reminders</td>
+                                    <td class="field-type">BOOLEAN</td>
+                                    <td class="field-constraint">DEFAULT TRUE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">appointment_alerts</td>
+                                    <td class="field-type">BOOLEAN</td>
+                                    <td class="field-constraint">DEFAULT TRUE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">health_tips</td>
+                                    <td class="field-type">BOOLEAN</td>
+                                    <td class="field-constraint">DEFAULT TRUE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">language</td>
+                                    <td class="field-type">STRING</td>
+                                    <td class="field-constraint">PT/EN/ES</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">dark_mode</td>
+                                    <td class="field-type">BOOLEAN</td>
+                                    <td class="field-constraint">DEFAULT FALSE</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-name">notification_times</td>
+                                    <td class="field-type">JSON</td>
+                                    <td class="field-constraint">Custom notification settings</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">🏗️ TinyDB Implementation Strategy</div>
+                <div class="section-description">
+                    Estratégia de implementação específica para MIT App Inventor com TinyDB
+                </div>
+
+                <div class="implementation-note">
+                    <h4>📱 MIT App Inventor + TinyDB Considerations</h4>
+                    <p>O TinyDB é um banco de dados NoSQL baseado em chave-valor. Cada "entidade" será armazenada como uma tag com dados em formato JSON ou lista.</p>
+                </div>
+
+                <div class="best-practices">
+                    <h4>🎯 TinyDB Tag Structure</h4>
+                    <ul>
+                        <li><strong>user_profile:</strong> Dados básicos do usuário em JSON</li>
+                        <li><strong>vital_signs_list:</strong> Lista de todos os sinais vitais</li>
+                        <li><strong>medications_list:</strong> Lista de medicamentos ativos</li>
+                        <li><strong>medication_schedules:</strong> Horários por medicamento</li>
+                        <li><strong>medication_logs:</strong> Histórico de doses tomadas</li>
+                        <li><strong>symptoms_list:</strong> Lista de sintomas registrados</li>
+                        <li><strong>appointments_list:</strong> Lista de consultas</li>
+                        <li><strong>app_settings:</strong> Configurações do usuário</li>
+                        <li><strong>emergency_contacts:</strong> Lista de contatos de emergência</li>
+                        <li><strong>photos_metadata:</strong> Metadados das fotos capturadas</li>
+                    </ul>
+                </div>
+
+                <div class="code-block">
+// Exemplo de estrutura JSON para vital_signs_list
+[
+  {
+    "vital_id": "vs_001",
+    "vital_type": "BP",
+    "systolic_bp": 120,
+    "diastolic_bp": 80,
+    "recorded_at": "2024-09-17T14:30:00",
+    "source": "MANUAL",
+    "notes": "Medição após exercício"
+  },
+  {
+    "vital_id": "vs_002", 
+    "vital_type": "WEIGHT",
+    "weight": 75.5,
+    "recorded_at": "2024-09-17T08:00:00",
+    "source": "BLUETOOTH"
+  }
+]
+                </div>
+
+                <div class="code-block">
+// Exemplo de estrutura JSON para medications_list
+[
+  {
+    "medication_id": "med_001",
+    "name": "Losartana",
+    "dosage": "50mg",
+    "medication_type": "TABLET",
+    "quantity_stock": 30,
+    "active": true,
+    "created_at": "2024-09-01T10:00:00",
+    "schedule": {
+      "frequency": "2X",
+      "times": ["08:00", "20:00"],
+      "notifications_enabled": true
+    }
+  }
+]
+                </div>
+
+                <div class="relationships">
+                    <h4>🔗 Data Relationships in TinyDB</h4>
+                    <ul>
+                        <li><strong>Foreign Keys:</strong> Usar IDs como strings para referenciar dados relacionados</li>
+                        <li><strong>One-to-Many:</strong> Armazenar arrays de IDs ou objetos aninhados</li>
+                        <li><strong>Lookups:</strong> Implementar funções para buscar dados relacionados</li>
+                        <li><strong>Indexing:</strong> Usar prefixos consistentes nos IDs (vs_, med_, sym_, app_)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">📏 Database Design Best Practices</div>
+                <div class="section-description">
+                    Boas práticas aplicadas ao design do banco de dados do VitalSync
+                </div>
+
+                <div class="best-practices">
+                    <h4>🎯 Normalization & Structure</h4>
+                    <ul>
+                        <li><strong>Atomic Values:</strong> Cada campo contém apenas um valor (exceto JSON estruturado)</li>
+                        <li><strong>Consistent Naming:</strong> snake_case para campos, PascalCase para entidades</li>
+                        <li><strong>Primary Keys:</strong> UUIDs para garantir unicidade global</li>
+                        <li><strong>Foreign Keys:</strong> Referências claras entre entidades relacionadas</li>
+                        <li><strong>Temporal Data:</strong> Timestamps consistentes para auditoria</li>
+                    </ul>
+                </div>
+
+                <div class="best-practices">
+                    <h4>🔒 Security & Privacy</h4>
+                    <ul>
+                        <li><strong>Password Hashing:</strong> Nunca armazenar senhas em texto plano</li>
+                        <li><strong>Data Encryption:</strong> Considerar criptografia para dados sensíveis</li>
+                        <li><strong>Access Control:</strong> Isolamento de dados por usuário</li>
+                        <li><strong>Audit Trail:</strong> Timestamps de criação e modificação</li>
+                        <li><strong>Data Minimization:</strong> Coletar apenas dados necessários</li>
+                    </ul>
+                </div>
+
+                <div class="best-practices">
+                    <h4>📱 Mobile Optimization</h4>
+                    <ul>
+                        <li><strong>Offline First:</strong> Design para funcionar sem conexão</li>
+                        <li><strong>Sync Strategy:</strong> Preparado para sincronização futura</li>
+                        <li><strong>Storage Efficiency:</strong> Estruturas compactas para TinyDB</li>
+                        <li><strong>Query Performance:</strong> Índices implícitos via estrutura de dados</li>
+                        <li><strong>Backup Ready:</strong> Estrutura exportável para backup</li>
+                    </ul>
+                </div>
+
+                <div class="best-practices">
+                    <h4>🏥 Healthcare Specific</h4>
+                    <ul>
+                        <li><strong>Data Validation:</strong> Faixas de valores médicos realistas</li>
+                        <li><strong>Temporal Accuracy:</strong> Precisão de timestamps para correlações</li>
+                        <li><strong>Emergency Access:</strong> Dados críticos facilmente acessíveis</li>
+                        <li><strong>Medical Standards:</strong> Unidades e formatos padronizados</li>
+                        <li><strong>Extensibility:</strong> Estrutura flexível para novos tipos de dados</li>
+                    </ul>
+                </div>
+
+                <div class="implementation-note">
+                    <h4>🚀 Implementation Roadmap</h4>
+                    <p><strong>Phase 1:</strong> USER, USER_PROFILE, APP_SETTINGS (Authentication & Profile)<br>
+                    <strong>Phase 2:</strong> VITAL_SIGN, VITAL_PHOTO (Core Health Tracking)<br>
+                    <strong>Phase 3:</strong> MEDICATION, MEDICATION_SCHEDULE, MEDICATION_LOG (Medication Management)<br>
+                    <strong>Phase 4:</strong> SYMPTOM, SYMPTOM_PHOTO (Symptom Tracking)<br>
+                    <strong>Phase 5:</strong> APPOINTMENT (Healthcare Management)</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">💾 Sample Data & Testing</div>
+                <div class="section-description">
+                    Dados de exemplo para testes e validação do modelo
+                </div>
+
+                <div class="code-block">
+// Sample User Profile
+{
+  "user_id": "user_001",
+  "username": "joao.silva",
+  "full_name": "João Silva",
+  "birth_date": "1985-03-15",
+  "gender": "M",
+  "height": 1.75,
+  "blood_type": "O+",
+  "allergies": "Penicilina, Frutos do mar",
+  "medical_conditions": "Hipertensão leve",
+  "emergency_contacts": [
+    {
+      "name": "Maria Silva",
+      "relationship": "Esposa", 
+      "phone": "(11) 99999-9999"
+    }
+  ]
+}
+                </div>
+
+                <div class="code-block">
+// Sample Vital Signs
+[
+  {
+    "vital_id": "vs_001",
+    "vital_type": "BP",
+    "systolic_bp": 125,
+    "diastolic_bp": 82,
+    "recorded_at": "2024-09-17T08:30:00",
+    "source": "MANUAL",
+    "notes": "Medição matinal"
+  },
+  {
+    "vital_id": "vs_002",
+    "vital_type": "WEIGHT", 
+    "weight": 78.2,
+    "recorded_at": "2024-09-17T07:00:00",
+    "source": "BLUETOOTH"
+  }
+]
+                </div>
+
+                <div class="code-block">
+// Sample Medication with Schedule
+{
+  "medication_id": "med_001",
+  "name": "Losartana Potássica",
+  "dosage": "50mg",
+  "medication_type": "TABLET",
+  "quantity_stock": 28,
+  "barcode": "7891234567890",
+  "active": true,
+  "schedule": {
+    "frequency": "1X",
+    "times": ["08:00"],
+    "notifications_enabled": true,
+    "start_date": "2024-09-01"
+  },
+  "logs": [
+    {
+      "log_id": "log_001",
+      "scheduled_time": "2024-09-17T08:00:00",
+      "taken_time": "2024-09-17T08:05:00", 
+      "status": "TAKEN"
+    }
+  ]
+}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            er: { 
+                useMaxWidth: true,
+                fontSize: 12
+            }
+        });
+    </script>
+</body>
+</html>

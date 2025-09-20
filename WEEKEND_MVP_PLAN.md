@@ -26,40 +26,44 @@ Create a **minimal viable product** with core health tracking functionality usin
 ### **Approach: Enhance Existing Screens (No New Screens)**
 Instead of creating new screens, we'll add **simple modal dialogs** and **form sections** within existing screens.
 
-## 📅 **Weekend Timeline**
+## 📅 **Weekend Timeline (Updated for 5 PM Friday Start)**
 
-### **Friday Evening (2-3 hours)**
-- [ ] **Setup & Planning**
-- [ ] Review existing screens in MIT App Inventor
-- [ ] Test current functionality
-- [ ] Plan Saturday tasks
+### **Friday Evening - NOW (5 PM - 8 PM, 3 hours)**
+- [ ] **Setup & Quick Start** ⏰ **START NOW**
+- [ ] Open MIT App Inventor and review existing screens
+- [ ] Test current VitalSync functionality
+- [ ] Read through QUICK_START_GUIDE.md
+- [ ] **GOAL**: Start enhancing scr_vital_signs tonight if possible
 
-### **Saturday (6-8 hours)**
-- [ ] **Morning (3-4 hours): Core Functionality**
-  - [ ] Enhance scr_vital_signs with add/edit forms
-  - [ ] Add basic charts/graphs using Canvas
-  - [ ] Implement data validation
-- [ ] **Afternoon (3-4 hours): Medication Features**
-  - [ ] Enhance scr_medications with add/edit forms
+### **Saturday (8 AM - 6 PM, 8-10 hours)**
+- [ ] **Morning (8 AM - 12 PM, 4 hours): Vital Signs**
+  - [ ] Complete scr_vital_signs modal form
+  - [ ] Add readings list and basic validation
+  - [ ] Test data storage with TinyDB
+- [ ] **Afternoon (1 PM - 6 PM, 5 hours): Medications**
+  - [ ] Complete scr_medications modal form
   - [ ] Add simple reminder system using Clock
-  - [ ] Implement medication schedule
+  - [ ] Test medication scheduling
+  - [ ] **Buffer time for any Friday evening work not completed**
 
-### **Sunday (6-8 hours)**
-- [ ] **Morning (3-4 hours): Dashboard & Integration**
-  - [ ] Enhance scr_dashboard with real data
+### **Sunday (9 AM - 6 PM, 8-9 hours)**
+- [ ] **Morning (9 AM - 1 PM, 4 hours): Dashboard Integration**
+  - [ ] Enhance scr_dashboard with real data from other screens
   - [ ] Add health score calculation
   - [ ] Connect all screens with proper navigation
-- [ ] **Afternoon (3-4 hours): Polish & Testing**
-  - [ ] Add data export functionality
-  - [ ] Implement basic error handling
-  - [ ] Test all user flows
-  - [ ] Fix bugs and polish UI
+- [ ] **Afternoon (2 PM - 6 PM, 4 hours): Profile & Polish**
+  - [ ] Add basic settings to scr_profile
+  - [ ] Implement data export functionality
+  - [ ] Test all user flows and fix major bugs
+- [ ] **Evening (7 PM - 9 PM, 2 hours): Final Testing**
+  - [ ] Complete testing on different scenarios
+  - [ ] Polish UI and fix remaining issues
 
-### **Monday Evening (2-3 hours)**
-- [ ] **Final Testing & Deployment**
-- [ ] Final bug fixes
-- [ ] Test on different devices
-- [ ] Package final APK
+### **Monday Evening (6 PM - 9 PM, 3 hours)**
+- [ ] **Final Polish & Deployment**
+- [ ] Final bug fixes and edge case testing
+- [ ] Test on different devices if available
+- [ ] Package final APK and prepare demo
 
 ## 🎨 **Simplified Feature Set**
 
@@ -289,19 +293,24 @@ Time Estimate: 2-3 hours
 
 ## 📋 **Daily Checklists**
 
+### **Friday Evening Checklist (5 PM - 8 PM):**
+- [ ] Open MIT App Inventor and load VitalSync project
+- [ ] Test existing screens to understand current state
+- [ ] Read QUICK_START_GUIDE.md thoroughly
+- [ ] If time permits: Start adding modal form to scr_vital_signs
+
 ### **Saturday Checklist:**
-- [ ] Morning: scr_vital_signs enhanced with add form
-- [ ] Afternoon: scr_medications enhanced with add form
+- [ ] Morning (8 AM - 12 PM): scr_vital_signs enhanced with add form and data storage
+- [ ] Afternoon (1 PM - 6 PM): scr_medications enhanced with add form and reminders
 - [ ] Evening: Both screens saving/loading data correctly
 
 ### **Sunday Checklist:**
-- [ ] Morning: scr_dashboard showing real data
-- [ ] Afternoon: scr_profile with basic settings
-- [ ] Evening: All screens connected and working
+- [ ] Morning (9 AM - 1 PM): scr_dashboard showing real data from other screens
+- [ ] Afternoon (2 PM - 6 PM): scr_profile with basic settings and data export
+- [ ] Evening (7 PM - 9 PM): All screens connected and working, major bugs fixed
 
 ### **Monday Checklist:**
-- [ ] Morning: Final testing and bug fixes
-- [ ] Afternoon: Polish and package APK
-- [ ] Evening: Working MVP ready for demo
+- [ ] Evening (6 PM - 9 PM): Final testing, polish, and APK packaging
+- [ ] Working MVP ready for demo by 9 PM Monday
 
 This plan gives you a **realistic path to a working VitalSync MVP** by Monday evening, using only your existing screens with enhanced functionality. Focus on core features first, then add polish if time permits!

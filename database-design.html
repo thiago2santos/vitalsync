@@ -17,14 +17,17 @@
         .section { margin-bottom: 60px; background: #f8f9fa; border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .section-title { font-size: 2rem; color: #2c3e50; margin-bottom: 20px; text-align: center; font-weight: 600; }
         .section-description { font-size: 1.1rem; color: #6c757d; line-height: 1.6; margin-bottom: 30px; text-align: center; }
-        .mermaid-container { background: white; border-radius: 15px; padding: 30px; margin: 30px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow-x: auto; }
-        .entity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; margin: 30px 0; }
-        .entity-card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-left: 5px solid #3498db; }
+        .mermaid-container { background: white; border-radius: 15px; padding: 30px; margin: 30px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow-x: auto; overflow-y: auto; max-height: 600px; }
+        .entity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin: 30px 0; }
+        .entity-card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-left: 5px solid #3498db; overflow: hidden; }
         .entity-title { font-size: 1.4rem; color: #2c3e50; margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .entity-description { color: #6c757d; margin-bottom: 20px; line-height: 1.5; }
-        .fields-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .fields-table { width: 100%; border-collapse: collapse; margin-top: 15px; table-layout: fixed; }
         .fields-table th { background: #ecf0f1; padding: 12px; text-align: left; font-weight: 600; color: #2c3e50; border-bottom: 2px solid #bdc3c7; }
-        .fields-table td { padding: 10px 12px; border-bottom: 1px solid #ecf0f1; vertical-align: top; }
+        .fields-table td { padding: 10px 12px; border-bottom: 1px solid #ecf0f1; vertical-align: top; word-wrap: break-word; overflow-wrap: break-word; }
+        .fields-table th:nth-child(1), .fields-table td:nth-child(1) { width: 35%; }
+        .fields-table th:nth-child(2), .fields-table td:nth-child(2) { width: 20%; }
+        .fields-table th:nth-child(3), .fields-table td:nth-child(3) { width: 45%; }
         .field-name { font-family: 'Courier New', monospace; font-weight: 600; color: #e74c3c; }
         .field-type { font-family: 'Courier New', monospace; color: #27ae60; font-size: 0.9rem; }
         .field-constraint { font-size: 0.85rem; color: #8e44ad; font-style: italic; }
@@ -36,12 +39,19 @@
         .implementation-note { background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 10px; padding: 20px; margin: 20px 0; }
         .implementation-note h4 { color: #856404; margin-bottom: 10px; }
         .implementation-note p { color: #856404; line-height: 1.5; }
-        .code-block { background: #2c3e50; color: #ecf0f1; padding: 20px; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.4; overflow-x: auto; margin: 15px 0; }
+        .code-block { background: #2c3e50; color: #ecf0f1; padding: 20px; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.4; overflow-x: auto; margin: 15px 0; white-space: pre-wrap; word-wrap: break-word; max-width: 100%; }
         .relationships { background: #e3f2fd; border-left: 5px solid #2196f3; padding: 20px; border-radius: 0 10px 10px 0; margin: 20px 0; }
         .relationships h4 { color: #1976d2; margin-bottom: 15px; }
         .relationships ul { list-style: none; padding-left: 0; }
         .relationships li { padding: 5px 0; color: #1976d2; }
-        @media (max-width: 768px) { .entity-grid { grid-template-columns: 1fr; } .content { padding: 20px; } }
+        @media (max-width: 768px) { 
+            .entity-grid { grid-template-columns: 1fr; } 
+            .content { padding: 20px; } 
+            .mermaid-container { padding: 15px; max-height: 400px; }
+            .fields-table { font-size: 0.85rem; }
+            .fields-table th, .fields-table td { padding: 8px; }
+            .code-block { font-size: 0.8rem; padding: 15px; }
+        }
     </style>
 </head>
 <body>
@@ -1008,6 +1018,176 @@
   ]
 }
                 </div>
+
+                <div class="code-block">
+// Sample Symptoms
+[
+  {
+    "symptom_id": "sym_001",
+    "symptom_type": "HEADACHE",
+    "pain_scale": 7,
+    "description": "Dor de cabeça intensa do lado direito, começou após o almoço",
+    "recorded_at": "2024-09-17T14:30:00",
+    "related_medications": ["med_001", "med_003"]
+  },
+  {
+    "symptom_id": "sym_002",
+    "symptom_type": "FATIGUE",
+    "pain_scale": 5,
+    "description": "Cansaço excessivo mesmo após 8h de sono",
+    "recorded_at": "2024-09-17T09:15:00",
+    "related_medications": []
+  }
+]
+                </div>
+
+                <div class="code-block">
+// Sample Appointments
+[
+  {
+    "appointment_id": "app_001",
+    "doctor_name": "Dr. Maria Santos",
+    "specialty": "Cardiologia",
+    "location": "Hospital São Lucas - Sala 205",
+    "appointment_date": "2024-09-25T14:30:00",
+    "notes": "Consulta de rotina - verificar pressão arterial",
+    "status": "SCHEDULED",
+    "reminder_enabled": true,
+    "created_at": "2024-09-15T10:00:00"
+  },
+  {
+    "appointment_id": "app_002",
+    "doctor_name": "Dr. João Silva",
+    "specialty": "Clínico Geral",
+    "location": "Clínica Vida - Consultório 3",
+    "appointment_date": "2024-10-05T09:00:00",
+    "notes": "Exames de rotina - hemograma completo",
+    "status": "SCHEDULED",
+    "reminder_enabled": true,
+    "created_at": "2024-09-16T15:30:00"
+  }
+]
+                </div>
+
+                <div class="code-block">
+// Sample App Settings
+{
+  "user_id": "user_001",
+  "med_reminders": true,
+  "appointment_alerts": true,
+  "health_tips": false,
+  "language": "PT",
+  "dark_mode": false,
+  "notification_times": {
+    "medication_reminder": ["08:00", "14:00", "20:00"],
+    "appointment_reminder": ["1_day_before", "2_hours_before"],
+    "health_tips": "09:00",
+    "backup_reminder": "weekly_sunday_20:00"
+  },
+  "updated_at": "2024-09-17T12:00:00"
+}
+                </div>
+
+                <div class="code-block">
+// Sample Medication Schedules
+[
+  {
+    "schedule_id": "sch_001",
+    "medication_id": "med_001",
+    "frequency": "1X",
+    "schedule_times": ["08:00"],
+    "notifications_enabled": true,
+    "start_date": "2024-09-01T00:00:00",
+    "end_date": null
+  },
+  {
+    "schedule_id": "sch_002", 
+    "medication_id": "med_002",
+    "frequency": "3X",
+    "schedule_times": ["08:00", "14:00", "20:00"],
+    "notifications_enabled": true,
+    "start_date": "2024-09-10T00:00:00",
+    "end_date": "2024-10-10T00:00:00"
+  }
+]
+                </div>
+
+                <div class="code-block">
+// Sample Medication Logs
+[
+  {
+    "log_id": "log_001",
+    "medication_id": "med_001",
+    "scheduled_time": "2024-09-17T08:00:00",
+    "taken_time": "2024-09-17T08:05:00",
+    "status": "TAKEN",
+    "notes": "Tomado com café da manhã"
+  },
+  {
+    "log_id": "log_002",
+    "medication_id": "med_002",
+    "scheduled_time": "2024-09-17T14:00:00",
+    "taken_time": null,
+    "status": "MISSED",
+    "notes": "Esqueci de tomar - estava em reunião"
+  },
+  {
+    "log_id": "log_003",
+    "medication_id": "med_001",
+    "scheduled_time": "2024-09-16T08:00:00",
+    "taken_time": "2024-09-16T08:30:00",
+    "status": "DELAYED",
+    "notes": "Tomado 30min atrasado"
+  }
+]
+                </div>
+
+                <div class="code-block">
+// Sample Photo Metadata (Vital Signs & Symptoms)
+{
+  "vital_photos": [
+    {
+      "photo_id": "vp_001",
+      "vital_id": "vs_001",
+      "photo_path": "/storage/photos/vitals/bp_reading_20240917.jpg",
+      "captured_at": "2024-09-17T08:30:00"
+    }
+  ],
+  "symptom_photos": [
+    {
+      "photo_id": "sp_001",
+      "symptom_id": "sym_001",
+      "photo_path": "/storage/photos/symptoms/rash_20240917.jpg",
+      "captured_at": "2024-09-17T14:30:00"
+    }
+  ]
+}
+                </div>
+
+                <div class="code-block">
+// Complete TinyDB Structure Example
+{
+  "user_profile": {
+    "user_id": "user_001",
+    "username": "joao.silva",
+    "full_name": "João Silva",
+    "birth_date": "1985-03-15",
+    "gender": "M",
+    "height": 1.75,
+    "blood_type": "O+",
+    "allergies": "Penicilina, Frutos do mar",
+    "emergency_contacts": [...]
+  },
+  "vital_signs_list": [...],
+  "medications_list": [...],
+  "medication_schedules": [...],
+  "medication_logs": [...],
+  "symptoms_list": [...],
+  "appointments_list": [...],
+  "app_settings": {...},
+  "photos_metadata": {...}
+}
+                </div>
             </div>
         </div>
     </div>
@@ -1018,7 +1198,12 @@
             theme: 'default',
             er: { 
                 useMaxWidth: true,
-                fontSize: 12
+                fontSize: 11,
+                layoutDirection: 'TB'
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
             }
         });
     </script>

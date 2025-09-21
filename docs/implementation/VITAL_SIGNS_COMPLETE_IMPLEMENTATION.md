@@ -101,7 +101,7 @@ Parameters: systolic (number), diastolic (number)
 Returns: status (text)
 
 Actions:
-if systolic < 90 AND diastolic < 60:
+     if systolic < 90 AND diastolic < 60:
   return "Low"
 else if systolic <= 120 AND diastolic <= 80:
   return "Normal"

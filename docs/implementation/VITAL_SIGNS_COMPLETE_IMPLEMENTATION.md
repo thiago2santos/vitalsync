@@ -101,7 +101,7 @@ Parameters: systolic (number), diastolic (number)
 Returns: status (text)
 
 Actions:
-     if systolic < 90 AND diastolic < 60:
+if systolic < 90 AND diastolic < 60:
   return "Low"
 else if systolic <= 120 AND diastolic <= 80:
   return "Normal"
@@ -519,29 +519,197 @@ Actions:
    - store activities in TinyDB tag "recent_activities"
 ```
 
+### **Procedure: CalculateBPScore**
+```blocks
+Procedure: CalculateBPScore
+Returns: score (number, 0-25 points)
+
+Actions:
+1. Get latest BP reading:
+   - set bp_readings to get value from TinyDB tag "vital_readings_bp"
+   - if bp_readings is empty OR length of bp_readings = 0:
+     * return 15 (neutral score for no data)
+
+2. Get most recent reading:
+   - set latest_bp to select list item 1 of bp_readings
+   - set bp_status to select list item 6 of latest_bp
+
+3. Score based on status:
+   - if bp_status = "Normal":
+     * return 25
+   - else if bp_status = "Elevated":
+     * return 20
+   - else if bp_status = "High Stage 1":
+     * return 15
+   - else if bp_status = "High Stage 2":
+     * return 10
+   - else if bp_status = "Low":
+     * return 12
+   - else: # Crisis
+     * return 5
+```
+
+### **Procedure: CalculateHRScore**
+```blocks
+Procedure: CalculateHRScore
+Returns: score (number, 0-25 points)
+
+Actions:
+1. Get latest HR reading:
+   - set hr_readings to get value from TinyDB tag "vital_readings_hr"
+   - if hr_readings is empty OR length of hr_readings = 0:
+     * return 15 (neutral score for no data)
+
+2. Get most recent reading:
+   - set latest_hr to select list item 1 of hr_readings
+   - set hr_status to select list item 5 of latest_hr
+
+3. Score based on status:
+   - if hr_status = "Normal":
+     * return 25
+   - else if hr_status = "Bradycardia (Low)":
+     * return 18
+   - else if hr_status = "Tachycardia (High)":
+     * return 15
+   - else: # Very High
+     * return 8
+```
+
+### **Procedure: CalculateWeightScore**
+```blocks
+Procedure: CalculateWeightScore
+Returns: score (number, 0-25 points)
+
+Actions:
+1. Get latest weight reading:
+   - set weight_readings to get value from TinyDB tag "vital_readings_weight"
+   - if weight_readings is empty OR length of weight_readings = 0:
+     * return 15 (neutral score for no data)
+
+2. Get most recent reading:
+   - set latest_weight to select list item 1 of weight_readings
+   - set weight_status to select list item 6 of latest_weight
+
+3. Score based on BMI status:
+   - if weight_status = "Normal":
+     * return 25
+   - else if weight_status = "Overweight":
+     * return 18
+   - else if weight_status = "Underweight":
+     * return 15
+   - else: # Obese
+     * return 10
+```
+
+### **Procedure: CalculateActivityScore**
+```blocks
+Procedure: CalculateActivityScore
+Returns: score (number, 0-25 points)
+
+Actions:
+1. Get today's steps:
+   - set current_date to format as text (clock now) pattern "yyyy-MM-dd"
+   - set daily_steps to get value from TinyDB tag "vital_readings_steps"
+   - set today_steps to 0
+
+2. Find today's step count:
+   - if daily_steps is not empty:
+     * for each record in daily_steps:
+       - if select list item 1 of record = current_date:
+         * set today_steps to select list item 2 of record
+         * break
+
+3. Score based on step count (WHO recommendations):
+   - if today_steps >= 10000:
+     * return 25 (excellent)
+   - else if today_steps >= 7500:
+     * return 22 (very good)
+   - else if today_steps >= 5000:
+     * return 18 (good)
+   - else if today_steps >= 2500:
+     * return 12 (fair)
+   - else if today_steps > 0:
+     * return 8 (poor)
+   - else:
+     * return 5 (no activity recorded)
+```
+
 ### **Procedure: UpdateHealthScore**
 ```blocks
 Procedure: UpdateHealthScore
 Actions:
-1. Initialize score components:
-   - set bp_score to 0
-   - set hr_score to 0
-   - set weight_score to 0
-   - set activity_score to 0
+1. Calculate individual component scores:
+   - set bp_score to call CalculateBPScore
+   - set hr_score to call CalculateHRScore
+   - set weight_score to call CalculateWeightScore
+   - set activity_score to call CalculateActivityScore
 
-2. Get latest readings and calculate scores:
-   - call CalculateBPScore (returns 0-25 points)
-   - call CalculateHRScore (returns 0-25 points)
-   - call CalculateWeightScore (returns 0-25 points)
-   - call CalculateActivityScore (returns 0-25 points)
-
-3. Calculate total health score:
+2. Calculate total health score:
    - set total_score to bp_score + hr_score + weight_score + activity_score
 
-4. Store health score:
-   - store total_score in TinyDB tag "current_health_score"
+3. Determine health grade:
+   - if total_score >= 90:
+     * set health_grade to "Excellent"
+   - else if total_score >= 75:
+     * set health_grade to "Good"
+   - else if total_score >= 60:
+     * set health_grade to "Fair"
+   - else if total_score >= 45:
+     * set health_grade to "Poor"
+   - else:
+     * set health_grade to "Needs Attention"
+
+4. Store health score data:
+   - set score_data to make a list(total_score, health_grade, bp_score, hr_score, weight_score, activity_score)
+   - store score_data in TinyDB tag "current_health_score"
    - return total_score
 ```
+
+---
+
+## 🏆 **Health Scoring System Explained**
+
+### **Scoring Logic (Total: 0-100 points)**
+
+The health score is calculated from four equally weighted components:
+
+#### **1. Blood Pressure Score (0-25 points)**
+- **Normal (120/80 or below)**: 25 points
+- **Elevated (121-129 systolic)**: 20 points  
+- **High Stage 1 (130-139/80-89)**: 15 points
+- **High Stage 2 (140-179/90-119)**: 10 points
+- **Low (under 90/60)**: 12 points
+- **Crisis (180+/120+)**: 5 points
+- **No data**: 15 points (neutral)
+
+#### **2. Heart Rate Score (0-25 points)**
+- **Normal (60-100 bpm)**: 25 points
+- **Bradycardia (under 60)**: 18 points
+- **Tachycardia (101-150)**: 15 points
+- **Very High (over 150)**: 8 points
+- **No data**: 15 points (neutral)
+
+#### **3. Weight/BMI Score (0-25 points)**
+- **Normal BMI (18.5-24.9)**: 25 points
+- **Overweight (25-29.9)**: 18 points
+- **Underweight (under 18.5)**: 15 points
+- **Obese (30+)**: 10 points
+- **No data**: 15 points (neutral)
+
+#### **4. Activity Score (0-25 points)**
+- **10,000+ steps**: 25 points (excellent)
+- **7,500-9,999 steps**: 22 points (very good)
+- **5,000-7,499 steps**: 18 points (good)
+- **2,500-4,999 steps**: 12 points (fair)
+- **1-2,499 steps**: 8 points (poor)
+- **0 steps**: 5 points (no activity)
+
+### **Health Grade Interpretation**
+- **90-100 points**: Excellent Health 🟢
+- **75-89 points**: Good Health 🟡
+- **60-74 points**: Fair Health 🟠
+- **45-59 points**: Poor Health 🔴
+- **0-44 points**: Needs Attention ⚠️
 
 ---
 
@@ -558,10 +726,17 @@ Actions:
 - [ ] Create SaveWeight + DetermineWeightStatus (20 min)
 - [ ] Create SaveGlucose + DetermineGlucoseStatus (20 min)
 
-### **Hour 3: Integration & Testing (60 minutes)**
+### **Hour 3: Health Scoring System (60 minutes)**
+- [ ] Create CalculateBPScore procedure (10 min)
+- [ ] Create CalculateHRScore procedure (10 min)
+- [ ] Create CalculateWeightScore procedure (10 min)
+- [ ] Create CalculateActivityScore procedure (15 min)
+- [ ] Create UpdateHealthScore procedure (15 min)
+
+### **Hour 4: Integration & Testing (60 minutes)**
 - [ ] Connect all procedures to UI buttons (20 min)
-- [ ] Create UpdateHealthScore procedure (20 min)
 - [ ] Test complete vital signs flow (20 min)
+- [ ] Test health scoring system (20 min)
 
 ### **Success Criteria:**
 - ✅ All 5 vital types can be saved with validation

@@ -58,10 +58,10 @@ Max Records: 100 (auto-cleanup)
 #### **3. "vital_readings_temp" - Temperature Readings**
 ```
 Data Type: List of Lists
-Structure: [timestamp, celsius, fahrenheit, location, notes, status]
+Structure: [timestamp, celsius, notes, status]
 Example: [
-  ["2024-09-21 18:30:00", 36.5, 97.7, "Oral", "Normal check", "Normal"],
-  ["2024-09-21 12:15:00", 37.8, 100.0, "Forehead", "Feeling unwell", "Fever"]
+  ["2024-09-21 18:30:00", 36.5, "Normal check", "Normal"],
+  ["2024-09-21 12:15:00", 37.8, "Feeling unwell", "Fever"]
 ]
 Usage: SaveTemperature(), LoadTempReadings()
 Max Records: 100 (auto-cleanup)
@@ -70,10 +70,10 @@ Max Records: 100 (auto-cleanup)
 #### **4. "vital_readings_weight" - Weight Readings**
 ```
 Data Type: List of Lists
-Structure: [timestamp, kg, pounds, bmi, notes, status]
+Structure: [timestamp, kg, notes, status]
 Example: [
-  ["2024-09-21 08:00:00", 70.5, 155.4, 23.2, "Morning weight", "Normal"],
-  ["2024-09-20 08:00:00", 71.0, 156.5, 23.4, "After weekend", "Normal"]
+  ["2024-09-21 08:00:00", 70.5, "Morning weight", "Normal"],
+  ["2024-09-20 08:00:00", 71.0, "After weekend", "Normal"]
 ]
 Usage: SaveWeight(), LoadWeightReadings()
 Max Records: 100 (auto-cleanup)
@@ -82,10 +82,10 @@ Max Records: 100 (auto-cleanup)
 #### **5. "vital_readings_glucose" - Blood Glucose Readings**
 ```
 Data Type: List of Lists
-Structure: [timestamp, mg_dl, mmol_l, meal_context, notes, status]
+Structure: [timestamp, mg_dl, notes, status]
 Example: [
-  ["2024-09-21 08:00:00", 95, 5.3, "Fasting", "Morning check", "Normal"],
-  ["2024-09-21 20:30:00", 140, 7.8, "After Meal", "2h post dinner", "Normal"]
+  ["2024-09-21 08:00:00", 95, "Fasting glucose", "Normal"],
+  ["2024-09-21 20:30:00", 140, "2h post dinner", "Elevated"]
 ]
 Usage: SaveGlucose(), LoadGlucoseReadings()
 Max Records: 100 (auto-cleanup)

@@ -215,7 +215,7 @@ else:
 ### **Procedure: SaveTemperature**
 ```blocks
 Procedure: SaveTemperature
-Parameters: celsius (number), location (text), notes (text)
+Parameters: celsius (number), notes (text)
 
 Actions:
 1. Validate temperature:
@@ -223,27 +223,22 @@ Actions:
      * show notifier "Invalid temperature (30-45°C)"
      * return false
 
-2. Calculate Fahrenheit:
-   - set fahrenheit to (celsius * 9/5) + 32
-
-3. Create timestamp:
+2. Create timestamp:
    - set current_timestamp to format as text (clock now) pattern "yyyy-MM-dd HH:mm:ss"
 
-4. Determine temperature status:
+3. Determine temperature status:
    - call DetermineTempStatus(celsius)
    - set temp_status to result
 
-5. Create temperature record:
+4. Create temperature record:
    - set temp_record to make a list(
        current_timestamp,
        celsius,
-       fahrenheit,
-       location,
        notes,
        temp_status
      )
 
-6. Manage TinyDB storage:
+5. Manage TinyDB storage:
    - set temp_readings to get value from TinyDB tag "vital_readings_temp"
    - if temp_readings is empty: set temp_readings to create empty list
    - set temp_readings to insert list item temp_record at 1 of temp_readings

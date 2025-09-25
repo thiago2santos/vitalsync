@@ -1,8 +1,29 @@
-# 📊 VitalSync - Complete TinyDB Namespace Definition
+# 📊 VitalSync - Complete TinyDB Data Structure
 
 ## 🎯 **Overview**
 
-This document defines **all TinyDB tags (namespaces)** used across VitalSync, their data structures, and usage patterns. This is the **single source of truth** for data storage.
+This document defines **all TinyDB tags and data structures** used across VitalSync. This is the **single source of truth** for data storage.
+
+## 🔧 **TinyDB Component Setup**
+
+### **Namespace vs Tags (Important Distinction):**
+```
+TinyDB Component:
+├── Namespace: "VitalSync" (set once - isolates app data)
+└── Tags: Individual data storage keys within the namespace
+    ├── "vital_readings_bp" → Blood pressure data
+    ├── "vital_readings_hr" → Heart rate data
+    ├── "recent_activities" → Activity log
+    └── etc.
+```
+
+### **Correct Implementation:**
+```blocks
+TinyDB Component Properties:
+├── Name: db_vitalsync (or TinyDB1)
+├── Namespace: "VitalSync" 
+└── Usage: store/get value using tags
+```
 
 ---
 
@@ -347,4 +368,25 @@ store bp_readings in TinyDB tag "vital_readings_bp"
 - [ ] "app_usage_stats"
 - [ ] "data_export_history"
 
-This comprehensive TinyDB namespace definition ensures **consistent data storage** across all VitalSync screens and components! 📊✨
+---
+
+## 🛠️ **Practical Usage Examples**
+
+### **Correct Block Syntax:**
+```blocks
+✅ Store Data:
+store activities in TinyDB1 tag "recent_activities"
+store bp_readings in TinyDB1 tag "vital_readings_bp"
+
+✅ Get Data:
+set activities to get value from TinyDB1 tag "recent_activities"
+set bp_readings to get value from TinyDB1 tag "vital_readings_bp"
+```
+
+### **Key Points:**
+- **One TinyDB component** per app (db_vitalsync)
+- **Namespace set once** to "VitalSync" (isolates app data)
+- **Multiple tags** for different data types
+- **Tags are storage keys** - not namespaces!
+
+This comprehensive TinyDB structure ensures **consistent data storage** across all VitalSync screens and components! 📊✨

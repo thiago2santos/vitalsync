@@ -4,9 +4,8 @@
 
 ### 📋 **Implementation Guides**
 - [`VITAL_SIGNS_COMPLETE_IMPLEMENTATION.md`](implementation/VITAL_SIGNS_COMPLETE_IMPLEMENTATION.md) - **Complete vital signs procedures & validation**
-- [`TINYDB_NAMESPACE_DEFINITION.md`](implementation/TINYDB_NAMESPACE_DEFINITION.md) - **Complete TinyDB data structure**
+- [`TINYDB_NAMESPACE_DEFINITION.md`](implementation/TINYDB_NAMESPACE_DEFINITION.md) - **Complete TinyDB data structure & usage**
 - [`ACTIVITY_LOGGING_SYSTEM.md`](implementation/ACTIVITY_LOGGING_SYSTEM.md) - Dashboard activity logging
-- [`TINYDB_CLARIFICATION.md`](implementation/TINYDB_CLARIFICATION.md) - Namespace vs Tags explanation
 
 ### 🎯 **Strategy & Planning**
 - [`SCREEN_TO_COMPONENT_STRATEGY.md`](strategy/SCREEN_TO_COMPONENT_STRATEGY.md) - Screen limitation solution strategy

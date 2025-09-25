@@ -25,10 +25,10 @@ Max Records: 100 (auto-cleanup)
 #### **2. "vital_readings_hr" - Heart Rate Readings**
 ```
 Data Type: List of Lists
-Structure: [timestamp, bpm, resting_hr, notes, status]
+Structure: [timestamp, bpm, notes, status]
 Example: [
-  ["2024-09-21 18:30:00", 72, 65, "At rest", "Normal"],
-  ["2024-09-21 16:45:00", 145, 65, "After workout", "High"]
+  ["2024-09-21 18:30:00", 72, "At rest", "Normal"],
+  ["2024-09-21 16:45:00", 145, "After workout", "Tachycardia (High)"]
 ]
 Usage: SaveHeartRate(), LoadHRReadings()
 Max Records: 100 (auto-cleanup)

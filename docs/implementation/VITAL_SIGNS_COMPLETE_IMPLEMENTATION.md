@@ -24,11 +24,11 @@ This document provides step-by-step procedures for implementing all vital signs 
 ### **Data Structure for Each Vital Type:**
 ```
 Blood Pressure: [timestamp, systolic, diastolic, pulse, notes, status]
-Heart Rate: [timestamp, bpm, resting_hr, notes, status]
-Temperature: [timestamp, celsius, fahrenheit, location, notes, status]
-Weight: [timestamp, kg, pounds, bmi, notes, status]
-Glucose: [timestamp, mg_dl, mmol_l, meal_context, notes, status]
-Steps: [date, steps, distance_km, calories, active_minutes]
+Heart Rate    : [timestamp, bpm, notes, status]
+Temperature   : [timestamp, celsius, notes, status]
+Weight        : [timestamp, kg, notes, status]
+Glucose       : [timestamp, mg_dl, notes, status]
+Steps         : [timestamp, steps, notes, status]
 ```
 
 ---
@@ -146,7 +146,7 @@ When btn_save_bp.Click:
 ### **Procedure: SaveHeartRate**
 ```blocks
 Procedure: SaveHeartRate
-Parameters: bpm (number), resting_hr (number), notes (text)
+Parameters: bpm (number), notes (text)
 
 Actions:
 1. Validate input:
@@ -158,14 +158,13 @@ Actions:
    - set current_timestamp to format as text (clock now) pattern "yyyy-MM-dd HH:mm:ss"
 
 3. Determine HR status:
-   - call DetermineHRStatus(bmp, resting_hr)
+   - call DetermineHRStatus(bpm)
    - set hr_status to result
 
 4. Create heart rate record:
    - set hr_record to make a list(
        current_timestamp,
        bpm,
-       resting_hr,
        notes,
        hr_status
      )
@@ -195,7 +194,7 @@ Actions:
 ### **Procedure: DetermineHRStatus**
 ```blocks
 Procedure: DetermineHRStatus
-Parameters: bpm (number), resting_hr (number)
+Parameters: bpm (number)
 Returns: status (text)
 
 Actions:

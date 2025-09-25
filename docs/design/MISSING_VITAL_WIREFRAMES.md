@@ -38,7 +38,6 @@ Create a single wireframe with tabs showing different vital sign forms.
 Form Elements:
 ├── Title: "Adicionar Frequência Cardíaca"
 ├── BPM Input: Slider (30-220 bpm) or TextBox
-├── Resting HR Input: TextBox (optional)
 ├── Measurement Context: ListPicker
 │   └── Options: "Em repouso", "Após exercício", "Durante exercício"
 ├── Notes: TextBox (multiline)

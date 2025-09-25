@@ -157,8 +157,10 @@ Actions:
 2. Create timestamp:
    - set current_timestamp to format as text (clock now) pattern "yyyy-MM-dd HH:mm:ss"
 
-3. Determine HR status:
-   - call DetermineHRStatus(bpm)
+3. Get user age and determine HR status:
+   - set user_profile to get value from TinyDB tag "user_profile"
+   - set user_age to CalculateAge(user_profile)
+   - call DetermineHRStatus(bpm, user_age)
    - set hr_status to result
 
 4. Create heart rate record:
@@ -194,18 +196,71 @@ Actions:
 ### **Procedure: DetermineHRStatus**
 ```blocks
 Procedure: DetermineHRStatus
-Parameters: bpm (number)
+Parameters: bpm (number), user_age (number)
 Returns: status (text)
 
 Actions:
-if bmp < 60:
-  return "Bradycardia (Low)"
-else if bpm >= 60 AND bpm <= 100:
-  return "Normal"
-else if bpm > 100 AND bpm <= 150:
-  return "Tachycardia (High)"
-else:
-  return "Very High - Monitor Closely"
+1. Determine age-appropriate ranges:
+   if user_age <= 2:
+     - set min_normal to 120
+     - set max_normal to 140
+     - set age_group to "Bebê"
+   else if user_age >= 8 AND user_age <= 17:
+     - set min_normal to 80
+     - set max_normal to 100
+     - set age_group to "Criança/Adolescente"
+   else if user_age >= 18 AND user_age <= 65:
+     - set min_normal to 60
+     - set max_normal to 100
+     - set age_group to "Adulto"
+   else if user_age > 65:
+     - set min_normal to 50
+     - set max_normal to 60
+     - set age_group to "Idoso"
+   else:
+     - set min_normal to 60
+     - set max_normal to 100
+     - set age_group to "Adulto"
+
+2. Evaluate heart rate based on age:
+   if bpm < min_normal:
+     return "Baixo para " + age_group
+   else if bpm >= min_normal AND bpm <= max_normal:
+     return "Normal para " + age_group
+   else if bpm > max_normal AND bpm <= (max_normal + 50):
+     return "Alto para " + age_group
+   else:
+     return "Muito Alto - Consulte Médico"
+```
+
+### **Procedure: CalculateAge**
+```blocks
+Procedure: CalculateAge
+Parameters: user_profile (list)
+Returns: age (number)
+
+Actions:
+1. Get birth date from profile:
+   - if user_profile is empty OR length of user_profile < 4:
+     * return 30 (default adult age)
+   - set birth_date to select list item 4 of user_profile (birth_date field)
+
+2. Calculate age:
+   - set current_year to format as text (clock now) pattern "yyyy"
+   - set birth_year to substring of birth_date from 1 to 4
+   - set age to current_year - birth_year
+   - return age
+```
+
+### **Exemplos de Validação por Idade:**
+```
+Bebê (1 ano): 130 bpm → "Normal para Bebê"
+Criança (10 anos): 85 bpm → "Normal para Criança/Adolescente"  
+Adulto (30 anos): 75 bpm → "Normal para Adulto"
+Idoso (70 anos): 55 bpm → "Normal para Idoso"
+
+Adulto (30 anos): 45 bpm → "Baixo para Adulto"
+Idoso (70 anos): 80 bpm → "Alto para Idoso"
 ```
 
 ---

@@ -200,36 +200,36 @@ Parameters: bpm (number), user_age (number)
 Returns: status (text)
 
 Actions:
-1. Determine age-appropriate ranges:
-   if user_age <= 2:
-     - set min_normal to 120
-     - set max_normal to 140
-     - set age_group to "Bebê"
-   else if user_age >= 8 AND user_age <= 17:
-     - set min_normal to 80
-     - set max_normal to 100
-     - set age_group to "Criança/Adolescente"
-   else if user_age >= 18 AND user_age <= 65:
-     - set min_normal to 60
-     - set max_normal to 100
-     - set age_group to "Adulto"
-   else if user_age > 65:
-     - set min_normal to 50
-     - set max_normal to 60
-     - set age_group to "Idoso"
-   else:
-     - set min_normal to 60
-     - set max_normal to 100
-     - set age_group to "Adulto"
+1. Get heart rate validation ranges from TinyDB:
+   - set hr_ranges to get value from TinyDB tag "hr_validation_ranges"
+   - if hr_ranges is empty: call InitializeHRRanges
 
-2. Evaluate heart rate based on age:
-   if bpm < min_normal:
+2. Find appropriate age group:
+   - set found_range to false
+   - for each range in hr_ranges:
+     * set min_age to select list item 2 of range
+     * set max_age to select list item 3 of range
+     * if user_age >= min_age AND user_age <= max_age:
+       - set min_normal to select list item 4 of range
+       - set max_normal to select list item 5 of range
+       - set age_group to select list item 6 of range
+       - set found_range to true
+       - break loop
+
+3. Use default adult range if no match found:
+   - if NOT found_range:
+     * set min_normal to 60
+     * set max_normal to 100
+     * set age_group to "Adulto"
+
+4. Evaluate heart rate based on ranges:
+   - if bpm < min_normal:
      return "Baixo para " + age_group
-   else if bpm >= min_normal AND bpm <= max_normal:
+   - else if bpm >= min_normal AND bpm <= max_normal:
      return "Normal para " + age_group
-   else if bpm > max_normal AND bpm <= (max_normal + 50):
+   - else if bpm > max_normal AND bpm <= (max_normal + 50):
      return "Alto para " + age_group
-   else:
+   - else:
      return "Muito Alto - Consulte Médico"
 ```
 
@@ -252,6 +252,25 @@ Actions:
    - return age
 ```
 
+### **Procedure: InitializeHRRanges**
+```blocks
+Procedure: InitializeHRRanges
+Parameters: none
+Returns: none
+
+Actions:
+1. Create default heart rate ranges:
+   - set hr_ranges to make a list(
+       make a list("baby", 0, 2, 120, 140, "Bebê"),
+       make a list("child", 8, 17, 80, 100, "Criança/Adolescente"),
+       make a list("adult", 18, 65, 60, 100, "Adulto"),
+       make a list("elderly", 66, 120, 50, 60, "Idoso")
+     )
+
+2. Save to TinyDB:
+   - store hr_ranges in TinyDB tag "hr_validation_ranges"
+```
+
 ### **Exemplos de Validação por Idade:**
 ```
 Bebê (1 ano): 130 bpm → "Normal para Bebê"
@@ -262,6 +281,13 @@ Idoso (70 anos): 55 bpm → "Normal para Idoso"
 Adulto (30 anos): 45 bpm → "Baixo para Adulto"
 Idoso (70 anos): 80 bpm → "Alto para Idoso"
 ```
+
+### **✅ Vantagens da Validação Configurável:**
+- **Flexibilidade**: Ranges podem ser ajustados sem alterar código
+- **Personalização**: Médicos podem configurar faixas específicas
+- **Atualizações**: Novos padrões médicos podem ser facilmente implementados
+- **Manutenibilidade**: Lógica de validação separada dos valores
+- **Extensibilidade**: Fácil adicionar novas faixas etárias
 
 ---
 

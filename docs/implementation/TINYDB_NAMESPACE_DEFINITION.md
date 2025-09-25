@@ -185,9 +185,57 @@ Usage: Personalization, activity logging, data ownership
 
 ---
 
+### **⚙️ Medical Validation Configuration Tags**
+
+#### **15. "hr_validation_ranges" - Heart Rate Validation Ranges by Age**
+```
+Data Type: List of Lists
+Structure: [age_group, min_age, max_age, min_bpm, max_bpm, group_name]
+Example: [
+  ["baby", 0, 2, 120, 140, "Bebê"],
+  ["child", 8, 17, 80, 100, "Criança/Adolescente"],
+  ["adult", 18, 65, 60, 100, "Adulto"],
+  ["elderly", 66, 120, 50, 60, "Idoso"]
+]
+Usage: DetermineHRStatus(), age-based validation
+Max Records: 10 age groups
+```
+
+#### **16. "bp_validation_ranges" - Blood Pressure Validation Ranges**
+```
+Data Type: List of Lists
+Structure: [category, min_systolic, max_systolic, min_diastolic, max_diastolic, status_name]
+Example: [
+  ["normal", 90, 120, 60, 80, "Normal"],
+  ["elevated", 121, 129, 60, 80, "Elevada"],
+  ["high_stage1", 130, 139, 80, 89, "Alta Estágio 1"],
+  ["high_stage2", 140, 179, 90, 119, "Alta Estágio 2"],
+  ["crisis", 180, 250, 120, 150, "Crise Hipertensiva"]
+]
+Usage: DetermineBPStatus(), blood pressure classification
+Max Records: 10 categories
+```
+
+#### **17. "temp_validation_ranges" - Temperature Validation Ranges**
+```
+Data Type: List of Lists
+Structure: [category, min_celsius, max_celsius, status_name]
+Example: [
+  ["hypothermia", 30.0, 35.0, "Hipotermia"],
+  ["normal", 35.1, 37.2, "Normal"],
+  ["fever_low", 37.3, 38.0, "Febre Baixa"],
+  ["fever_high", 38.1, 40.0, "Febre Alta"],
+  ["hyperthermia", 40.1, 45.0, "Hipertermia"]
+]
+Usage: DetermineTempStatus(), temperature classification
+Max Records: 10 categories
+```
+
+---
+
 ### **💊 Medication Management Tags**
 
-#### **15. "medications_list" - Active Medications**
+#### **18. "medications_list" - Active Medications**
 ```
 Data Type: List of Lists
 Structure: [med_name, dosage, schedule_times, frequency, active_status, notes]
@@ -199,7 +247,7 @@ Usage: Medication management, reminder system
 Max Records: 50 medications
 ```
 
-#### **16. "medication_history" - Medication Taking History**
+#### **19. "medication_history" - Medication Taking History**
 ```
 Data Type: List of Lists
 Structure: [timestamp, med_name, dosage, status, notes]

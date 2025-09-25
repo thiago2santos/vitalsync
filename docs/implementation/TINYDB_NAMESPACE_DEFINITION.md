@@ -94,13 +94,13 @@ Max Records: 100 (auto-cleanup)
 #### **6. "vital_readings_steps" - Daily Steps Data**
 ```
 Data Type: List of Lists
-Structure: [date, steps, distance_km, calories, active_minutes]
+Structure: [timestamp, steps, notes, status]
 Example: [
-  ["2024-09-21", 8500, 6.8, 340, 85],
-  ["2024-09-20", 12000, 9.6, 480, 120]
+  ["2024-09-21 23:59:00", 8500, "Good walking day", "Good"],
+  ["2024-09-20 23:59:00", 12000, "Very active day", "Excellent"]
 ]
-Usage: SaveDailySteps(), LoadStepsData()
-Max Records: 365 days (auto-cleanup)
+Usage: SaveSteps(), LoadStepsReadings()
+Max Records: 100 (auto-cleanup)
 ```
 
 ---

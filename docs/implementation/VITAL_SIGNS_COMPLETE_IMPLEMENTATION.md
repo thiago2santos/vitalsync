@@ -434,56 +434,51 @@ else: # Random/Other
 
 ## 👟 **6. STEPS (Pedometer) Implementation**
 
-### **Procedure: SaveDailySteps**
+### **Procedure: SaveSteps**
 ```blocks
-Procedure: SaveDailySteps
-Parameters: steps (number), distance_km (number), calories (number)
+Procedure: SaveSteps
+Parameters: steps (number), notes (text)
 
 Actions:
-1. Get current date:
-   - set current_date to format as text (clock now) pattern "yyyy-MM-dd"
+1. Validate steps:
+   - if steps < 0 OR steps > 50000:
+     * show notifier "Invalid steps count (0-50000)"
+     * return false
 
-2. Calculate additional metrics:
-   - set active_minutes to steps / 100 (rough estimate)
-   - if distance_km = 0: set distance_km to steps * 0.0008 (average step length)
-   - if calories = 0: set calories to steps * 0.04 (rough estimate)
+2. Create timestamp:
+   - set current_timestamp to format as text (clock now) pattern "yyyy-MM-dd HH:mm:ss"
 
-3. Create steps record:
+3. Determine steps status:
+   - call DetermineStepsStatus(steps)
+   - set steps_status to result
+
+4. Create steps record:
    - set steps_record to make a list(
-       current_date,
+       current_timestamp,
        steps,
-       distance_km,
-       calories,
-       active_minutes
+       notes,
+       steps_status
      )
 
-4. Manage daily steps storage:
-   - set daily_steps to get value from TinyDB tag "vital_readings_steps"
-   - if daily_steps is empty: set daily_steps to create empty list
+5. Get existing steps readings:
+   - set steps_readings to get value from TinyDB tag "vital_readings_steps"
+   - if steps_readings is empty: set steps_readings to create empty list
 
-5. Check if today's record exists:
-   - set today_exists to false
-   - set record_index to 0
-   - for each record in daily_steps:
-     * set record_index to record_index + 1
-     * if select list item 1 of record = current_date:
-       - set today_exists to true
-       - break
+6. Add and manage storage:
+   - set steps_readings to insert list item steps_record at 1 of steps_readings
+   - if length of steps_readings > 100:
+     * set steps_readings to sublist of steps_readings from 1 to 100
 
-6. Update or add record:
-   - if today_exists:
-     * replace list item record_index of daily_steps with steps_record
-   - else:
-     * set daily_steps to insert list item steps_record at 1 of daily_steps
+7. Save to TinyDB:
+   - store steps_readings in TinyDB tag "vital_readings_steps"
 
-7. Keep only last 365 days:
-   - if length of daily_steps > 365:
-     * set daily_steps to sublist of daily_steps from 1 to 365
+8. Log activity:
+   - set activity_text to steps + " steps (" + steps_status + ")"
+   - call LogActivity("vital_added", "Added steps", activity_text)
 
-8. Save and log:
-   - store daily_steps in TinyDB tag "vital_readings_steps"
-   - set activity_text to steps + " steps (" + round(distance_km, 2) + " km)"
-   - call LogActivity("vital_added", "Updated daily steps", activity_text)
+9. Update health score and show success:
+   - call UpdateHealthScore
+   - show notifier "Steps saved successfully!"
    - return true
 ```
 

@@ -483,37 +483,18 @@ Actions:
 ### **Procedure: DetermineGlucoseStatus**
 ```blocks
 Procedure: DetermineGlucoseStatus
-Parameters: mg_dl (number), meal_context (text)
+Parameters: mg_dl (number)
 Returns: status (text)
 
 Actions:
-if meal_context = "Fasting":
-  if mg_dl < 70:
-    return "Low (Hypoglycemia)"
-  else if mg_dl >= 70 AND mg_dl <= 100:
-    return "Normal"
-  else if mg_dl > 100 AND mg_dl <= 125:
-    return "Pre-diabetic"
-  else:
-    return "Diabetic Range"
-
-else if meal_context = "After Meal":
-  if mg_dl < 70:
-    return "Low"
-  else if mg_dl >= 70 AND mg_dl <= 140:
-    return "Normal"
-  else if mg_dl > 140 AND mg_dl <= 199:
-    return "Pre-diabetic"
-  else:
-    return "Diabetic Range"
-
-else: # Random/Other
-  if mg_dl < 70:
-    return "Low"
-  else if mg_dl >= 70 AND mg_dl <= 200:
-    return "Normal Range"
-  else:
-    return "High - Monitor"
+if mg_dl < 70:
+  return "Baixa"
+else if mg_dl >= 70 AND mg_dl <= 140:
+  return "Normal"
+else if mg_dl >= 141 AND mg_dl <= 200:
+  return "Elevada"
+else:
+  return "Muito Alta"
 ```
 
 ---

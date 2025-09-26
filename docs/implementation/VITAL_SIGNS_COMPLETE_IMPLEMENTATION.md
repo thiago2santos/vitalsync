@@ -885,4 +885,142 @@ Actions:
      * return true
 ```
 
+### **Procedure: RequestPasswordRecovery**
+```blocks
+Procedure: RequestPasswordRecovery
+Parameters: email (text)
+Returns: success (boolean)
+
+Actions:
+1. Validate email exists:
+   - set user_credentials to get value from TinyDB tag "user_credentials"
+   - if user_credentials is empty: return false
+   - set stored_email to select list item 1 of user_credentials
+   - if email ≠ stored_email: return false
+
+2. Generate recovery code:
+   - set recovery_code to random integer from 100000 to 999999
+   - set current_timestamp to format as text (clock now) pattern "yyyy-MM-dd HH:mm:ss"
+   - set expiry_timestamp to add minutes to current_timestamp: 15
+
+3. Create recovery record:
+   - set recovery_data to make a list(recovery_code, expiry_timestamp, email, true)
+   - store recovery_data in TinyDB tag "password_recovery"
+
+4. Send email:
+   - set email_subject to "VitalSync - Código de Recuperação"
+   - set email_body to "Seu código de recuperação é: " + recovery_code + ". Válido por 15 minutos."
+   - call SendEmail(email, email_subject, email_body)
+   - return true
+```
+
+### **Procedure: ValidateRecoveryCode**
+```blocks
+Procedure: ValidateRecoveryCode
+Parameters: email (text), code (text)
+Returns: is_valid (boolean)
+
+Actions:
+1. Get recovery data:
+   - set recovery_data to get value from TinyDB tag "password_recovery"
+   - if recovery_data is empty: return false
+
+2. Check recovery validity:
+   - set stored_code to select list item 1 of recovery_data
+   - set expiry_timestamp to select list item 2 of recovery_data
+   - set stored_email to select list item 3 of recovery_data
+   - set is_active to select list item 4 of recovery_data
+
+3. Validate conditions:
+   - set current_timestamp to format as text (clock now) pattern "yyyy-MM-dd HH:mm:ss"
+   - if NOT is_active OR email ≠ stored_email OR code ≠ stored_code:
+     * return false
+   - if current_timestamp > expiry_timestamp:
+     * call ExpireRecoveryCode
+     * return false
+   - else:
+     * return true
+```
+
+### **Procedure: ResetPassword**
+```blocks
+Procedure: ResetPassword
+Parameters: email (text), code (text), new_password (text)
+Returns: success (boolean)
+
+Actions:
+1. Validate recovery code:
+   - if NOT ValidateRecoveryCode(email, code):
+     * show notifier "Código inválido ou expirado"
+     * return false
+
+2. Update password:
+   - set user_credentials to make a list(email, new_password)
+   - store user_credentials in TinyDB tag "user_credentials"
+
+3. Expire recovery code:
+   - call ExpireRecoveryCode
+   - show notifier "Senha alterada com sucesso!"
+   - return true
+```
+
+### **Procedure: ExpireRecoveryCode**
+```blocks
+Procedure: ExpireRecoveryCode
+Parameters: none
+Returns: none
+
+Actions:
+1. Deactivate recovery:
+   - set recovery_data to get value from TinyDB tag "password_recovery"
+   - if recovery_data is empty: return
+   - set expired_recovery to make a list(
+       select list item 1 of recovery_data,  // code (keep)
+       select list item 2 of recovery_data,  // expiry (keep)
+       select list item 3 of recovery_data,  // email (keep)
+       false                                 // is_active = false
+     )
+   - store expired_recovery in TinyDB tag "password_recovery"
+```
+
+### **📧 Configuração de Email (MIT App Inventor):**
+
+#### **Componente Necessário:**
+- **ActivityStarter** component para enviar emails
+
+#### **Procedure: SendEmail**
+```blocks
+Procedure: SendEmail
+Parameters: recipient_email (text), subject (text), body (text)
+Returns: none
+
+Actions:
+1. Configure ActivityStarter:
+   - set ActivityStarter1.Action to "android.intent.action.SENDTO"
+   - set ActivityStarter1.DataUri to "mailto:" + recipient_email
+   - set ActivityStarter1.ExtraKey to "android.intent.extra.SUBJECT"
+   - set ActivityStarter1.ExtraValue to subject
+   - set ActivityStarter1.ExtraKey to "android.intent.extra.TEXT"
+   - set ActivityStarter1.ExtraValue to body
+
+2. Start email activity:
+   - call ActivityStarter1.StartActivity
+```
+
+#### **🔒 Fluxo de Recuperação de Senha:**
+1. **Usuário esquece senha** → Clica "Esqueci minha senha"
+2. **Digite email** → Sistema valida se email existe
+3. **Gera código** → Código de 6 dígitos (válido 15 min)
+4. **Envia email** → Abre app de email do usuário
+5. **Digite código** → Usuário insere código recebido
+6. **Nova senha** → Define nova senha
+7. **Sucesso** → Código expirado, senha atualizada
+
+#### **⚡ Recursos da Implementação:**
+- ✅ **Seguro**: Código expira em 15 minutos
+- ✅ **Simples**: Apenas 4 procedimentos
+- ✅ **Realista**: Usa email nativo do Android
+- ✅ **Robusto**: Validações completas
+- ✅ **Limpo**: Um código ativo por vez
+
 ---

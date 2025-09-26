@@ -180,6 +180,18 @@ Logic:
   - Check: current_date > expiry_date → logout
 ```
 
+#### **14. "password_recovery" - Password Recovery Data**
+```
+Data Type: List
+Structure: [recovery_code, expiry_timestamp, email, is_active]
+Example: ["123456", "2024-09-26 15:30:00", "joao@email.com", true]
+Usage: Temporary password recovery via email
+Logic:
+  - Code expires in 15 minutes
+  - Only one active recovery per time
+  - Code is 6-digit random number
+```
+
 
 ---
 

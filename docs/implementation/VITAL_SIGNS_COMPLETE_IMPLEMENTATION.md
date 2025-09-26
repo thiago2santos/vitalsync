@@ -261,36 +261,43 @@ Returns: none
 Actions:
 1. Create default heart rate ranges:
    - set hr_ranges to make a list(
-       make a list("baby", 0, 2, 120, 140, "Bebê"),
-       make a list("toddler", 3, 7, 100, 120, "Criança Pequena"),
-       make a list("child", 8, 17, 80, 100, "Criança/Adolescente"),
+       make a list("baby", 0, 2, 120, 160, "Bebê"),
+       make a list("toddler", 3, 7, 95, 140, "Criança Pequena"),
+       make a list("child", 8, 17, 75, 115, "Criança/Adolescente"),
        make a list("adult", 18, 65, 60, 100, "Adulto"),
-       make a list("elderly", 66, 120, 50, 60, "Idoso")
+       make a list("elderly", 66, 120, 60, 100, "Idoso")
      )
 
 2. Save to TinyDB:
    - store hr_ranges in TinyDB tag "hr_validation_ranges"
 ```
 
-### **Exemplos de Validação por Idade:**
+### **Exemplos de Validação por Idade (Valores Atualizados):**
 ```
-Bebê (1 ano): 130 bpm → "Normal para Bebê"
-Criança Pequena (5 anos): 110 bpm → "Normal para Criança Pequena"
-Criança (10 anos): 85 bpm → "Normal para Criança/Adolescente"  
+Bebê (1 ano): 140 bpm → "Normal para Bebê"
+Criança Pequena (5 anos): 115 bpm → "Normal para Criança Pequena"
+Criança (10 anos): 90 bpm → "Normal para Criança/Adolescente"  
 Adulto (30 anos): 75 bpm → "Normal para Adulto"
-Idoso (70 anos): 55 bpm → "Normal para Idoso"
+Idoso (70 anos): 80 bpm → "Normal para Idoso"
 
-Criança Pequena (4 anos): 95 bpm → "Baixo para Criança Pequena"
+Bebê (2 anos): 110 bpm → "Baixo para Bebê"
+Criança Pequena (4 anos): 85 bpm → "Baixo para Criança Pequena"
 Adulto (30 anos): 45 bpm → "Baixo para Adulto"
-Idoso (70 anos): 80 bpm → "Alto para Idoso"
+Criança (12 anos): 125 bpm → "Alto para Criança/Adolescente"
 ```
 
-### **📊 Faixas Etárias Definidas:**
-- **Bebês (0-2 anos)**: 120-140 bpm - Frequência mais alta devido ao desenvolvimento
-- **Crianças Pequenas (3-7 anos)**: 100-120 bpm - Transição gradual para valores adultos
-- **Crianças/Adolescentes (8-17 anos)**: 80-100 bpm - Aproximação dos valores adultos
-- **Adultos (18-65 anos)**: 60-100 bpm - Faixa padrão para adultos saudáveis
-- **Idosos (>65 anos)**: 50-60 bpm - Frequência naturalmente mais baixa
+### **📊 Faixas Etárias Definidas (Baseadas em Referências Médicas Internacionais):**
+- **Bebês (0-2 anos)**: 120-160 bpm - Frequência alta devido ao desenvolvimento cardíaco
+- **Crianças Pequenas (3-7 anos)**: 95-140 bpm - Transição gradual, alta atividade física
+- **Crianças/Adolescentes (8-17 anos)**: 75-115 bpm - Aproximação dos valores adultos
+- **Adultos (18-65 anos)**: 60-100 bpm - Faixa padrão AHA (American Heart Association)
+- **Idosos (>65 anos)**: 60-100 bpm - Mantém faixa adulta, variações individuais
+
+### **🏥 Justificativas Médicas dos Ajustes:**
+- **Bebês**: Ampliado para 120-160 bpm (era 120-140) - Recém-nascidos podem ter FC até 180 bpm
+- **Crianças Pequenas**: Ajustado para 95-140 bpm (era 100-120) - Maior variabilidade por atividade física
+- **Crianças/Adolescentes**: Expandido para 75-115 bpm (era 80-100) - Melhor cobertura da variação natural
+- **Idosos**: Corrigido para 60-100 bpm (era 50-60) - Idosos saudáveis mantêm faixa adulta normal
 
 ### **✅ Vantagens da Validação Configurável:**
 - **Flexibilidade**: Ranges podem ser ajustados sem alterar código

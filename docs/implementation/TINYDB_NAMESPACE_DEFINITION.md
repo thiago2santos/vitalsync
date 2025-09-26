@@ -192,11 +192,11 @@ Usage: Personalization, activity logging, data ownership
 Data Type: List of Lists
 Structure: [age_group, min_age, max_age, min_bpm, max_bpm, group_name]
 Example: [
-  ["baby", 0, 2, 120, 140, "Bebê"],
-  ["toddler", 3, 7, 100, 120, "Criança Pequena"],
-  ["child", 8, 17, 80, 100, "Criança/Adolescente"],
+  ["baby", 0, 2, 120, 160, "Bebê"],
+  ["toddler", 3, 7, 95, 140, "Criança Pequena"],
+  ["child", 8, 17, 75, 115, "Criança/Adolescente"],
   ["adult", 18, 65, 60, 100, "Adulto"],
-  ["elderly", 66, 120, 50, 60, "Idoso"]
+  ["elderly", 66, 120, 60, 100, "Idoso"]
 ]
 Usage: DetermineHRStatus(), age-based validation
 Max Records: 10 age groups

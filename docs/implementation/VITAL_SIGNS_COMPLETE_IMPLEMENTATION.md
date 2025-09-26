@@ -821,10 +821,10 @@ Returns: success (boolean)
 
 Actions:
 1. Validate credentials:
-   - set stored_credentials to get value from TinyDB tag "user_credentials"
-   - if stored_credentials is empty: return false
-   - set stored_email to select list item 1 of stored_credentials
-   - set stored_password to select list item 2 of stored_credentials
+   - set user_profile to get value from TinyDB tag "user_profile"
+   - if user_profile is empty: return false
+   - set stored_email to select list item 1 of user_profile
+   - set stored_password to select list item 8 of user_profile
    - if email ≠ stored_email OR password ≠ stored_password: return false
 
 2. Calculate expiry date:
@@ -847,7 +847,7 @@ Parameters: email (text), full_name (text), birth_date (text), gender (text), pa
 Returns: success (boolean)
 
 Actions:
-1. Create user profile:
+1. Create complete user profile:
    - set user_profile to make a list(
        email,           // email
        full_name,       // full_name
@@ -855,15 +855,12 @@ Actions:
        gender,          // gender
        0,               // height_cm (to be filled later)
        "",              // blood_type (to be filled later)
-       ""               // allergies (to be filled later)
+       "",              // allergies (to be filled later)
+       password         // password
      )
 
-2. Create credentials:
-   - set user_credentials to make a list(email, password)
-
-3. Save to TinyDB:
+2. Save to TinyDB:
    - store user_profile in TinyDB tag "user_profile"
-   - store user_credentials in TinyDB tag "user_credentials"
    - return true
 ```
 
@@ -899,9 +896,9 @@ Returns: success (boolean)
 
 Actions:
 1. Validate email exists:
-   - set user_credentials to get value from TinyDB tag "user_credentials"
-   - if user_credentials is empty: return false
-   - set stored_email to select list item 1 of user_credentials
+   - set user_profile to get value from TinyDB tag "user_profile"
+   - if user_profile is empty: return false
+   - set stored_email to select list item 1 of user_profile
    - if email ≠ stored_email: return false
 
 2. Generate recovery code:
@@ -961,8 +958,18 @@ Actions:
      * return false
 
 2. Update password:
-   - set user_credentials to make a list(email, new_password)
-   - store user_credentials in TinyDB tag "user_credentials"
+   - set user_profile to get value from TinyDB tag "user_profile"
+   - set updated_profile to make a list(
+       select list item 1 of user_profile,  // email
+       select list item 2 of user_profile,  // full_name
+       select list item 3 of user_profile,  // birth_date
+       select list item 4 of user_profile,  // gender
+       select list item 5 of user_profile,  // height_cm
+       select list item 6 of user_profile,  // blood_type
+       select list item 7 of user_profile,  // allergies
+       new_password                         // new password
+     )
+   - store updated_profile in TinyDB tag "user_profile"
 
 3. Expire recovery code:
    - call ExpireRecoveryCode

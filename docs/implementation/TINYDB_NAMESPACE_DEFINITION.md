@@ -152,20 +152,12 @@ Max Records: 10 (auto-cleanup)
 
 ### **👤 User & Profile Tags**
 
-#### **11. "user_profile" - User Personal Information**
+#### **11. "user_profile" - Complete User Data**
 ```
 Data Type: List
-Structure: [email, full_name, birth_date, gender, height_cm, blood_type, allergies]
-Example: ["joao@email.com", "João Silva", "1990-05-15", "Masculino", 175, "O+", "Penicilina"]
-Usage: Profile management, BMI calculations, medical safety
-```
-
-#### **12. "user_credentials" - Authentication Data**
-```
-Data Type: List
-Structure: [email, password_hash]
-Example: ["joao@email.com", "hashed_password_string"]
-Usage: Login authentication, security
+Structure: [email, full_name, birth_date, gender, height_cm, blood_type, allergies, password]
+Example: ["joao@email.com", "João Silva", "1990-05-15", "Masculino", 175, "O+", "Penicilina", "senha123"]
+Usage: Complete user profile including authentication
 ```
 
 #### **13. "user_session" - Session Management**

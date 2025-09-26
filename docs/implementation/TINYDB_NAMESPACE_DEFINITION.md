@@ -180,12 +180,6 @@ Logic:
   - Check: current_date > expiry_date → logout
 ```
 
-#### **14. "username" - Current User Identifier**
-```
-Data Type: Text
-Example: "joao_silva"
-Usage: Personalization, activity logging, data ownership
-```
 
 ---
 

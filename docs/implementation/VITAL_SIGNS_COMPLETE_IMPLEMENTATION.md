@@ -386,24 +386,17 @@ Actions:
      * show notifier "Invalid weight (20-300 kg)"
      * return false
 
-2. Calculate additional metrics:
-   - set pounds to kg * 2.20462
-   - set user_height to get value from TinyDB tag "user_height" (default 170 cm)
-   - set bmi to kg / ((user_height/100) * (user_height/100))
-
-3. Create timestamp:
+2. Create timestamp:
    - set current_timestamp to format as text (clock now) pattern "yyyy-MM-dd HH:mm:ss"
 
-4. Determine weight status:
-   - call DetermineWeightStatus(bmi)
+3. Determine weight status:
+   - call DetermineWeightStatus(kg)
    - set weight_status to result
 
-5. Create weight record:
+4. Create weight record:
    - set weight_record to make a list(
        current_timestamp,
        kg,
-       pounds,
-       bmi,
        notes,
        weight_status
      )
@@ -417,7 +410,7 @@ Actions:
 
 7. Save and log:
    - store weight_readings in TinyDB tag "vital_readings_weight"
-   - set activity_text to kg + " kg (BMI: " + round(bmi, 1) + ")"
+   - set activity_text to kg + " kg (" + weight_status + ")"
    - call LogActivity("vital_added", "Added weight", activity_text)
    - call UpdateHealthScore
    - show notifier "Weight saved successfully!"
@@ -427,18 +420,18 @@ Actions:
 ### **Procedure: DetermineWeightStatus**
 ```blocks
 Procedure: DetermineWeightStatus
-Parameters: bmi (number)
+Parameters: kg (number)
 Returns: status (text)
 
 Actions:
-if bmi < 18.5:
-  return "Underweight"
-else if bmi >= 18.5 AND bmi < 25:
-  return "Normal"
-else if bmi >= 25 AND bmi < 30:
-  return "Overweight"
+if kg < 50:
+  return "Baixo Peso"
+else if kg >= 50 AND kg <= 90:
+  return "Peso Normal"
+else if kg > 90 AND kg <= 120:
+  return "Sobrepeso"
 else:
-  return "Obese"
+  return "Peso Alto"
 ```
 
 ---
@@ -448,7 +441,7 @@ else:
 ### **Procedure: SaveGlucose**
 ```blocks
 Procedure: SaveGlucose
-Parameters: mg_dl (number), meal_context (text), notes (text)
+Parameters: mg_dl (number), notes (text)
 
 Actions:
 1. Validate glucose:
@@ -456,22 +449,17 @@ Actions:
      * show notifier "Invalid glucose level (40-600 mg/dL)"
      * return false
 
-2. Convert to mmol/L:
-   - set mmol_l to mg_dl / 18.0
-
-3. Create timestamp:
+2. Create timestamp:
    - set current_timestamp to format as text (clock now) pattern "yyyy-MM-dd HH:mm:ss"
 
-4. Determine glucose status:
-   - call DetermineGlucoseStatus(mg_dl, meal_context)
+3. Determine glucose status:
+   - call DetermineGlucoseStatus(mg_dl)
    - set glucose_status to result
 
-5. Create glucose record:
+4. Create glucose record:
    - set glucose_record to make a list(
        current_timestamp,
        mg_dl,
-       mmol_l,
-       meal_context,
        notes,
        glucose_status
      )
@@ -485,7 +473,7 @@ Actions:
 
 7. Save and log:
    - store glucose_readings in TinyDB tag "vital_readings_glucose"
-   - set activity_text to mg_dl + " mg/dL (" + meal_context + " - " + glucose_status + ")"
+   - set activity_text to mg_dl + " mg/dL (" + glucose_status + ")"
    - call LogActivity("vital_added", "Added glucose reading", activity_text)
    - call UpdateHealthScore
    - show notifier "Glucose level saved successfully!"

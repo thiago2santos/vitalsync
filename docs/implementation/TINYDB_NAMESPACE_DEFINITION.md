@@ -193,6 +193,7 @@ Data Type: List of Lists
 Structure: [age_group, min_age, max_age, min_bpm, max_bpm, group_name]
 Example: [
   ["baby", 0, 2, 120, 140, "Bebê"],
+  ["toddler", 3, 7, 100, 120, "Criança Pequena"],
   ["child", 8, 17, 80, 100, "Criança/Adolescente"],
   ["adult", 18, 65, 60, 100, "Adulto"],
   ["elderly", 66, 120, 50, 60, "Idoso"]

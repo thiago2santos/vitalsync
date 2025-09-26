@@ -79,6 +79,7 @@ Actions:
 
 8. Save to TinyDB:
    - store bp_readings in TinyDB tag "vital_readings_bp"
+   - call UpdateDashboardCache("bp", bp_record)
 
 9. Log activity:
    - set activity_text to systolic + "/" + diastolic + " mmHg (" + bp_status + ")"
@@ -182,6 +183,7 @@ Actions:
 
 7. Save to TinyDB:
    - store hr_readings in TinyDB tag "vital_readings_hr"
+   - call UpdateDashboardCache("hr", hr_record)
 
 8. Log activity:
    - set activity_text to bpm + " bpm (" + hr_status + ")"
@@ -345,6 +347,7 @@ Actions:
 
 7. Save and log:
    - store temp_readings in TinyDB tag "vital_readings_temp"
+   - call UpdateDashboardCache("temp", temp_record)
    - set activity_text to celsius + "°C (" + temp_status + ")"
    - call LogActivity("vital_added", "Added temperature", activity_text)
    - call UpdateHealthScore
@@ -410,6 +413,7 @@ Actions:
 
 7. Save and log:
    - store weight_readings in TinyDB tag "vital_readings_weight"
+   - call UpdateDashboardCache("weight", weight_record)
    - set activity_text to kg + " kg (" + weight_status + ")"
    - call LogActivity("vital_added", "Added weight", activity_text)
    - call UpdateHealthScore
@@ -473,6 +477,7 @@ Actions:
 
 7. Save and log:
    - store glucose_readings in TinyDB tag "vital_readings_glucose"
+   - call UpdateDashboardCache("glucose", glucose_record)
    - set activity_text to mg_dl + " mg/dL (" + glucose_status + ")"
    - call LogActivity("vital_added", "Added glucose reading", activity_text)
    - call UpdateHealthScore
@@ -538,6 +543,7 @@ Actions:
 
 7. Save to TinyDB:
    - store steps_readings in TinyDB tag "vital_readings_steps"
+   - call UpdateDashboardCache("steps", steps_record)
 
 8. Log activity:
    - set activity_text to steps + " steps (" + steps_status + ")"
@@ -1093,6 +1099,33 @@ Actions:
    - return make a list(main_text, detail_text)
 ```
 
+### **Procedure: UpdateDashboardCache**
+```blocks
+Procedure: UpdateDashboardCache
+Parameters: vital_type (text), vital_record (list)
+Returns: none
+
+Actions:
+1. Format vital for dashboard:
+   - set formatted_item to call FormatVitalForListView(vital_type, vital_record)
+   - set main_text to select list item 1 of formatted_item
+   - set detail_text to select list item 2 of formatted_item
+   - set timestamp to select list item 1 of vital_record
+
+2. Create cache entry:
+   - set cache_entry to make a list(timestamp, main_text, detail_text, vital_type)
+
+3. Update cache:
+   - set dashboard_cache to get value from TinyDB tag "dashboard_cache"
+   - if dashboard_cache is empty: set dashboard_cache to create empty list
+   - insert cache_entry at position 1 of dashboard_cache
+   - if length of dashboard_cache > 10:
+     * set dashboard_cache to sublist of dashboard_cache from 1 to 10
+
+4. Save updated cache:
+   - store dashboard_cache in TinyDB tag "dashboard_cache"
+```
+
 ### **Procedure: LoadDashboardData**
 ```blocks
 Procedure: LoadDashboardData
@@ -1100,49 +1133,19 @@ Parameters: none
 Returns: dashboard_items (list)
 
 Actions:
-1. Initialize dashboard list:
+1. Load cache:
+   - set dashboard_cache to get value from TinyDB tag "dashboard_cache"
+   - if dashboard_cache is empty: return create empty list
+
+2. Extract ListView data:
    - set dashboard_items to create empty list
+   - for each cache_entry in dashboard_cache:
+     * set main_text to select list item 2 of cache_entry
+     * set detail_text to select list item 3 of cache_entry
+     * set listview_item to make a list(main_text, detail_text)
+     * add listview_item to dashboard_items
 
-2. Load latest readings from each vital type:
-   - set bp_readings to get value from TinyDB tag "vital_readings_bp"
-   - set hr_readings to get value from TinyDB tag "vital_readings_hr"
-   - set temp_readings to get value from TinyDB tag "vital_readings_temp"
-   - set weight_readings to get value from TinyDB tag "vital_readings_weight"
-   - set glucose_readings to get value from TinyDB tag "vital_readings_glucose"
-   - set steps_readings to get value from TinyDB tag "vital_readings_steps"
-
-3. Format and add latest readings (if exist):
-   - if bp_readings is not empty:
-     * set latest_bp to select list item 1 of bp_readings
-     * set formatted_bp to call FormatVitalForListView("bp", latest_bp)
-     * add formatted_bp to dashboard_items
-
-   - if hr_readings is not empty:
-     * set latest_hr to select list item 1 of hr_readings
-     * set formatted_hr to call FormatVitalForListView("hr", latest_hr)
-     * add formatted_hr to dashboard_items
-
-   - if temp_readings is not empty:
-     * set latest_temp to select list item 1 of temp_readings
-     * set formatted_temp to call FormatVitalForListView("temp", latest_temp)
-     * add formatted_temp to dashboard_items
-
-   - if weight_readings is not empty:
-     * set latest_weight to select list item 1 of weight_readings
-     * set formatted_weight to call FormatVitalForListView("weight", latest_weight)
-     * add formatted_weight to dashboard_items
-
-   - if glucose_readings is not empty:
-     * set latest_glucose to select list item 1 of glucose_readings
-     * set formatted_glucose to call FormatVitalForListView("glucose", latest_glucose)
-     * add formatted_glucose to dashboard_items
-
-   - if steps_readings is not empty:
-     * set latest_steps to select list item 1 of steps_readings
-     * set formatted_steps to call FormatVitalForListView("steps", latest_steps)
-     * add formatted_steps to dashboard_items
-
-4. Return dashboard data:
+3. Return dashboard data:
    - return dashboard_items
 ```
 

@@ -192,6 +192,18 @@ Logic:
   - Code is 6-digit random number
 ```
 
+#### **15. "dashboard_cache" - Dashboard Recent Vitals Cache**
+```
+Data Type: List of Lists
+Structure: [timestamp, main_text, detail_text, vital_type]
+Example: [
+  ["2024-09-26 14:30:00", "🩸 Pressão: 120/80 mmHg", "2024-09-26 14:30 • Normal", "bp"],
+  ["2024-09-26 14:25:00", "❤️ Frequência: 72 bpm", "2024-09-26 14:25 • Normal para Adulto", "hr"]
+]
+Usage: Fast dashboard loading, pre-formatted ListView data
+Max Records: 10 (most recent vitals across all types)
+```
+
 
 ---
 

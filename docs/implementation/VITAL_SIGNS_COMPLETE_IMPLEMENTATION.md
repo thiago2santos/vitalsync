@@ -1024,3 +1024,148 @@ Actions:
 - ✅ **Limpo**: Um código ativo por vez
 
 ---
+
+## 📱 **7. DASHBOARD LISTVIEW FORMATTING**
+
+### **Procedure: FormatVitalForListView**
+```blocks
+Procedure: FormatVitalForListView
+Parameters: vital_type (text), vital_record (list)
+Returns: formatted_item (list) [MainText, DetailText]
+
+Actions:
+1. Extract common data:
+   - set timestamp to select list item 1 of vital_record
+   - set date_part to substring of timestamp from 1 to 10
+   - set time_part to substring of timestamp from 12 to 16
+
+2. Format based on vital type:
+   if vital_type = "bp":
+     - set systolic to select list item 2 of vital_record
+     - set diastolic to select list item 3 of vital_record
+     - set status to select list item 6 of vital_record
+     - set notes to select list item 5 of vital_record
+     - set main_text to "🩸 Pressão: " + systolic + "/" + diastolic + " mmHg"
+     - set detail_text to date_part + " " + time_part + " • " + status
+     - if notes ≠ "": set detail_text to detail_text + " • " + notes
+
+   else if vital_type = "hr":
+     - set bpm to select list item 2 of vital_record
+     - set status to select list item 4 of vital_record
+     - set notes to select list item 3 of vital_record
+     - set main_text to "❤️ Frequência: " + bpm + " bpm"
+     - set detail_text to date_part + " " + time_part + " • " + status
+     - if notes ≠ "": set detail_text to detail_text + " • " + notes
+
+   else if vital_type = "temp":
+     - set celsius to select list item 2 of vital_record
+     - set status to select list item 4 of vital_record
+     - set notes to select list item 3 of vital_record
+     - set main_text to "🌡️ Temperatura: " + celsius + "°C"
+     - set detail_text to date_part + " " + time_part + " • " + status
+     - if notes ≠ "": set detail_text to detail_text + " • " + notes
+
+   else if vital_type = "weight":
+     - set kg to select list item 2 of vital_record
+     - set status to select list item 4 of vital_record
+     - set notes to select list item 3 of vital_record
+     - set main_text to "⚖️ Peso: " + kg + " kg"
+     - set detail_text to date_part + " " + time_part + " • " + status
+     - if notes ≠ "": set detail_text to detail_text + " • " + notes
+
+   else if vital_type = "glucose":
+     - set mg_dl to select list item 2 of vital_record
+     - set status to select list item 4 of vital_record
+     - set notes to select list item 3 of vital_record
+     - set main_text to "🩸 Glicose: " + mg_dl + " mg/dL"
+     - set detail_text to date_part + " " + time_part + " • " + status
+     - if notes ≠ "": set detail_text to detail_text + " • " + notes
+
+   else if vital_type = "steps":
+     - set steps to select list item 2 of vital_record
+     - set status to select list item 4 of vital_record
+     - set notes to select list item 3 of vital_record
+     - set main_text to "👟 Passos: " + steps
+     - set detail_text to date_part + " " + time_part + " • " + status
+     - if notes ≠ "": set detail_text to detail_text + " • " + notes
+
+3. Return formatted item:
+   - return make a list(main_text, detail_text)
+```
+
+### **Procedure: LoadDashboardData**
+```blocks
+Procedure: LoadDashboardData
+Parameters: none
+Returns: dashboard_items (list)
+
+Actions:
+1. Initialize dashboard list:
+   - set dashboard_items to create empty list
+
+2. Load latest readings from each vital type:
+   - set bp_readings to get value from TinyDB tag "vital_readings_bp"
+   - set hr_readings to get value from TinyDB tag "vital_readings_hr"
+   - set temp_readings to get value from TinyDB tag "vital_readings_temp"
+   - set weight_readings to get value from TinyDB tag "vital_readings_weight"
+   - set glucose_readings to get value from TinyDB tag "vital_readings_glucose"
+   - set steps_readings to get value from TinyDB tag "vital_readings_steps"
+
+3. Format and add latest readings (if exist):
+   - if bp_readings is not empty:
+     * set latest_bp to select list item 1 of bp_readings
+     * set formatted_bp to call FormatVitalForListView("bp", latest_bp)
+     * add formatted_bp to dashboard_items
+
+   - if hr_readings is not empty:
+     * set latest_hr to select list item 1 of hr_readings
+     * set formatted_hr to call FormatVitalForListView("hr", latest_hr)
+     * add formatted_hr to dashboard_items
+
+   - if temp_readings is not empty:
+     * set latest_temp to select list item 1 of temp_readings
+     * set formatted_temp to call FormatVitalForListView("temp", latest_temp)
+     * add formatted_temp to dashboard_items
+
+   - if weight_readings is not empty:
+     * set latest_weight to select list item 1 of weight_readings
+     * set formatted_weight to call FormatVitalForListView("weight", latest_weight)
+     * add formatted_weight to dashboard_items
+
+   - if glucose_readings is not empty:
+     * set latest_glucose to select list item 1 of glucose_readings
+     * set formatted_glucose to call FormatVitalForListView("glucose", latest_glucose)
+     * add formatted_glucose to dashboard_items
+
+   - if steps_readings is not empty:
+     * set latest_steps to select list item 1 of steps_readings
+     * set formatted_steps to call FormatVitalForListView("steps", latest_steps)
+     * add formatted_steps to dashboard_items
+
+4. Return dashboard data:
+   - return dashboard_items
+```
+
+### **📱 Exemplo de Saída Formatada:**
+
+```
+MainText: "🩸 Pressão: 120/80 mmHg"
+DetailText: "2024-09-26 14:30 • Normal • Após exercício"
+
+MainText: "❤️ Frequência: 72 bpm"
+DetailText: "2024-09-26 14:25 • Normal para Adulto"
+
+MainText: "🌡️ Temperatura: 36.5°C"
+DetailText: "2024-09-26 08:00 • Normal • Verificação matinal"
+
+MainText: "⚖️ Peso: 70.5 kg"
+DetailText: "2024-09-26 07:30 • Peso Normal"
+
+MainText: "🩸 Glicose: 95 mg/dL"
+DetailText: "2024-09-26 08:15 • Normal • Jejum"
+
+MainText: "👟 Passos: 8.547"
+DetailText: "2024-09-26 • Normal • Meta diária"
+```
+
+---

@@ -155,25 +155,29 @@ Max Records: 10 (auto-cleanup)
 #### **11. "user_profile" - User Personal Information**
 ```
 Data Type: List
-Structure: [username, email, full_name, birth_date, height_cm, gender, blood_type]
-Example: ["joao_silva", "joao@email.com", "João Silva", "1990-05-15", 175, "Masculino", "O+"]
-Usage: Profile management, BMI calculations, personalization
+Structure: [email, full_name, birth_date, gender, height_cm, blood_type, allergies]
+Example: ["joao@email.com", "João Silva", "1990-05-15", "Masculino", 175, "O+", "Penicilina"]
+Usage: Profile management, BMI calculations, medical safety
 ```
 
-#### **12. "user_health_info" - Health Profile Data**
+#### **12. "user_credentials" - Authentication Data**
 ```
 Data Type: List
-Structure: [allergies, medical_conditions, medications_list, emergency_contact]
-Example: ["Penicilina", "Hipertensão", "Losartana 50mg", "Maria Silva - (11) 99999-9999"]
-Usage: Medical profile, emergency information
+Structure: [email, password_hash]
+Example: ["joao@email.com", "hashed_password_string"]
+Usage: Login authentication, security
 ```
 
-#### **13. "logged_in" - Authentication State**
+#### **13. "user_session" - Session Management**
 ```
-Data Type: Logic (Boolean)
-Values: true, false
-Example: true
-Usage: Session management, auto-login
+Data Type: List
+Structure: [is_logged_in, expiry_date, remember_me]
+Example: [true, "2024-10-26", true]
+Usage: Simple session with expiry date
+Logic: 
+  - remember_me = true: 30 days
+  - remember_me = false: 1 day
+  - Check: current_date > expiry_date → logout
 ```
 
 #### **14. "username" - Current User Identifier**

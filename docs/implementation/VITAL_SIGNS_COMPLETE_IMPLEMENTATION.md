@@ -241,9 +241,9 @@ Returns: age (number)
 
 Actions:
 1. Get birth date from profile:
-   - if user_profile is empty OR length of user_profile < 4:
+   - if user_profile is empty OR length of user_profile < 3:
      * return 30 (default adult age)
-   - set birth_date to select list item 4 of user_profile (birth_date field)
+   - set birth_date to select list item 3 of user_profile (birth_date field)
 
 2. Calculate age:
    - set current_year to format as text (clock now) pattern "yyyy"
@@ -833,3 +833,87 @@ The health score is calculated from four equally weighted components:
 - ✅ Status determination works for all vitals
 
 This gives you a **complete, production-ready vital signs system** with proper data management, validation, and user feedback! 🚀
+
+---
+
+## 🔐 **6. SESSION MANAGEMENT Implementation**
+
+### **Procedure: Login**
+```blocks
+Procedure: Login
+Parameters: email (text), password (text), remember_me (boolean)
+Returns: success (boolean)
+
+Actions:
+1. Validate credentials:
+   - set stored_credentials to get value from TinyDB tag "user_credentials"
+   - if stored_credentials is empty: return false
+   - set stored_email to select list item 1 of stored_credentials
+   - set stored_password to select list item 2 of stored_credentials
+   - if email ≠ stored_email OR password ≠ stored_password: return false
+
+2. Calculate expiry date:
+   - set current_date to format as text (clock now) pattern "yyyy-MM-dd"
+   - if remember_me = true:
+     * set expiry_date to add days to current_date: 30
+   - else:
+     * set expiry_date to add days to current_date: 1
+
+3. Create session:
+   - set session_data to make a list(true, expiry_date, remember_me)
+   - store session_data in TinyDB tag "user_session"
+   - return true
+```
+
+### **Procedure: CreateUserProfile**
+```blocks
+Procedure: CreateUserProfile
+Parameters: email (text), full_name (text), birth_date (text), gender (text), password (text)
+Returns: success (boolean)
+
+Actions:
+1. Create user profile:
+   - set user_profile to make a list(
+       email,           // email
+       full_name,       // full_name
+       birth_date,      // birth_date (yyyy-MM-dd)
+       gender,          // gender
+       0,               // height_cm (to be filled later)
+       "",              // blood_type (to be filled later)
+       ""               // allergies (to be filled later)
+     )
+
+2. Create credentials:
+   - set user_credentials to make a list(email, password)
+
+3. Save to TinyDB:
+   - store user_profile in TinyDB tag "user_profile"
+   - store user_credentials in TinyDB tag "user_credentials"
+   - return true
+```
+
+### **Procedure: CheckSession**
+```blocks
+Procedure: CheckSession
+Parameters: none
+Returns: is_valid (boolean)
+
+Actions:
+1. Get session:
+   - set session_data to get value from TinyDB tag "user_session"
+   - if session_data is empty: return false
+
+2. Check expiry:
+   - set is_logged_in to select list item 1 of session_data
+   - set expiry_date to select list item 2 of session_data
+   - set current_date to format as text (clock now) pattern "yyyy-MM-dd"
+   
+3. Validate:
+   - if NOT is_logged_in OR current_date > expiry_date:
+     * store make a list(false, "", false) in TinyDB tag "user_session"
+     * return false
+   - else:
+     * return true
+```
+
+---
